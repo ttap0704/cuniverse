@@ -1,4 +1,5 @@
-import "./globals.css";
+import Header from "@/components/common/Header";
+import "@/css/globals.css";
 import type { Metadata } from "next";
 // import { Inter } from "next/font/google";
 
@@ -16,7 +17,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <Header />
+        <div>{children}</div>
+      </body>
     </html>
   );
 }

@@ -1,0 +1,27 @@
+#header {
+  position: fixed;
+  height: theme(height.20);
+  width: 100vw;
+  @apply d-flex-justify-between;
+  align-items: center;
+  color: theme(colors.white-100);
+  background-color: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+
+  #header-logo {
+    width: 15rem;
+    height: theme(height.12);
+    background-color: theme(colors.white-100);
+    a {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+  }
+
+  #header-contents {
+    height: theme(height.12);
+    gap: 0.5rem;
+    @apply d-flex-align-center justify-end;
+  }
+}

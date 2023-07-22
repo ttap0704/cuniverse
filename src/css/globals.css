@@ -1,0 +1,35 @@
+@import "./layers.css";
+@import "./components/common.css";
+@import "./components/buttons.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 14px;
+  color: theme(colors.white-100);
+  @media (min-width: 1024px) {
+    font-size: 15px;
+  }
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  background-color: theme(colors.dark-navy);
+}
+
+.contents-container {
+  padding: 0 32px;
+}
+
+.main-contents-container {
+  padding: theme(height.20) 32px;
+}
