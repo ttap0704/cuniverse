@@ -1,16 +1,25 @@
 "use client";
 
-import { useEffect } from "react";
+import useMetaMaskQuery from "@/queries/useMetaMaskQuery";
 import ButtonHeader from "./ButtonHeader";
-import Web3 from "web3";
+import useMetaMaskMutation from "@/queries/useMetaMaskMutation";
 
 function ButtonConnectWallet() {
-  function connectWallet() {
-    console.log(window.ethereum);
-    console.log("connectWallet");
-  }
+  const { mutate, isLoading } = useMetaMaskMutation();
+  const { data: user } = useMetaMaskQuery();
 
-  return <ButtonHeader onClick={connectWallet}>CONNECT WALLET</ButtonHeader>;
+  if (user)
+    return (
+      <ButtonHeader className="info" onClick={() => null}>
+        {user.balance} ETH
+      </ButtonHeader>
+    );
+  else
+    return (
+      <ButtonHeader className="info" onClick={mutate}>
+        {isLoading ? "CONNECTING" : "CONNECT WALLET"}
+      </ButtonHeader>
+    );
 }
 
 export default ButtonConnectWallet;

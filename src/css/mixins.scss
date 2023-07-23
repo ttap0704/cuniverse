@@ -1,0 +1,28 @@
+@mixin d-flex-align-center {
+  display: flex;
+  align-items: center;
+}
+
+@mixin d-flex-justify-center {
+  display: flex;
+  justify-content: center;
+}
+
+@mixin d-flex-justify-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+@mixin d-flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin justify-end {
+  justify-content: end;
+}
+
+@mixin hover-transition {
+  transition: all 0.3s ease 0s;
+}

@@ -1,0 +1,16 @@
+#dropdown-wrapper {
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  position: fixed;
+
+  #dropdown-contents {
+    position: absolute;
+    background-color: $white-100;
+    padding: 1rem;
+    border-radius: 1rem;
+
+    @include hover-transition;
+  }
+}

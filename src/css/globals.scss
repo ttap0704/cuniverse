@@ -1,0 +1,49 @@
+@import "./variables";
+@import "./mixins";
+@import "./components/header.scss";
+@import "./components/buttons.scss";
+@import "./components//dropdowns.scss";
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 14px;
+  color: $white-100;
+  @media (min-width: 1024px) {
+    font-size: 15px;
+  }
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+}
+
+#layout-background {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  background: $pink;
+  background: -webkit-linear-gradient(to bottom, $pink, $deep-purple, $deep-blue);
+  background: linear-gradient(to bottom, $pink, $deep-purple, $deep-blue);
+}
+
+.contents-container {
+  padding: 0 32px;
+}
+
+.main-contents-container {
+  height: 5000px;
+  padding: 5rem 32px;
+}
+
+button {
+  box-shadow: none;
+  outline: none;
+  cursor: pointer;
+}
