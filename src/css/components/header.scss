@@ -1,0 +1,31 @@
+@import "../mixins.scss";
+@import "../variables.scss";
+
+#header {
+  position: fixed;
+  height: 4rem;
+  width: 100vw;
+  @include d-flex-justify-between;
+  align-items: center;
+  color: $white-100;
+  background-color: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+
+  #header-logo {
+    width: 15rem;
+    height: 3rem;
+    background-color: $white-100;
+    a {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+  }
+
+  #header-contents {
+    height: 3rem;
+    gap: 0.5rem;
+    @include d-flex-align-center;
+    @include justify-end;
+  }
+}

@@ -1,5 +1,8 @@
-import "./globals.css";
+import Header from "@/components/common/Header";
+import "@/css/globals.scss";
 import type { Metadata } from "next";
+import ReactQueryProvider from "@/utils/provider";
+import Background from "@/components/common/Background";
 // import { Inter } from "next/font/google";
 
 // const inter = Inter({ subsets: ["latin"] });
@@ -16,7 +19,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <ReactQueryProvider>
+          <Header />
+          <Background />
+          <div id="main-contents-container">{children}</div>
+        </ReactQueryProvider>
+      </body>
     </html>
   );
 }

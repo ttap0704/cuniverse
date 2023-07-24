@@ -1,0 +1,51 @@
+@import "../mixins.scss";
+@import "../variables.scss";
+
+// Header에서 사용되는 Button
+.header-buttons {
+  background-color: $white-100;
+  color: $black-100;
+  font-weight: $semibold;
+  border: 1px solid $white-100;
+  height: 100%;
+  border-radius: 3rem;
+  font-size: $f-sm;
+
+  @include d-flex-center;
+  @include hover-transition;
+
+  svg {
+    width: 1.8rem;
+    height: 1.8rem;
+  }
+
+  &.info {
+    padding: 0 1.5rem;
+    gap: 0.5rem;
+  }
+
+  &#header-menu {
+    width: 3rem;
+  }
+
+  &:hover {
+    background-color: $light-pink;
+    border: 1px solid $light-pink;
+    color: $white-100;
+  }
+}
+
+// Dropdown Menu Item Button
+.button-dropdown-menu {
+  background-color: $white-100;
+  border: none;
+  min-width: 10rem;
+  height: 3rem;
+  font-weight: $semibold;
+  font-size: $f-s;
+
+  &:hover {
+    background-color: $black-10;
+    border-radius: 1rem;
+  }
+}
