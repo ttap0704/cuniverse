@@ -12,7 +12,7 @@
   font-size: $f-sm;
 
   @include d-flex-center;
-  @include hover-transition;
+  @include transition-03;
 
   svg {
     width: 1.8rem;

@@ -1,11 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { QUERY_KEY as user_query_key } from "./useMetaMaskQuery";
+import { QUERY_KEY as user_query_key } from "./useAccountQuery";
 import { Web3 } from "web3";
+import Web3Token from "web3-token";
 import { checkNetwork } from "@/utils/tools";
 import { NETWORK_SEPOLIA } from "../../constants";
 
 const fetcher = () => {
-  return new Promise(async (resolve, reject) => {
+  return new Promise(async (resolve) => {
     if (window.ethereum) {
       const web3 = new Web3(window.ethereum);
 
@@ -21,7 +22,7 @@ const fetcher = () => {
         } catch (err) {
           // 사용자가 네트워크 변경을 하지않는다면 에러 발생
           // null 처리
-          resolve(null);
+          resolve(false);
         }
       }
 
@@ -30,21 +31,24 @@ const fetcher = () => {
         const accounts = await window.ethereum.request({
           method: "eth_requestAccounts",
         });
-        const balance = await web3.eth.getBalance(accounts[0]);
-        const wei = web3.utils.fromWei(balance, "ether");
+        const address: string = accounts[0];
 
-        console.log(accounts, balance, wei, "여기오니");
-        resolve({
-          address: accounts[0],
-          balance: wei.slice(0, 6),
-        });
+        // Web3 Sign은 EIP-4361
+        const token = await Web3Token.sign(
+          (msg: string) => web3.eth.personal.sign(msg, address, ""),
+          "1d"
+        );
+
+        localStorage.setItem("web3-token", token);
+
+        resolve(true);
       } catch (err) {
-        resolve(null);
+        resolve(false);
       }
     } else {
       // 메타마스크가 없다면
       window.open("https://metamask.io/download/", "_blank");
-      resolve(null);
+      resolve(false);
     }
   });
 };
@@ -54,9 +58,7 @@ const useMetaMaskMutation = () => {
 
   return useMutation(fetcher, {
     onSuccess: async (res) => {
-      const user = res as User | null;
-      if (user) {
-        localStorage.setItem("user", JSON.stringify(user));
+      if (res) {
         query_client.invalidateQueries([user_query_key]);
       }
     },

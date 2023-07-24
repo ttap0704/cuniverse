@@ -9,7 +9,7 @@
   .dropdown-contents-wrapper {
     position: absolute;
 
-    @include hover-transition;
+    @include transition-03;
 
     .dropdown-contents {
       background-color: $white-100;
