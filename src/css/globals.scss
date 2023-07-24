@@ -2,7 +2,7 @@
 @import "./mixins";
 @import "./components/header.scss";
 @import "./components/buttons.scss";
-@import "./components//dropdowns.scss";
+@import "./components/dropdowns.scss";
 
 * {
   padding: 0;
@@ -10,11 +10,16 @@
   box-sizing: border-box;
 }
 
+ul,
+li,
+ol {
+  list-style-type: none;
+}
+
 html {
-  font-size: 14px;
-  color: $white-100;
+  font-size: 14px !important;
   @media (min-width: 1024px) {
-    font-size: 15px;
+    font-size: 15px !important;
   }
 }
 
@@ -37,7 +42,7 @@ body {
   padding: 0 32px;
 }
 
-.main-contents-container {
+#main-contents-container {
   height: 5000px;
   padding: 5rem 32px;
 }

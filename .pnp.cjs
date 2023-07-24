@@ -53,11 +53,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["jest-environment-jsdom", "virtual:80ffb1d58ea35384396d91374a30820e6e05e47551245d7f2e0729f2d74fa80e31a49eb77a569f8128954fcb5b7dc01cc2b632a323261e0a835267ad8266f95c#npm:29.6.1"],\
             ["jotai", "virtual:80ffb1d58ea35384396d91374a30820e6e05e47551245d7f2e0729f2d74fa80e31a49eb77a569f8128954fcb5b7dc01cc2b632a323261e0a835267ad8266f95c#npm:2.2.2"],\
             ["next", "virtual:80ffb1d58ea35384396d91374a30820e6e05e47551245d7f2e0729f2d74fa80e31a49eb77a569f8128954fcb5b7dc01cc2b632a323261e0a835267ad8266f95c#npm:13.4.11"],\
+            ["next-router-mock", "virtual:80ffb1d58ea35384396d91374a30820e6e05e47551245d7f2e0729f2d74fa80e31a49eb77a569f8128954fcb5b7dc01cc2b632a323261e0a835267ad8266f95c#npm:0.9.7"],\
             ["postcss", "npm:8.4.26"],\
             ["postcss-import", "virtual:80ffb1d58ea35384396d91374a30820e6e05e47551245d7f2e0729f2d74fa80e31a49eb77a569f8128954fcb5b7dc01cc2b632a323261e0a835267ad8266f95c#npm:15.1.0"],\
             ["postcss-nesting", "virtual:80ffb1d58ea35384396d91374a30820e6e05e47551245d7f2e0729f2d74fa80e31a49eb77a569f8128954fcb5b7dc01cc2b632a323261e0a835267ad8266f95c#npm:11.3.0"],\
             ["react", "npm:18.2.0"],\
             ["react-dom", "virtual:80ffb1d58ea35384396d91374a30820e6e05e47551245d7f2e0729f2d74fa80e31a49eb77a569f8128954fcb5b7dc01cc2b632a323261e0a835267ad8266f95c#npm:18.2.0"],\
+            ["react-icons", "virtual:80ffb1d58ea35384396d91374a30820e6e05e47551245d7f2e0729f2d74fa80e31a49eb77a569f8128954fcb5b7dc01cc2b632a323261e0a835267ad8266f95c#npm:4.10.1"],\
             ["react-testing-library", "npm:8.0.1"],\
             ["sass", "npm:1.64.1"],\
             ["ts-jest", "virtual:80ffb1d58ea35384396d91374a30820e6e05e47551245d7f2e0729f2d74fa80e31a49eb77a569f8128954fcb5b7dc01cc2b632a323261e0a835267ad8266f95c#npm:29.1.1"],\
@@ -5757,11 +5759,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["jest-environment-jsdom", "virtual:80ffb1d58ea35384396d91374a30820e6e05e47551245d7f2e0729f2d74fa80e31a49eb77a569f8128954fcb5b7dc01cc2b632a323261e0a835267ad8266f95c#npm:29.6.1"],\
             ["jotai", "virtual:80ffb1d58ea35384396d91374a30820e6e05e47551245d7f2e0729f2d74fa80e31a49eb77a569f8128954fcb5b7dc01cc2b632a323261e0a835267ad8266f95c#npm:2.2.2"],\
             ["next", "virtual:80ffb1d58ea35384396d91374a30820e6e05e47551245d7f2e0729f2d74fa80e31a49eb77a569f8128954fcb5b7dc01cc2b632a323261e0a835267ad8266f95c#npm:13.4.11"],\
+            ["next-router-mock", "virtual:80ffb1d58ea35384396d91374a30820e6e05e47551245d7f2e0729f2d74fa80e31a49eb77a569f8128954fcb5b7dc01cc2b632a323261e0a835267ad8266f95c#npm:0.9.7"],\
             ["postcss", "npm:8.4.26"],\
             ["postcss-import", "virtual:80ffb1d58ea35384396d91374a30820e6e05e47551245d7f2e0729f2d74fa80e31a49eb77a569f8128954fcb5b7dc01cc2b632a323261e0a835267ad8266f95c#npm:15.1.0"],\
             ["postcss-nesting", "virtual:80ffb1d58ea35384396d91374a30820e6e05e47551245d7f2e0729f2d74fa80e31a49eb77a569f8128954fcb5b7dc01cc2b632a323261e0a835267ad8266f95c#npm:11.3.0"],\
             ["react", "npm:18.2.0"],\
             ["react-dom", "virtual:80ffb1d58ea35384396d91374a30820e6e05e47551245d7f2e0729f2d74fa80e31a49eb77a569f8128954fcb5b7dc01cc2b632a323261e0a835267ad8266f95c#npm:18.2.0"],\
+            ["react-icons", "virtual:80ffb1d58ea35384396d91374a30820e6e05e47551245d7f2e0729f2d74fa80e31a49eb77a569f8128954fcb5b7dc01cc2b632a323261e0a835267ad8266f95c#npm:4.10.1"],\
             ["react-testing-library", "npm:8.0.1"],\
             ["sass", "npm:1.64.1"],\
             ["ts-jest", "virtual:80ffb1d58ea35384396d91374a30820e6e05e47551245d7f2e0729f2d74fa80e31a49eb77a569f8128954fcb5b7dc01cc2b632a323261e0a835267ad8266f95c#npm:29.1.1"],\
@@ -9995,6 +9999,32 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["next-router-mock", [\
+        ["npm:0.9.7", {\
+          "packageLocation": "./.yarn/cache/next-router-mock-npm-0.9.7-f41ac6057b-4732553cfb.zip/node_modules/next-router-mock/",\
+          "packageDependencies": [\
+            ["next-router-mock", "npm:0.9.7"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:80ffb1d58ea35384396d91374a30820e6e05e47551245d7f2e0729f2d74fa80e31a49eb77a569f8128954fcb5b7dc01cc2b632a323261e0a835267ad8266f95c#npm:0.9.7", {\
+          "packageLocation": "./.yarn/__virtual__/next-router-mock-virtual-f76d0591bc/0/cache/next-router-mock-npm-0.9.7-f41ac6057b-4732553cfb.zip/node_modules/next-router-mock/",\
+          "packageDependencies": [\
+            ["next-router-mock", "virtual:80ffb1d58ea35384396d91374a30820e6e05e47551245d7f2e0729f2d74fa80e31a49eb77a569f8128954fcb5b7dc01cc2b632a323261e0a835267ad8266f95c#npm:0.9.7"],\
+            ["@types/next", null],\
+            ["@types/react", "npm:18.2.15"],\
+            ["next", "virtual:80ffb1d58ea35384396d91374a30820e6e05e47551245d7f2e0729f2d74fa80e31a49eb77a569f8128954fcb5b7dc01cc2b632a323261e0a835267ad8266f95c#npm:13.4.11"],\
+            ["react", "npm:18.2.0"]\
+          ],\
+          "packagePeers": [\
+            "@types/next",\
+            "@types/react",\
+            "next",\
+            "react"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["node-fetch", [\
         ["npm:2.6.12", {\
           "packageLocation": "./.yarn/cache/node-fetch-npm-2.6.12-48619ce9d6-3bc1655203.zip/node_modules/node-fetch/",\
@@ -10922,6 +10952,28 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["react-error-boundary", "virtual:6e6fef7609ffd6c69f295b6f504d5cefbac1a7359fb60747aff50bda3f6ec4f7e85ce3a1c98cccd9aaf3fe7b680310489a50217790b492cda6cbf22365be4537#npm:3.1.4"],\
             ["@babel/runtime", "npm:7.22.6"],\
+            ["@types/react", "npm:18.2.15"],\
+            ["react", "npm:18.2.0"]\
+          ],\
+          "packagePeers": [\
+            "@types/react",\
+            "react"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["react-icons", [\
+        ["npm:4.10.1", {\
+          "packageLocation": "./.yarn/cache/react-icons-npm-4.10.1-74abe904b6-b6c8d4fe48.zip/node_modules/react-icons/",\
+          "packageDependencies": [\
+            ["react-icons", "npm:4.10.1"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:80ffb1d58ea35384396d91374a30820e6e05e47551245d7f2e0729f2d74fa80e31a49eb77a569f8128954fcb5b7dc01cc2b632a323261e0a835267ad8266f95c#npm:4.10.1", {\
+          "packageLocation": "./.yarn/__virtual__/react-icons-virtual-106c8648ff/0/cache/react-icons-npm-4.10.1-74abe904b6-b6c8d4fe48.zip/node_modules/react-icons/",\
+          "packageDependencies": [\
+            ["react-icons", "virtual:80ffb1d58ea35384396d91374a30820e6e05e47551245d7f2e0729f2d74fa80e31a49eb77a569f8128954fcb5b7dc01cc2b632a323261e0a835267ad8266f95c#npm:4.10.1"],\
             ["@types/react", "npm:18.2.15"],\
             ["react", "npm:18.2.0"]\
           ],\

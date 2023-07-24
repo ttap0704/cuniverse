@@ -35,6 +35,7 @@ declare global {
     className?: string;
     ref?: React.Ref;
     id?: string;
+    testid?: string;
   }
 
   // Dropdown Menu Items Interface

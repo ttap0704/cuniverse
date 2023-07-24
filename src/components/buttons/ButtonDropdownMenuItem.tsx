@@ -16,7 +16,11 @@ function ButtonDropdownMenuItem(props: DropdownMenuItemProps) {
   };
 
   return (
-    <button className="button-dropdown-menu" onClick={handleDropdownItemClick}>
+    <button
+      className="button-dropdown-menu"
+      onClick={handleDropdownItemClick}
+      data-testid={`button-dropdown-menu-${item.id}`}
+    >
       {item.label}
     </button>
   );

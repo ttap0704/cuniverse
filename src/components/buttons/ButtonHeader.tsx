@@ -9,6 +9,7 @@ function ButtonHeader(props: ButtonHeaderProps) {
   const onMouseLeave = props.onMouseLeave;
   const className = props.className;
   const id = props.id;
+  const testid = props.testid;
 
   return (
     <button
@@ -17,6 +18,7 @@ function ButtonHeader(props: ButtonHeaderProps) {
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       id={id ?? ""}
+      data-testid={testid ?? ""}
     >
       {children}
     </button>
