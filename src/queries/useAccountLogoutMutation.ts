@@ -1,14 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { QUERY_KEY as user_query_key } from "./useAccountQuery";
+import { setCookieExpireInClient } from "@/utils/tools";
 
 const fetcher = () => {
   return new Promise(async (resolve) => {
-    if (localStorage.getItem("web3-token")) {
-      localStorage.removeItem("web3-token");
-      resolve(true);
-    } else {
-      resolve(false);
-    }
+    setCookieExpireInClient("web3-token");
+    setCookieExpireInClient("wallet-address");
+    resolve(true);
   });
 };
 

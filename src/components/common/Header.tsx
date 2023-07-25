@@ -17,10 +17,7 @@ const headerDropdownMenu: DropdownMenuItem[] = [
   { id: 2, label: "로그아웃" },
 ];
 
-const headerDropdownMenuNotAccount: DropdownMenuItem[] = [
-  { id: 0, label: "프로필" },
-  { id: 1, label: "컬렉션" },
-];
+const headerDropdownMenuNotAccount: DropdownMenuItem[] = [];
 
 const redirectPages: { [key: number]: string } = {
   0: "/account",
@@ -49,13 +46,15 @@ function Header() {
         </div>
         <div id="header-contents">
           <ButtonConnectWallet />
-          <ButtonHeader
-            onClick={() => setDropdown({ open: true, id: "header-menu" })}
-            testid="header-menu"
-            id="header-menu"
-          >
-            <FiSmile />
-          </ButtonHeader>
+          {account ? (
+            <ButtonHeader
+              onClick={() => setDropdown({ open: true, id: "header-menu" })}
+              testid="header-menu"
+              id="header-menu"
+            >
+              <FiSmile />
+            </ButtonHeader>
+          ) : null}
         </div>
       </nav>
       <DropdownMenu

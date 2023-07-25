@@ -25,6 +25,13 @@ declare global {
     id: number;
     address: string;
     nickname: string;
+    banner: string;
+  }
+
+  // Account Info 수정 Request Body
+  interface UpdateAccountRequest {
+    nickname?: string;
+    banner?: string;
   }
 
   // Account 공통 Interface

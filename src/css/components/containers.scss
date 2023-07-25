@@ -1,0 +1,31 @@
+.container-banner {
+  width: 100vw;
+  position: relative;
+  overflow-y: hidden;
+  margin-left: -32px;
+  margin-top: -1rem;
+
+  @include deviceXS {
+    height: 180px;
+  }
+
+  @include deviceS {
+    height: 220px;
+  }
+
+  @include deviceM {
+    height: 260px;
+  }
+
+  @include deviceL {
+    height: 280px;
+  }
+
+  @include deviceXL {
+    height: 320px;
+  }
+
+  & > img {
+    object-fit: cover;
+  }
+}

@@ -10,7 +10,7 @@ import useAccountLogoutMutation from "@/queries/useAccountLogoutMutation";
 function ButtonConnectWallet() {
   const { mutate: logout } = useAccountLogoutMutation();
   const { mutate, isLoading } = useMetaMaskMutation();
-  const { data: user } = useAccountQuery();
+  const { data: account } = useAccountQuery();
 
   useEffect(() => {
     // 메타마스크 지갑 계정이 바뀌면 로그아웃 설정
@@ -24,7 +24,7 @@ function ButtonConnectWallet() {
   }, []);
 
   const handleConnetWallet = () => {
-    if (!user) mutate();
+    if (!account) mutate();
   };
 
   return (
@@ -34,8 +34,8 @@ function ButtonConnectWallet() {
       onClick={handleConnetWallet}
     >
       <HiOutlineWallet />
-      {user
-        ? `${user.balance} ETH`
+      {account
+        ? `${account.balance} ETH`
         : isLoading
         ? "CONNECTING"
         : "CONNECT WALLET"}

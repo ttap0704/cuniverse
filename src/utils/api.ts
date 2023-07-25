@@ -1,16 +1,11 @@
 import Web3 from "web3";
 import { SERVER_NAME } from "../../../next-react-state-management/constants";
+import { S3_IMAGES_URL } from "../../constants";
 
 function setHeader() {
   const headers: { [key: string]: string } = {
     "Content-Type": "application/json",
   };
-
-  // Wallet 연동 시 저장한 web3-token 가져와서 header에 추가
-  const web3Token = localStorage.getItem("web3-token");
-  if (web3Token) {
-    headers["Authorization"] = `Bearer ${web3Token}`;
-  }
 
   return headers;
 }
@@ -73,6 +68,13 @@ async function fetchDeleteApi(url: string) {
   return data.data;
 }
 
+// Account Update API
+export async function fetchUpdateAccount(body: { data: UpdateAccountRequest }) {
+  const res: boolean = await fetchPutApi(body.data, `/accounts/info`);
+  return res;
+}
+
+// Get Account Info API
 export async function fetchGetAccountInfo() {
   const res: AccountInfoReponse | null = await fetchGetApi("/accounts");
   let finalResponse: Account | null = null;
@@ -85,11 +87,16 @@ export async function fetchGetAccountInfo() {
 
     finalResponse = {
       ...res,
+      banner: res.banner ? `${S3_IMAGES_URL}/images/${res.banner}` : res.banner,
       balance: wei != "0." ? wei.slice(0, 6) : "0",
     };
   }
 
-  console.log(finalResponse);
-
   return finalResponse;
+}
+
+// S3 이미지 업로드 권한 취득 API
+export async function fetchUploadS3(body: object) {
+  const res: string = await fetchPostApi(body, "/image/upload");
+  return res;
 }

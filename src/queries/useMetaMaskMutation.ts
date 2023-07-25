@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { QUERY_KEY as user_query_key } from "./useAccountQuery";
+import { QUERY_KEY as accountQueryKey } from "./useAccountQuery";
 import { Web3 } from "web3";
 import Web3Token from "web3-token";
-import { checkNetwork } from "@/utils/tools";
+import { checkNetwork, setCookieInClient } from "@/utils/tools";
 import { NETWORK_SEPOLIA } from "../../constants";
 
 const fetcher = () => {
@@ -39,7 +39,11 @@ const fetcher = () => {
           "1d"
         );
 
-        localStorage.setItem("web3-token", token);
+        const cookieExpires = new Date(
+          new Date().getTime() + 1000 * 60 * 60 * 24
+        );
+        setCookieInClient("web3-token", token, cookieExpires);
+        setCookieInClient("wallet-address", address, cookieExpires);
 
         resolve(true);
       } catch (err) {
@@ -59,7 +63,7 @@ const useMetaMaskMutation = () => {
   return useMutation(fetcher, {
     onSuccess: async (res) => {
       if (res) {
-        query_client.invalidateQueries([user_query_key]);
+        query_client.invalidateQueries([accountQueryKey]);
       }
     },
   });

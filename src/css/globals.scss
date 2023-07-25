@@ -1,8 +1,11 @@
 @import "./variables";
 @import "./mixins";
+@import "./breakpoints.scss";
 @import "./components/header.scss";
 @import "./components/buttons.scss";
 @import "./components/dropdowns.scss";
+@import "./components/inputs.scss";
+@import "./components/containers.scss";
 
 * {
   padding: 0;
@@ -18,7 +21,7 @@ ol {
 
 html {
   font-size: 14px !important;
-  @media (min-width: 1024px) {
+  @include deviceM {
     font-size: 15px !important;
   }
 }
@@ -28,14 +31,26 @@ body {
   height: 100vh;
 }
 
+input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 #layout-background {
   position: fixed;
   width: 100vw;
   height: 100vh;
   z-index: -1;
-  background: $pink;
-  background: -webkit-linear-gradient(to bottom, $pink, $deep-purple, $deep-blue);
-  background: linear-gradient(to bottom, $pink, $deep-purple, $deep-blue);
+  background-image: linear-gradient(to bottom, #dfe9f3 0%, white 100%);
 }
 
 .contents-container {
@@ -43,8 +58,9 @@ body {
 }
 
 #main-contents-container {
-  height: 5000px;
   padding: 5rem 32px;
+  display: flex;
+  flex-direction: column;
 }
 
 button {
