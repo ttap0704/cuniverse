@@ -29,3 +29,66 @@
     object-fit: cover;
   }
 }
+
+#container-profile-image {
+  width: 100%;
+  height: 3rem;
+  position: relative;
+  overflow: visible;
+
+  & > div {
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: $white-100;
+    position: absolute;
+    padding: 0.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10001;
+
+    @include deviceXS {
+      width: 115px;
+      height: 115px;
+      top: -70px;
+    }
+
+    @include deviceS {
+      width: 130px;
+      height: 130px;
+      top: -90px;
+    }
+
+    @include deviceM {
+      width: 150px;
+      height: 150px;
+      top: -100px;
+    }
+
+    @include deviceL {
+      width: 165px;
+      height: 165px;
+      top: -110px;
+    }
+
+    @include deviceXL {
+      width: 180px;
+      height: 180px;
+      top: -120px;
+    }
+
+    & > div {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      border-radius: 50%;
+      overflow: hidden;
+      & > img {
+        object-fit: cover;
+      }
+    }
+  }
+}
+
+#container-profile {
+  width: 100%;
+}

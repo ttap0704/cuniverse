@@ -7,24 +7,24 @@ import ButtonImageUpload from "../buttons/ButtonImageUpload";
 import { uploadImageToS3 } from "@/utils/tools";
 import useAccountUpdateMutation from "@/queries/useAccountUpdateMutation";
 
-interface ContaineraBannerProps {
+interface ContainerBannerProps {
   defaultUri: string;
   edit: boolean;
 }
 
-function ContaineraBanner(props: ContaineraBannerProps) {
+function ContainerBanner(props: ContainerBannerProps) {
   const { mutate: updateAccount } = useAccountUpdateMutation();
   const defaultUri = props.defaultUri;
   const edit = props.edit;
 
-  const uploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const uploadBanner = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length) {
       const uploadedFile: File = e.target.files[0];
       const bannerImage = await uploadImageToS3(uploadedFile);
       const updateRes = await updateAccount({ data: { banner: bannerImage } });
-      console.log(updateRes);
     }
   };
+
   return (
     <div className="container-banner">
       <Image src={defaultUri} alt="test" loading="lazy" fill={true} />
@@ -32,11 +32,11 @@ function ContaineraBanner(props: ContaineraBannerProps) {
       {edit ? (
         <>
           <ButtonImageUpload targetId="input-image-banner" />
-          <InputImage id="input-image-banner" onChange={uploadImage} />
+          <InputImage id="input-image-banner" onChange={uploadBanner} />
         </>
       ) : null}
     </div>
   );
 }
 
-export default ContaineraBanner;
+export default ContainerBanner;

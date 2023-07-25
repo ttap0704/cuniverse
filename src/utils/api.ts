@@ -88,6 +88,9 @@ export async function fetchGetAccountInfo() {
     finalResponse = {
       ...res,
       banner: res.banner ? `${S3_IMAGES_URL}/images/${res.banner}` : res.banner,
+      profile: res.profile
+        ? `${S3_IMAGES_URL}/images/${res.profile}`
+        : res.profile,
       balance: wei != "0." ? wei.slice(0, 6) : "0",
     };
   }

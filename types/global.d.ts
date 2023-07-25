@@ -26,12 +26,14 @@ declare global {
     address: string;
     nickname: string;
     banner: string;
+    profile: stirng;
   }
 
   // Account Info 수정 Request Body
   interface UpdateAccountRequest {
     nickname?: string;
     banner?: string;
+    profile?: string;
   }
 
   // Account 공통 Interface
