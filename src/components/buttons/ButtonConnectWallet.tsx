@@ -1,16 +1,34 @@
 "use client";
 
-import useMetaMaskQuery from "@/queries/useMetaMaskQuery";
+import useAccountQuery from "@/queries/useAccountQuery";
 import ButtonHeader from "./ButtonHeader";
 import useMetaMaskMutation from "@/queries/useMetaMaskMutation";
 import { HiOutlineWallet } from "react-icons/hi2";
+import { useEffect } from "react";
+import useAccountLogoutMutation from "@/queries/useAccountLogoutMutation";
 
 function ButtonConnectWallet() {
+  const { mutate: logout } = useAccountLogoutMutation();
   const { mutate, isLoading } = useMetaMaskMutation();
-  const { data: user } = useMetaMaskQuery();
+  const { data: account } = useAccountQuery();
+
+  useEffect(() => {
+    if (window.ethereum) {
+      // 메타마스크 지갑 계정이 바뀌면 로그아웃 설정
+      window.ethereum.on("accountsChanged", logout);
+      window.ethereum.on("chainChanged", logout);
+    }
+
+    return () => {
+      if (window.ethereum) {
+        window.ethereum.removeListener("accountsChanged", logout);
+        window.ethereum.removeListener("chainChanged", logout);
+      }
+    };
+  }, []);
 
   const handleConnetWallet = () => {
-    if (!user) mutate();
+    if (!account) mutate();
   };
 
   return (
@@ -20,8 +38,8 @@ function ButtonConnectWallet() {
       onClick={handleConnetWallet}
     >
       <HiOutlineWallet />
-      {user
-        ? `${user.balance} ETH`
+      {account
+        ? `${account.balance} ETH`
         : isLoading
         ? "CONNECTING"
         : "CONNECT WALLET"}

@@ -1,0 +1,34 @@
+$break_s: 576px;
+$break_m: 768px;
+$break_l: 992px;
+$break_xl: 1200px;
+
+@mixin deviceXS {
+  @media (max-width: $break_s - 1) {
+    @content;
+  }
+}
+
+@mixin deviceS {
+  @media (min-width: $break_s) and (max-width: $break_m - 1) {
+    @content;
+  }
+}
+
+@mixin deviceM {
+  @media (min-width: $break_m) and (max-width: $break_l - 1) {
+    @content;
+  }
+}
+
+@mixin deviceL {
+  @media (min-width: $break_l) and (max-width: $break_xl - 1) {
+    @content;
+  }
+}
+
+@mixin deviceXL {
+  @media (min-width: $break_xl) {
+    @content;
+  }
+}
