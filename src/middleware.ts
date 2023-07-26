@@ -5,7 +5,7 @@ import Web3Token from "web3-token";
 export async function middleware(request: NextRequest) {
   const requestHeaders = new Headers(request.headers);
   const path = request.url.replace(SERVER_NAME, "");
-  requestHeaders.set("x-url", path);
+  requestHeaders.set("X-Url", path);
 
   const token = request.cookies.get("web3-token")?.value;
   const walletAddress = request.cookies.get("wallet-address")?.value;
@@ -16,8 +16,8 @@ export async function middleware(request: NextRequest) {
     },
   });
 
+  let logout = false;
   if (!request.nextUrl.pathname.startsWith("/api")) {
-    let logout = false;
     // web3-token과 address비교하여 값이 다르다면 로그인 유지에 필요한 cookies 만료처리
     if ((token && !walletAddress) || (!token && walletAddress)) {
       logout = true;
@@ -37,13 +37,6 @@ export async function middleware(request: NextRequest) {
           headers: requestHeaders,
         });
       }
-
-      response.cookies.set("web3-token", "", {
-        expires: new Date("1001/01/01"),
-      });
-      response.cookies.set("wallet-address", "", {
-        expires: new Date("1001/01/01"),
-      });
     }
   } else {
     // API는 Account 전용 경로만 검증
@@ -64,15 +57,21 @@ export async function middleware(request: NextRequest) {
         response = NextResponse.redirect(new URL("/", request.url), {
           headers: requestHeaders,
         });
-
-        response.cookies.set("web3-token", "", {
-          expires: new Date("1001/01/01"),
-        });
-        response.cookies.set("wallet-address", "", {
-          expires: new Date("1001/01/01"),
-        });
       }
     }
+  }
+
+  if (logout) {
+    // 로그아웃 처리 시, 클라이언트에 헤더 전달함으로써 클라이언트 로그아웃 처리
+    response.headers.set("X-Account-State", "logout");
+
+    // 로그인 유지 쿠키 만료처리
+    response.cookies.set("web3-token", "", {
+      expires: new Date("1001/01/01"),
+    });
+    response.cookies.set("wallet-address", "", {
+      expires: new Date("1001/01/01"),
+    });
   }
 
   return response;

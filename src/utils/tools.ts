@@ -1,5 +1,4 @@
 import Web3 from "web3";
-import { create as IPFSCreate } from "ipfs-http-client";
 import { fetchUploadS3 } from "./api";
 
 // 현재 네트워크가 어디인지 파악
@@ -8,13 +7,13 @@ export async function checkNetwork(web3: Web3, targetNetwork: bigint) {
 }
 
 // IPFS Image 파일 업로드
-export async function uploadImageToIPFS(file: File) {
-  const ipfs = IPFSCreate({
-    url: "http://localhost:5001",
-  });
-  const hash = await ipfs.add(file);
-  console.log(hash);
-}
+// export async function uploadImageToIPFS(file: File) {
+//   const ipfs = IPFSCreate({
+//     url: "http://localhost:5001",
+//   });
+//   const hash = await ipfs.add(file);
+//   console.log(hash);
+// }
 
 // S3 Image 업로드
 export async function uploadImageToS3(file: File) {

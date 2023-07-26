@@ -3,6 +3,7 @@
 const nextConfig = {
   experimental: {
     serverComponentsExternalPackages: ["mysql2"],
+    forceSwcTransforms: true,
   },
   images: {
     remotePatterns: [

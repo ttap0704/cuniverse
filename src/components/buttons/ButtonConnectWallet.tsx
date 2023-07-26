@@ -13,13 +13,17 @@ function ButtonConnectWallet() {
   const { data: account } = useAccountQuery();
 
   useEffect(() => {
-    // 메타마스크 지갑 계정이 바뀌면 로그아웃 설정
-    window.ethereum.on("accountsChanged", logout);
-    window.ethereum.on("chainChanged", logout);
+    if (window.ethereum) {
+      // 메타마스크 지갑 계정이 바뀌면 로그아웃 설정
+      window.ethereum.on("accountsChanged", logout);
+      window.ethereum.on("chainChanged", logout);
+    }
 
     return () => {
-      window.ethereum.removeListener("accountsChanged", logout);
-      window.ethereum.removeListener("chainChanged", logout);
+      if (window.ethereum) {
+        window.ethereum.removeListener("accountsChanged", logout);
+        window.ethereum.removeListener("chainChanged", logout);
+      }
     };
   }, []);
 

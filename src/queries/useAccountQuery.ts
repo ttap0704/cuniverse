@@ -1,7 +1,7 @@
 import { fetchGetAccountInfo } from "@/utils/api";
 import { useQuery } from "@tanstack/react-query";
 
-export const QUERY_KEY = "user";
+export const QUERY_KEY = "account";
 
 const fetcher = () => fetchGetAccountInfo();
 
