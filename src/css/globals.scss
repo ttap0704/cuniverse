@@ -6,11 +6,17 @@
 @import "./components/dropdowns.scss";
 @import "./components/inputs.scss";
 @import "./components/containers.scss";
+@import "./components/boxes.scss";
+@import "./components//typography.scss";
 
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+
+  &:focus-visible {
+    outline: none;
+  }
 }
 
 ul,

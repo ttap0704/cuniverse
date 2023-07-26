@@ -27,6 +27,7 @@ declare global {
     nickname: string;
     banner: string;
     profile: stirng;
+    description: string;
   }
 
   // Account Info 수정 Request Body
@@ -34,6 +35,7 @@ declare global {
     nickname?: string;
     banner?: string;
     profile?: string;
+    description?: string;
   }
 
   // Account 공통 Interface

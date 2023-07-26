@@ -6,10 +6,7 @@ export const QUERY_KEY = "account";
 const fetcher = () => fetchGetAccountInfo();
 
 const useAccountQuery = () => {
-  return useQuery([QUERY_KEY], fetcher, {
-    staleTime: 3000,
-    refetchOnWindowFocus: false,
-  });
+  return useQuery([QUERY_KEY], fetcher);
 };
 
 export default useAccountQuery;
