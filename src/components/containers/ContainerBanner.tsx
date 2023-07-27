@@ -13,7 +13,6 @@ interface ContainerBannerProps {
 }
 
 function ContainerBanner(props: ContainerBannerProps) {
-  console.log("ContainerBanner : render");
   const { mutate: updateAccount } = useAccountUpdateMutation();
   const defaultUri = props.defaultUri;
   const edit = props.edit;

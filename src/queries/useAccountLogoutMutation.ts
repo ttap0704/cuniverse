@@ -16,7 +16,6 @@ const useAccountLogoutMutation = () => {
   return useMutation(fetcher, {
     onSuccess: async (res) => {
       query_client.invalidateQueries([user_query_key]);
-      location.reload();
     },
   });
 };

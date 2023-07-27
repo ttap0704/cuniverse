@@ -125,3 +125,12 @@
   flex-direction: column;
   @include d-flex-center;
 }
+
+.container-nft-contents {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1.5rem 0 0;
+}

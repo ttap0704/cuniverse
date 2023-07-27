@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
 
       // 최종으로 저장된 Account 조회
       const accountData: AccountInfoReponse[] = await db.query({
-        sql: "SELECT id, address, nickname, banner, profile, description, created_at FROM accounts WHERE address = ?",
+        sql: "SELECT * FROM accounts WHERE address = ?",
         values: [address],
       });
 

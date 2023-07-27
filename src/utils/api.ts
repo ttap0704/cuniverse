@@ -1,6 +1,7 @@
 import Web3 from "web3";
 import { SERVER_NAME } from "../../../next-react-state-management/constants";
 import { S3_IMAGES_URL } from "../../constants";
+import { OwnedNftsResponse } from "alchemy-sdk";
 
 function setHeader() {
   const headers: { [key: string]: string } = {
@@ -99,11 +100,20 @@ export async function fetchGetAccountInfo() {
     };
   }
 
+  console.log("finalResponse:", finalResponse);
+
   return finalResponse;
 }
 
 // S3 이미지 업로드 권한 취득 API
 export async function fetchUploadS3(body: object) {
   const res: string = await fetchPostApi(body, "/image/upload");
+  return res;
+}
+
+export async function fetchGetAccountNFTs() {
+  const res: OwnedNftsResponse | null = await fetchGetApi(
+    "/accounts/collections"
+  );
   return res;
 }
