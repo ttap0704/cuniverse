@@ -32,7 +32,7 @@
 
 #container-profile-image {
   width: 100%;
-  height: 3rem;
+  height: 4rem;
   position: relative;
   overflow: visible;
 
@@ -44,7 +44,7 @@
     padding: 0.5rem;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 10001;
+    z-index: 5001;
 
     @include deviceXS {
       width: 115px;
@@ -91,4 +91,46 @@
 
 #container-profile {
   width: 100%;
+}
+
+.container-content-intro {
+  padding: 1rem 0.5rem;
+  width: 100%;
+  flex-direction: column;
+
+  @include d-flex-align-center;
+
+  .address-wrapper {
+    margin-bottom: 2rem;
+    @include d-flex-align-center;
+
+    img {
+      margin-right: 0.25rem;
+    }
+
+    .intro-address {
+      color: $white-90;
+      font-weight: $bold;
+    }
+
+    .joined {
+      margin-left: 1rem;
+      font-size: $f-sm;
+      color: $white-90;
+    }
+  }
+}
+
+.container-see-more {
+  flex-direction: column;
+  @include d-flex-center;
+}
+
+.container-nft-contents {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1.5rem 0 0;
 }

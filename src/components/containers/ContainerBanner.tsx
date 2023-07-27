@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import InputImage from "../inputs/InputImage";
-import React from "react";
+import React, { memo } from "react";
 import ButtonImageUpload from "../buttons/ButtonImageUpload";
 import { uploadImageToS3 } from "@/utils/tools";
 import useAccountUpdateMutation from "@/queries/useAccountUpdateMutation";
@@ -39,4 +39,6 @@ function ContainerBanner(props: ContainerBannerProps) {
   );
 }
 
-export default ContainerBanner;
+export default memo(ContainerBanner, (prev, cur) => {
+  return prev.defaultUri === cur.defaultUri;
+});

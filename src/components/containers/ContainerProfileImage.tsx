@@ -1,3 +1,4 @@
+import { memo } from "react";
 import Image from "next/image";
 import ButtonImageUpload from "../buttons/ButtonImageUpload";
 import InputImage from "../inputs/InputImage";
@@ -41,4 +42,6 @@ function ContainerProfileImage(props: ContainerProfileImageProps) {
   );
 }
 
-export default ContainerProfileImage;
+export default memo(ContainerProfileImage, (prev, cur) => {
+  return prev.defaultUri === cur.defaultUri;
+});

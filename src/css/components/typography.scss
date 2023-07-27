@@ -1,0 +1,21 @@
+.typography-content-title {
+  color: $white-100;
+}
+
+.typography-content-description {
+  font-size: $f-m;
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+  padding: 0 2rem;
+  overflow: hidden;
+  height: auto;
+  color: $white-100;
+
+  @include transition-03;
+}
+
+.typography-copy {
+  font-size: $f-sm;
+  cursor: pointer;
+}

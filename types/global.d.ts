@@ -24,9 +24,16 @@ declare global {
   interface AccountInfoReponse {
     id: number;
     address: string;
-    nickname: string;
-    banner: string;
-    profile: stirng;
+    nickname: string | null;
+    banner: string | null;
+    profile: stirng | null;
+    description: string | null;
+    website: string | null;
+    twitter: string | null;
+    youtube: string | null;
+    africa: string | null;
+    instagram: string | null;
+    created_at: string;
   }
 
   // Account Info 수정 Request Body
@@ -34,11 +41,19 @@ declare global {
     nickname?: string;
     banner?: string;
     profile?: string;
+    description?: string;
+    website?: string;
+    twitter?: string;
+    youtube?: string;
+    africa?: string;
+    instagram?: string;
   }
 
   // Account 공통 Interface
-  interface Account extends AccountInfoReponse {
+  type AccountClient = Omit<AccountInfoReponse, "created_at">;
+  interface Account extends AccountClient {
     balance: string;
+    createdAt: string;
   }
 
   // Button 공통 Interface
@@ -58,5 +73,13 @@ declare global {
     id: string | number;
     label: string;
     icon?: React.ReactNode;
+  }
+
+  // Tabs Menu Items Interface
+  interface TabsMenuItem {
+    id: number;
+    label: string;
+    path: string;
+    includePath?: string;
   }
 }

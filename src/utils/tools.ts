@@ -57,3 +57,8 @@ export function setCookieExpireInClient(name: string) {
     new Date("1001-01-01 00:00:00").toUTCString() +
     ";path=/";
 }
+
+// wallet/contract adderss 줄이기
+export function getShortAddress(address: string) {
+  return address.slice(0, 6) + "..." + address.slice(address.length - 4);
+}
