@@ -29,3 +29,18 @@
     @include justify-end;
   }
 }
+
+.tooltip-wrapper {
+  z-index: 9999;
+  position: fixed;
+  transform: translate(-50%, -100%);
+  font-size: $f-s;
+  font-weight: $semibold;
+  @include transition-03;
+
+  .tooltip-contents {
+    background-color: $white-100;
+    padding: 1rem;
+    border-radius: 1rem;
+  }
+}

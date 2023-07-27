@@ -4,9 +4,13 @@ import type { Metadata } from "next";
 import Background from "@/components/common/Background";
 import ProviderQueryClient from "@/components/providers/ProviderQueryClient";
 import ProviderAuth from "@/components/providers/ProviderAuth";
-// import { Inter } from "next/font/google";
+import { Noto_Sans_KR } from "next/font/google";
+import Tooltip from "@/components/common/Tooltip";
 
-// const inter = Inter({ subsets: ["latin"] });
+const notnSansKR = Noto_Sans_KR({
+  subsets: ["latin"],
+  weight: ["100", "300", "400", "500", "700", "900"],
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -19,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={notnSansKR.className}>
       <body>
         <ProviderQueryClient>
           <ProviderAuth>
@@ -28,6 +32,7 @@ export default function RootLayout({
             <div id="main-contents-container">{children}</div>
           </ProviderAuth>
         </ProviderQueryClient>
+        <Tooltip />
       </body>
     </html>
   );

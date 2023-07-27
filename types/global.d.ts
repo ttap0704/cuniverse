@@ -28,6 +28,7 @@ declare global {
     banner: string;
     profile: stirng;
     description: string;
+    created_at: string;
   }
 
   // Account Info 수정 Request Body
@@ -39,8 +40,10 @@ declare global {
   }
 
   // Account 공통 Interface
-  interface Account extends AccountInfoReponse {
+  type AccountClient = Omit<AccountInfoReponse, "created_at">;
+  interface Account extends AccountClient {
     balance: string;
+    createdAt: string;
   }
 
   // Button 공통 Interface

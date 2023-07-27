@@ -18,7 +18,7 @@ function ButtonSeeMore(props: ButtonSeeMoreProps) {
 
   return (
     <button className="button-see-more" onClick={handleButton}>
-      SEE MORE
+      {!view ? "SEE MORE" : "SEE LESS"}
     </button>
   );
 }

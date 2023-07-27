@@ -1,7 +1,7 @@
 @import "./variables";
 @import "./mixins";
 @import "./breakpoints.scss";
-@import "./components/header.scss";
+@import "./components/common.scss";
 @import "./components/buttons.scss";
 @import "./components/dropdowns.scss";
 @import "./components/inputs.scss";
@@ -13,6 +13,7 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  letter-spacing: -1px;
 
   &:focus-visible {
     outline: none;
@@ -56,7 +57,9 @@ input[type="file"] {
   width: 100vw;
   height: 100vh;
   z-index: -1;
-  background-image: linear-gradient(to bottom, #dfe9f3 0%, white 100%);
+  background: $pink;
+  background: -webkit-linear-gradient(to bottom, $pink, $deep-purple, $deep-blue);
+  background: linear-gradient(to bottom, $pink, $deep-purple, $deep-blue);
 }
 
 .contents-container {
@@ -73,4 +76,13 @@ button {
   box-shadow: none;
   outline: none;
   cursor: pointer;
+}
+
+.triangle-bottom-small {
+  width: 0px;
+  height: 0px;
+  border-top: 7.5px solid $white-100;
+  border-left: 7.5px solid transparent;
+  border-right: 7.5px solid transparent;
+  margin: 0 auto;
 }

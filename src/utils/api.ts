@@ -79,7 +79,7 @@ export async function fetchGetAccountInfo() {
   const res: AccountInfoReponse | null = await fetchGetApi("/accounts");
   let finalResponse: Account | null = null;
 
-  // 유저가 있다면 Query Key ['user'] 최종 업데이트
+  // 유저가 있다면 Query Key ['account'] 최종 업데이트
   if (res && window.ethereum) {
     const web3 = new Web3(window.ethereum);
     const balance = await web3.eth.getBalance(res.address);
@@ -92,6 +92,10 @@ export async function fetchGetAccountInfo() {
         ? `${S3_IMAGES_URL}/images/${res.profile}`
         : res.profile,
       balance: wei != "0." ? wei.slice(0, 6) : "0",
+      createdAt: new Date(res.created_at).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+      }),
     };
   }
 
