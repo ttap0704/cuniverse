@@ -3,3 +3,29 @@
   height: 100%;
   position: absolute;
 }
+
+.input-width-label {
+  width: 100%;
+
+  label {
+    display: inline-block;
+    font-size: $f-sm;
+    font-weight: $semibold;
+    margin-bottom: 0.25rem;
+  }
+}
+
+.input-default {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  border-width: 1px;
+  border-color: $black-30;
+  background-color: $white-100;
+  font-size: $f-sm;
+  resize: vertical;
+
+  &:focus {
+    border-color: $black-50;
+  }
+}

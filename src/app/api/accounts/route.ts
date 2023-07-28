@@ -1,10 +1,9 @@
-import { cookies } from "next/dist/client/components/headers";
 import { NextRequest, NextResponse } from "next/server";
-import Web3Token from "web3-token";
 import db from "../db";
 
 export async function GET(request: NextRequest) {
-  const address = cookies().get("wallet-address")?.value;
+  const address = request.cookies.get("wallet-address")?.value;
+  // const address = cookies().get("wallet-address")?.value;
   let pass = false,
     message = "",
     data: null | AccountInfoReponse = null;

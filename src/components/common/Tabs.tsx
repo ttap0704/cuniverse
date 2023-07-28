@@ -1,12 +1,11 @@
-"use client";
-
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 interface TabsProps {
   items: TabsMenuItem[];
 }
 
 function Tabs(props: TabsProps) {
+  const pathname = usePathname();
   const router = useRouter();
   const items = props.items;
 
@@ -18,8 +17,7 @@ function Tabs(props: TabsProps) {
             <button
               onClick={() => router.push(item.path)}
               className={
-                item.includePath == location.pathname ||
-                item.path == location.pathname
+                item.includePath == pathname || item.path == pathname
                   ? "selected"
                   : ""
               }

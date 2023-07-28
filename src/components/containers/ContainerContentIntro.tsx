@@ -6,15 +6,46 @@ import TypographyCopy from "../typography/TypographyCopy";
 import { getShortAddress } from "@/utils/tools";
 import etherSvg from "@/images/ethereum-eth-logo.svg";
 import Image from "next/image";
+import IconLink from "../common/IconLink";
+import { useEffect, useState } from "react";
+import { PLATFORM_LINKS } from "../../../constants";
+import { FaGear } from "react-icons/fa6";
+import LoadingSpinner from "../common/LoadingSpinner";
 
 function ContainerContentIntro() {
-  const { data: account } = useAccountQuery();
+  const { data: account, isLoading } = useAccountQuery();
+  const [links, setLinks] = useState<PlatformLinkWithHref[]>([]);
+
+  useEffect(() => {
+    if (account) {
+      const tmpLinks: PlatformLinkWithHref[] = [];
+      for (let i = 0; i < PLATFORM_LINKS.length; i++) {
+        console.log(account[PLATFORM_LINKS[i].platform]);
+        if (account[PLATFORM_LINKS[i].platform])
+          tmpLinks.push({
+            ...PLATFORM_LINKS[i],
+            href: account[PLATFORM_LINKS[i].platform] ?? "",
+          });
+      }
+      setLinks([...tmpLinks]);
+    }
+  }, [account]);
+
+  if (isLoading) return <LoadingSpinner />;
 
   return (
     <div className="container-content-intro">
-      <TypographyContentTitle
-        title={account?.nickname ? account.nickname : "Unnamed"}
-      />
+      <div className="nickname-wrapper">
+        <TypographyContentTitle
+          title={account?.nickname ? account.nickname : "Unnamed"}
+        />
+        <IconLink
+          href="/account/settings"
+          icon={<FaGear />}
+          target="_self"
+          tooltipText="프로필 수정"
+        />
+      </div>
       <div className="address-wrapper">
         <Image src={etherSvg} alt="ethereum-logo" width={16} height={16} />
         <TypographyCopy
@@ -23,6 +54,18 @@ function ContainerContentIntro() {
           className="intro-address"
         />
         <span className="joined">Joined {account?.createdAt}</span>
+      </div>
+      <div className="links-wrapper">
+        {links.map((link, linkIdx) => {
+          return (
+            <IconLink
+              key={`icon_link_${linkIdx}`}
+              href={link.href}
+              icon={link.icon}
+              tooltipText={link.platform}
+            />
+          );
+        })}
       </div>
       <ContainerSeeMore defaultMaxHeight={50}>
         <TypographyContentDescription

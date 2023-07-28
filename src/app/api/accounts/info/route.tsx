@@ -2,7 +2,7 @@ import { cookies } from "next/dist/client/components/headers";
 import { NextRequest, NextResponse } from "next/server";
 import db from "../../db";
 
-export async function GET(request: NextRequest) {
+export async function PUT(request: NextRequest) {
   // 인증 토큰 조회
   const address = cookies().get("wallet-address")?.value;
   let pass = false,

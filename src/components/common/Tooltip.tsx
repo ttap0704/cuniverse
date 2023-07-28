@@ -2,8 +2,7 @@
 
 import { useAtomValue } from "jotai";
 import { useEffect, useState } from "react";
-import { useSetAtom } from "jotai";
-import { tooltipAtom, setTooltipAtom } from "@/store/tooltip";
+import { tooltipAtom } from "@/store/tooltip";
 
 function Tooltip() {
   const [tooltipOpen, setTooltipOpen] = useState(false);
@@ -20,9 +19,10 @@ function Tooltip() {
       setTooltipOpen(true);
       // Element를 통해 Tooltip 위치 정하기
       if (targetElement) {
+        const rect = targetElement.getBoundingClientRect();
         setOffset({
-          top: targetElement.offsetTop,
-          left: targetElement.offsetLeft + targetElement.clientWidth / 2,
+          top: rect.top - 8,
+          left: rect.left + rect.width / 2,
         });
         setTimeout(() => {
           // Open만 설정하면 transition이 보이지 않으므로 0.1s 이후에 Tooltip 가시성 추가
@@ -32,7 +32,7 @@ function Tooltip() {
     } else {
       closeTooltip();
     }
-  }, [open]);
+  }, [open, targetElement]);
 
   useEffect(() => {
     if (open) setContents(text);

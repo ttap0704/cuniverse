@@ -100,8 +100,13 @@
 
   @include d-flex-align-center;
 
+  .nickname-wrapper {
+    gap: 0.5rem;
+    @include d-flex-center;
+  }
+
   .address-wrapper {
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
     @include d-flex-align-center;
 
     img {
@@ -119,6 +124,10 @@
       color: $white-90;
     }
   }
+
+  .links-wrapper {
+    margin-bottom: 2rem;
+  }
 }
 
 .container-see-more {
@@ -132,5 +141,32 @@
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  padding: 1.5rem 0 0;
+}
+
+.container-form {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: $white-100;
+  border-radius: 1rem;
+  padding: 2rem 3rem;
+
+  & > div {
+    width: 100%;
+    max-width: 400px;
+    gap: 1.5rem;
+    flex-direction: column;
+    margin: 0 auto;
+    @include d-flex-center;
+  }
+
+  & > button {
+    margin-top: 1.5rem auto;
+    padding: 1rem 2rem;
+    border: none;
+    background-color: $orange;
+    font-size: $f-sm;
+    color: $white-100;
+    border-radius: 1rem;
+  }
 }

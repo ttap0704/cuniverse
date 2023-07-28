@@ -28,6 +28,9 @@ ol {
 
 html {
   font-size: 14px !important;
+  @include deviceXS {
+    font-size: 13px !important;
+  }
   @include deviceM {
     font-size: 15px !important;
   }
