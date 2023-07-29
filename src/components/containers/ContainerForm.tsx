@@ -6,7 +6,6 @@ function ContainerForm(props: PropsWithChildren) {
   return (
     <div className="container-form">
       <div>{children}</div>
-      <button>저장</button>
     </div>
   );
 }

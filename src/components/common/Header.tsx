@@ -30,7 +30,7 @@ function Header() {
   const { mutate: logout } = useAccountLogoutMutation();
   const { data: account } = useAccountQuery();
 
-  const checkItem = (id: string | number) => {
+  const checkItem = (id: StringOrNumber) => {
     if (id == 2) {
       logout();
     } else {

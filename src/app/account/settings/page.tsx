@@ -1,19 +1,24 @@
 "use client";
 
+import LoadingSpinner from "@/components/common/LoadingSpinner";
 import ContainerForm from "@/components/containers/ContainerForm";
 import InputWithLabel from "@/components/inputs/InputWithLabel";
 import useAccountQuery from "@/queries/useAccountQuery";
-import { useEffect, useState } from "react";
+import useAccountUpdateMutation from "@/queries/useAccountUpdateMutation";
+import { setModalAlertAtom } from "@/store/modalAlert";
+import validations from "@/utils/validations";
+import { useSetAtom } from "jotai";
+import { useEffect, useRef, useState } from "react";
 
 const editKeys: UpdateAccountKeys[] = [
   "nickname",
   "description",
   "website",
-  "twitter",
+  "instagram",
   "youtube",
   "afreecatv",
-  "instagram",
   "twitch",
+  "twitter",
 ];
 const editKeysKR: { [key in UpdateAccountKeys]: string } = {
   nickname: "닉네임",
@@ -26,13 +31,47 @@ const editKeysKR: { [key in UpdateAccountKeys]: string } = {
   twitch: "트위치tv 링크",
 };
 
+const editValidations: {
+  [key in UpdateAccountKeys]: (text: StringOrNumber) => string;
+} = {
+  nickname: validations["nickname"],
+  description: () => "",
+  website: validations["webAddress"],
+  twitter: validations["webAddress"],
+  youtube: validations["webAddress"],
+  afreecatv: validations["webAddress"],
+  instagram: validations["webAddress"],
+  twitch: validations["webAddress"],
+};
+
 function AccountSettings() {
   const { data: account } = useAccountQuery();
+  const { mutate: updateAccount, isSuccess } = useAccountUpdateMutation();
+  const setModalAlert = useSetAtom(setModalAlertAtom);
+
   const [form, setForm] = useState<InputProps[]>([]);
+  const [isSetting, setIsSetting] = useState(true);
+
+  const updateAccountData = useRef<
+    { [key in UpdateAccountKeys]: { value: string; error: boolean } }
+  >({
+    nickname: { value: "", error: false },
+    description: { value: "", error: false },
+    website: { value: "", error: false },
+    twitter: { value: "", error: false },
+    youtube: { value: "", error: false },
+    afreecatv: { value: "", error: false },
+    instagram: { value: "", error: false },
+    twitch: { value: "", error: false },
+  });
 
   useEffect(() => {
-    if (account) setFormData();
+    if (account) setIsSetting(true), setFormData();
   }, [account]);
+
+  useEffect(() => {
+    if (isSuccess) openModalAlert();
+  }, [isSuccess]);
 
   const setFormData = () => {
     if (account) {
@@ -42,18 +81,55 @@ function AccountSettings() {
           id: `account-edit-${editKeys[i]}`,
           value: account[editKeys[i]] ?? "",
           type: editKeys[i] == "description" ? "textarea" : "text",
-          onChange: test,
+          onChange: (text: StringOrNumber, error: boolean) => {
+            const tmpUpdateData = { ...updateAccountData.current };
+            tmpUpdateData[editKeys[i]].value = `${text}`;
+            tmpUpdateData[editKeys[i]].error = error;
+            updateAccountData.current = { ...tmpUpdateData };
+          },
           dataKey: editKeys[i],
+          validation: editValidations[editKeys[i]],
         });
       }
 
       setForm([...tmpForm]);
+      setIsSetting(false);
     }
   };
 
-  const test = (text: string | number) => {
-    console.log(text);
+  const openModalAlert = () => {
+    setModalAlert({
+      open: true,
+      type: "success",
+      text: "프로필이 수정되었습니다.",
+    });
   };
+
+  const updateSettings = async () => {
+    if (account) {
+      const finalUpdateData: { [key: string]: string } = {};
+      for (let i = 0; i < editKeys.length; i++) {
+        const key = editKeys[i],
+          val = updateAccountData.current[key];
+        if (val.error) {
+          alert("정보를 올바르게 입력해주세요.");
+          return;
+        }
+
+        if (val.value.length != 0 && account[key] != val.value) {
+          finalUpdateData[key] = val.value;
+        }
+      }
+
+      if (Object.keys(finalUpdateData).length != 0) {
+        await updateAccount({ data: finalUpdateData });
+      } else {
+        openModalAlert();
+      }
+    }
+  };
+
+  if (isSetting) return <LoadingSpinner />;
 
   return (
     <ContainerForm>
@@ -67,9 +143,11 @@ function AccountSettings() {
             type={data.type}
             key={data.id}
             dataKey={data.dataKey}
+            validation={data.validation}
           />
         );
       })}
+      <button onClick={updateSettings}>저장</button>
     </ContainerForm>
   );
 }

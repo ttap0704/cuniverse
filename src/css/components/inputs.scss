@@ -19,13 +19,27 @@
   width: 100%;
   padding: 0.75rem;
   border-radius: 0.75rem;
+  border-style: solid;
   border-width: 1px;
   border-color: $black-30;
   background-color: $white-100;
   font-size: $f-sm;
   resize: vertical;
 
+  &.textarea {
+    height: 100px;
+  }
+
+  &.error {
+    border-color: $red;
+  }
+
   &:focus {
     border-color: $black-50;
   }
+}
+
+.input-error-message {
+  font-size: $f-xs;
+  color: $red;
 }

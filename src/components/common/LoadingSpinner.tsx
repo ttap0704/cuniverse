@@ -15,7 +15,7 @@ function LoadingSpinner() {
             <stop stopColor="#fff" offset="100%"></stop>
           </linearGradient>
         </defs>
-        <g transform="translate(1 1)" fill="none" fill-rule="evenodd">
+        <g transform="translate(1 1)" fill="none" fillRule="evenodd">
           <path
             d="M36 18c0-9.94-8.06-18-18-18"
             stroke="url(#tail-spin_svg__a)"

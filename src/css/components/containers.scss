@@ -150,6 +150,8 @@
   background-color: $white-100;
   border-radius: 1rem;
   padding: 2rem 3rem;
+  flex-direction: column;
+  @include d-flex-center;
 
   & > div {
     width: 100%;
@@ -158,15 +160,14 @@
     flex-direction: column;
     margin: 0 auto;
     @include d-flex-center;
-  }
 
-  & > button {
-    margin-top: 1.5rem auto;
-    padding: 1rem 2rem;
-    border: none;
-    background-color: $orange;
-    font-size: $f-sm;
-    color: $white-100;
-    border-radius: 1rem;
+    & > button {
+      padding: 1rem 2rem;
+      border: none;
+      background-color: $orange;
+      font-size: $f-sm;
+      color: $white-100;
+      border-radius: 1rem;
+    }
   }
 }

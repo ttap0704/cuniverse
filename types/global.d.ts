@@ -83,7 +83,7 @@ declare global {
 
   // Dropdown Menu Items Interface
   interface DropdownMenuItem {
-    id: string | number;
+    id: StringOrNumber;
     label: string;
     icon?: React.ReactNode;
   }
@@ -116,10 +116,13 @@ declare global {
   interface InputProps {
     id: string;
     dataKey: string;
-    value: string | number;
+    value: StringOrNumber;
     type: "text" | "number" | "textarea";
-    onChange: (text: string | number) => void;
-    validation?: (text: string | number) => string;
+    onChange: (text: StringOrNumber, error: boolean) => void;
+    validation?: (text: StringOrNumber) => string;
     errorMessage?: string;
   }
+
+  // 문자열 또는 숫자
+  type StringOrNumber = StringOrNumber;
 }

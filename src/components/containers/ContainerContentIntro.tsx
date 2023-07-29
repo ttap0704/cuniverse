@@ -20,7 +20,6 @@ function ContainerContentIntro() {
     if (account) {
       const tmpLinks: PlatformLinkWithHref[] = [];
       for (let i = 0; i < PLATFORM_LINKS.length; i++) {
-        console.log(account[PLATFORM_LINKS[i].platform]);
         if (account[PLATFORM_LINKS[i].platform])
           tmpLinks.push({
             ...PLATFORM_LINKS[i],

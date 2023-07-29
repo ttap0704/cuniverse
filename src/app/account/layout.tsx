@@ -21,7 +21,6 @@ const tabsItems: TabsMenuItem[] = [
 function AccountLayout({ children }: { children: React.ReactNode }) {
   const { data: account } = useAccountQuery();
   const pathname = usePathname();
-  console.log(pathname);
 
   if (["/account/settings"].includes(pathname)) return <>{children}</>;
 

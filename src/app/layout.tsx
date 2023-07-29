@@ -6,6 +6,7 @@ import ProviderQueryClient from "@/components/providers/ProviderQueryClient";
 import ProviderAuth from "@/components/providers/ProviderAuth";
 import { Noto_Sans_KR } from "next/font/google";
 import Tooltip from "@/components/common/Tooltip";
+import ModalAlert from "@/components/modals/ModalAlert";
 
 const notnSansKR = Noto_Sans_KR({
   subsets: ["latin"],
@@ -33,6 +34,7 @@ export default function RootLayout({
           </ProviderAuth>
         </ProviderQueryClient>
         <Tooltip />
+        <ModalAlert />
       </body>
     </html>
   );

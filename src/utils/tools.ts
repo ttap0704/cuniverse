@@ -62,3 +62,9 @@ export function setCookieExpireInClient(name: string) {
 export function getShortAddress(address: string) {
   return address.slice(0, 6) + "..." + address.slice(address.length - 4);
 }
+
+// 글자수 체크 return string
+export function checkMaxLength(length: StringOrNumber, text: string) {
+  if (Number(length) < text.length) return `${length}자 이하로 입력해주세요.`;
+  return "";
+}
