@@ -7,7 +7,8 @@
 @import "./components/inputs.scss";
 @import "./components/containers.scss";
 @import "./components/boxes.scss";
-@import "./components//typography.scss";
+@import "./components/typography.scss";
+@import "./components/modals.scss";
 
 * {
   padding: 0;
@@ -20,6 +21,11 @@
   }
 }
 
+a {
+  color: $black-100;
+  text-decoration: none;
+}
+
 ul,
 li,
 ol {
@@ -28,6 +34,9 @@ ol {
 
 html {
   font-size: 14px !important;
+  @include deviceXS {
+    font-size: 13px !important;
+  }
   @include deviceM {
     font-size: 15px !important;
   }

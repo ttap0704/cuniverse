@@ -6,7 +6,7 @@
   background-color: $white-90;
   color: $black-100;
   font-weight: $semibold;
-  border: 1px solid $white-90;
+  border: 1px solid $black-10;
   height: 100%;
   border-radius: 3rem;
   font-size: $f-sm;
@@ -77,6 +77,12 @@
 .button-see-more {
   background-color: transparent;
   border: none;
-  height: 2rem;
+  height: 3rem;
   font-weight: $semibold;
+  color: $white-80;
+
+  svg {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
 }

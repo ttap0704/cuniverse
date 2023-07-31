@@ -5,7 +5,7 @@ import ButtonDropdownMenuItem from "../buttons/ButtonDropdownMenuItem";
 
 interface DropdownMenuProps {
   items: DropdownMenuItem[];
-  onItemClicked: (id: string | number) => void;
+  onItemClicked: (id: StringOrNumber) => void;
   targetId: string;
 }
 
@@ -15,7 +15,7 @@ function DropdownMenu(props: DropdownMenuProps) {
   const onItemClicked = props.onItemClicked;
   const targetId = props.targetId;
 
-  const dropdownClicked = (id: number | string) => {
+  const dropdownClicked = (id: StringOrNumber) => {
     onItemClicked(id);
 
     // Dropdown의 아이템이 클릭되면 닫힘

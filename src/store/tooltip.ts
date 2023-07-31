@@ -1,5 +1,4 @@
 import { atom } from "jotai";
-import { MutableRefObject, Ref } from "react";
 
 interface Tooltip {
   open: boolean;

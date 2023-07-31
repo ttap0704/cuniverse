@@ -2,7 +2,7 @@ import React from "react";
 
 interface DropdownMenuItemProps {
   item: DropdownMenuItem;
-  onClick: (id: string | number) => void;
+  onClick: (id: StringOrNumber) => void;
 }
 
 function ButtonDropdownMenuItem(props: DropdownMenuItemProps) {

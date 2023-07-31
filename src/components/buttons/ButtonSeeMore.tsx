@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 
 interface ButtonSeeMoreProps {
   onClick: (view: boolean) => void;
@@ -18,7 +19,7 @@ function ButtonSeeMore(props: ButtonSeeMoreProps) {
 
   return (
     <button className="button-see-more" onClick={handleButton}>
-      {!view ? "SEE MORE" : "SEE LESS"}
+      {!view ? <FiChevronDown /> : <FiChevronUp />}
     </button>
   );
 }

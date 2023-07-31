@@ -33,7 +33,7 @@
     "react-dom": "18.2.0",
     "react-icons": "^4.10.1",
     "serverless-mysql": "^1.5.5",
-    "supports-color": "^9.4.0",
+    "supports-color": "^8.1.1",
     "utf-8-validate": "^6.0.3",
     "web3": "^4.0.3",
     "web3-token": "^1.0.6"
@@ -42,6 +42,7 @@
     "@babel/core": "^7.22.9",
     "@babel/preset-env": "^7.22.9",
     "@babel/preset-typescript": "^7.22.5",
+    "@next/bundle-analyzer": "^13.4.12",
     "@testing-library/dom": "^9.3.1",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^14.0.0",

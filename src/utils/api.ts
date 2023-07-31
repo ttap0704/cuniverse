@@ -2,6 +2,7 @@ import Web3 from "web3";
 import { SERVER_NAME } from "../../../next-react-state-management/constants";
 import { S3_IMAGES_URL } from "../../constants";
 import { OwnedNftsResponse } from "alchemy-sdk";
+import { uploadImageToS3 } from "./tools";
 
 function setHeader() {
   const headers: { [key: string]: string } = {
@@ -11,10 +12,11 @@ function setHeader() {
   return headers;
 }
 
-async function fetchGetApi(url: string) {
+async function fetchGetApi(url: string, options?: RequestInit) {
   const res = await fetch(`${SERVER_NAME}/api${url}`, {
     method: "GET",
     headers: { ...setHeader() },
+    ...options,
   });
 
   const data: APIResponse = await res.json();
@@ -25,11 +27,12 @@ async function fetchGetApi(url: string) {
   return data.data;
 }
 
-async function fetchPostApi(body: object, url: string) {
+async function fetchPostApi(body: object, url: string, options?: RequestInit) {
   const res = await fetch(`${SERVER_NAME}/api${url}`, {
     method: "POST",
     headers: { ...setHeader() },
     body: JSON.stringify({ time: new Date().toISOString(), data: body }),
+    ...options,
   });
 
   const data: APIResponse = await res.json();
@@ -40,11 +43,12 @@ async function fetchPostApi(body: object, url: string) {
   return data.data;
 }
 
-async function fetchPutApi(body: object, url: string) {
+async function fetchPutApi(body: object, url: string, options?: RequestInit) {
   const res = await fetch(`${SERVER_NAME}/api${url}`, {
     method: "PUT",
     headers: { ...setHeader() },
     body: JSON.stringify({ time: new Date().toISOString(), data: body }),
+    ...options,
   });
 
   const data: APIResponse = await res.json();
@@ -55,10 +59,11 @@ async function fetchPutApi(body: object, url: string) {
   return data.data;
 }
 
-async function fetchDeleteApi(url: string) {
+async function fetchDeleteApi(url: string, options?: RequestInit) {
   const res = await fetch(`${SERVER_NAME}/api${url}`, {
     method: "DELETE",
     headers: { ...setHeader() },
+    ...options,
   });
 
   const data: APIResponse = await res.json();
@@ -75,9 +80,22 @@ export async function fetchUpdateAccount(body: { data: UpdateAccountRequest }) {
   return res;
 }
 
+// Account Image Upload API
+export async function fetchAccountImageUpload(body: {
+  image: File;
+  key: string;
+}) {
+  const bannerImage = await uploadImageToS3(body.image);
+  const res = await fetchUpdateAccount({ data: { [body.key]: bannerImage } });
+  return res;
+}
+
 // Get Account Info API
 export async function fetchGetAccountInfo() {
-  const res: AccountInfoReponse | null = await fetchGetApi("/accounts");
+  const res: AccountInfoReponse | null = await fetchGetApi("/accounts", {
+    cache: "no-store",
+    credentials: "include",
+  });
   let finalResponse: Account | null = null;
 
   // 유저가 있다면 Query Key ['account'] 최종 업데이트
@@ -99,8 +117,6 @@ export async function fetchGetAccountInfo() {
       }),
     };
   }
-
-  console.log("finalResponse:", finalResponse);
 
   return finalResponse;
 }

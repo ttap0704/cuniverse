@@ -31,10 +31,22 @@ declare global {
     website: string | null;
     twitter: string | null;
     youtube: string | null;
-    africa: string | null;
+    afreecatv: string | null;
     instagram: string | null;
+    twitch: string | null;
     created_at: string;
   }
+
+  // Account Info 수정가능 Keys
+  type UpdateAccountKeys =
+    | "nickname"
+    | "description"
+    | "website"
+    | "twitter"
+    | "youtube"
+    | "afreecatv"
+    | "instagram"
+    | "twitch";
 
   // Account Info 수정 Request Body
   interface UpdateAccountRequest {
@@ -45,8 +57,9 @@ declare global {
     website?: string;
     twitter?: string;
     youtube?: string;
-    africa?: string;
+    afreecatv?: string;
     instagram?: string;
+    twitch?: string;
   }
 
   // Account 공통 Interface
@@ -70,7 +83,7 @@ declare global {
 
   // Dropdown Menu Items Interface
   interface DropdownMenuItem {
-    id: string | number;
+    id: StringOrNumber;
     label: string;
     icon?: React.ReactNode;
   }
@@ -82,4 +95,34 @@ declare global {
     path: string;
     includePath?: string;
   }
+
+  // 유저/스마트 컨트랙트 소개 플랫폼
+  type Platforms =
+    | "youtube"
+    | "twitter"
+    | "afreecatv"
+    | "website"
+    | "instagram"
+    | "twitch";
+  interface PlatformLink {
+    platform: Platforms;
+    icon: React.ReactNode;
+  }
+  interface PlatformLinkWithHref extends PlatformLink {
+    href: string;
+  }
+
+  // Input 공통 Interface
+  interface InputProps {
+    id: string;
+    dataKey: string;
+    value: StringOrNumber;
+    type: "text" | "number" | "textarea";
+    onChange: (text: StringOrNumber, error: boolean) => void;
+    validation?: (text: StringOrNumber) => string;
+    errorMessage?: string;
+  }
+
+  // 문자열 또는 숫자
+  type StringOrNumber = StringOrNumber;
 }

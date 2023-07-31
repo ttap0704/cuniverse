@@ -6,6 +6,7 @@ import useAccountQuery from "@/queries/useAccountQuery";
 import { DEFAULT_BANNER, DEFAULT_PROFILE } from "../../../constants";
 import ContainerContentIntro from "@/components/containers/ContainerContentIntro";
 import Tabs from "@/components/common/Tabs";
+import { usePathname } from "next/navigation";
 
 const tabsItems: TabsMenuItem[] = [
   {
@@ -19,8 +20,9 @@ const tabsItems: TabsMenuItem[] = [
 
 function AccountLayout({ children }: { children: React.ReactNode }) {
   const { data: account } = useAccountQuery();
+  const pathname = usePathname();
 
-  console.log("AccountLayout:", account);
+  if (["/account/settings"].includes(pathname)) return <>{children}</>;
 
   return (
     <>

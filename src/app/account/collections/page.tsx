@@ -1,16 +1,24 @@
 "use client";
 
 import BoxNFTPreview from "@/components/boxes/BoxNFTPreview";
+import BoxNotice from "@/components/boxes/BoxNotice";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
 import ContainerNFTContents from "@/components/containers/ContainerNFTContents";
 import useAccountNFTsQuery from "@/queries/useAccountNFTsQuery";
 import useAccountQuery from "@/queries/useAccountQuery";
 
 function AccountCollections() {
-  const { data: account } = useAccountQuery();
-  const { data: nfts } = useAccountNFTsQuery(account?.id);
+  const { data: account, isLoading: accountLoading } = useAccountQuery();
+  const { data: nfts, isLoading: nftsLoading } = useAccountNFTsQuery(
+    account?.id
+  );
+
+  if (accountLoading || nftsLoading) {
+    return <LoadingSpinner />;
+  }
 
   if (!nfts || nfts.ownedNfts.length == 0) {
-    return <>No Items</>;
+    return <BoxNotice text="No Items" />;
   } else {
     return (
       <ContainerNFTContents>

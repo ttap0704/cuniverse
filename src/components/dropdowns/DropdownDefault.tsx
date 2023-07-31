@@ -32,16 +32,18 @@ function DropdownDefault(props: DropdownDefaultProps) {
       // 아이디를 통해 Dropdown 위치 정하기
       const el = document.getElementById(id);
       if (el && targetId == id) {
-        const rightOffset = window.innerWidth - el.offsetLeft - el.clientWidth,
-          leftOffset = el.offsetLeft;
+        const rect = el.getBoundingClientRect();
+
+        const rightOffset = window.innerWidth - rect.left - rect.width,
+          leftOffset = rect.left;
 
         setDropdownOpen(true);
         setOffset({
-          top: el.offsetTop, // 선택된 Element 8px 아래에 위치
-          right: window.innerWidth - el.offsetLeft - el.clientWidth, // 선택된 Element의 오른쪽 기준
+          top: rect.top, // 선택된 Element 8px 아래에 위치
+          right: window.innerWidth - rect.left - rect.width, // 선택된 Element의 오른쪽 기준
           left: leftOffset, // 선택된 Element의 왼쪽 기준
           side: window.innerWidth / 2 < rightOffset ? "left" : "right", // right가 innerWidth의 반 이상이라면 left로 offset설정
-          padding: el.clientHeight + 8,
+          padding: rect.height + 8,
         });
 
         setTimeout(() => {
