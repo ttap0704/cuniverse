@@ -1,7 +1,7 @@
 import Web3 from "web3";
 import { SERVER_NAME } from "../../../next-react-state-management/constants";
 import { S3_IMAGES_URL } from "../../constants";
-import { OwnedNftsResponse } from "alchemy-sdk";
+import { Nft, OwnedNftsResponse } from "alchemy-sdk";
 import { uploadImageToS3 } from "./tools";
 
 function setHeader() {
@@ -127,9 +127,19 @@ export async function fetchUploadS3(body: object) {
   return res;
 }
 
+// 사용자 NFT Collection List
 export async function fetchGetAccountNFTs() {
   const res: OwnedNftsResponse | null = await fetchGetApi(
     "/accounts/collections"
+  );
+  return res;
+}
+
+// NFT Metadata API
+export async function fetchGetNFTMetadata(address: string, tokenId: string) {
+  const res: NFTDetail | null = await fetchGetApi(
+    `/assets?address=${address}&tokenId=${tokenId}`,
+    { cache: "no-store" }
   );
   return res;
 }

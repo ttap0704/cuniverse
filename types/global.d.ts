@@ -1,4 +1,5 @@
 import type { MetaMaskInpageProvider } from "@metamask/providers";
+import { GetOwnersForNftResponse, Nft, NftAttributeRarity } from "alchemy-sdk";
 import React from "react";
 
 declare global {
@@ -125,4 +126,11 @@ declare global {
 
   // 문자열 또는 숫자
   type StringOrNumber = StringOrNumber;
+
+  // NFT Detail
+  interface NFTDetail extends Nft {
+    attributes: NftAttributeRarity[];
+    owners: { nickname: string; address: string };
+    deployer: { nickname: string; address: string };
+  }
 }

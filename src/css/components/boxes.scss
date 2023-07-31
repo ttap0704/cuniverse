@@ -78,3 +78,11 @@
 
   @include d-flex-center;
 }
+
+.box-white {
+  padding: 3rem;
+  border-radius: 2rem;
+  background-color: $white-100;
+
+  @include d-flex-center;
+}

@@ -171,3 +171,42 @@
     }
   }
 }
+
+// NFT Detail 소개 컨테이너
+.container-nft-detail-intro {
+  display: flex;
+  gap: 2rem;
+
+  @media (max-width: $break_l - 1) {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  & > div {
+    &:first-of-type {
+      width: calc(100vw - 64px);
+      height: calc(100vw - 64px);
+      max-width: 400px;
+      max-height: 400px;
+      position: relative;
+      border-radius: 2rem;
+      overflow: hidden;
+    }
+
+    &:nth-child(2) {
+      width: 100%;
+      display: flex;
+      align-items: flex-start;
+      flex-direction: column;
+
+      & > div {
+        display: flex;
+
+        & > div {
+          width: 50%;
+        }
+      }
+    }
+  }
+}
