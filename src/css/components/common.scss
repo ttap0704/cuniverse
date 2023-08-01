@@ -1,6 +1,7 @@
 @import "../mixins.scss";
 @import "../variables.scss";
 
+// 헤더
 #header {
   position: fixed;
   height: 4rem;
@@ -31,6 +32,7 @@
   }
 }
 
+// 툴팁
 .tooltip-wrapper {
   z-index: 9999;
   position: fixed;
@@ -48,6 +50,7 @@
   }
 }
 
+// Tabs
 .tabs-wrapper {
   width: 100%;
   height: 4rem;
@@ -80,6 +83,7 @@
   }
 }
 
+// 아이콘 사용하는 링크
 .icon-link {
   padding: 0.5rem;
   display: inline-flex;
@@ -93,6 +97,7 @@
   }
 }
 
+// 로딩
 .loading-water-drop {
   width: 100%;
   height: 100%;
@@ -102,11 +107,45 @@
   @include d-flex-center;
 }
 
+// 로딩
 .loading-spinner {
   width: 100%;
   height: 100%;
   min-height: 300px;
   position: relative;
 
+  @include d-flex-center;
+}
+
+// 구분선
+.divider {
+  width: 100%;
+  margin: 2rem 0;
+  background-color: $black-20;
+  height: 1px;
+}
+
+// 잘못된 접근 View
+.wrong-approach {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 500px;
+  flex-direction: column;
+  background-color: $white-100;
+  border-radius: 2rem;
+  gap: 2rem;
+
+  p {
+    font-size: 2rem;
+    font-weight: $semibold;
+  }
+
+  a {
+    font-size: $f-m;
+    text-decoration: underline;
+  }
   @include d-flex-center;
 }

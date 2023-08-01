@@ -1,5 +1,6 @@
 import type { MetaMaskInpageProvider } from "@metamask/providers";
 import { GetOwnersForNftResponse, Nft, NftAttributeRarity } from "alchemy-sdk";
+import { Account } from "aws-sdk";
 import React from "react";
 
 declare global {
@@ -70,6 +71,10 @@ declare global {
     createdAt: string;
   }
 
+  // Collector 공통 Type
+  // Collector는 balance를 가져올 필요없음 => Web3 사용하지 않아도 됨
+  type Collector = Omit<Account, "balance">;
+
   // Button 공통 Interface
   interface InterfaceButton {
     children: React.ReactNode;
@@ -132,5 +137,7 @@ declare global {
     attributes: NftAttributeRarity[];
     owners: { nickname: string; address: string };
     deployer: { nickname: string; address: string };
+    moreNFTs: Nft[];
+    sale: { end_time: string; price: number } | null;
   }
 }

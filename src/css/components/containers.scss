@@ -132,6 +132,13 @@
 
 .container-see-more {
   flex-direction: column;
+
+  & > p,
+  div {
+    overflow: hidden;
+    white-space: pre-wrap;
+    @include transition-03;
+  }
   @include d-flex-center;
 }
 
@@ -145,7 +152,7 @@
 
 .container-form {
   width: 100%;
-  max-width: 600px;
+  max-width: 550px;
   margin: 0 auto;
   background-color: $white-100;
   border-radius: 1rem;
@@ -173,39 +180,205 @@
 }
 
 // NFT Detail 소개 컨테이너
-.container-nft-detail-intro {
-  display: flex;
-  gap: 2rem;
+#container-nft-detail {
+  width: calc(100% - 420px - 30px);
+  background-color: $white-100;
+  border-radius: 2rem;
+  overflow: hidden;
+  padding: 0 2rem;
 
-  @media (max-width: $break_l - 1) {
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
+  .button-see-more {
+    color: $black-80;
   }
 
-  & > div {
-    &:first-of-type {
-      width: calc(100vw - 64px);
-      height: calc(100vw - 64px);
-      max-width: 400px;
-      max-height: 400px;
+  @include deviceL {
+    width: calc(100% - 370px - 30px);
+  }
+
+  @media (max-width: $break_l - 1) {
+    width: 100%;
+  }
+
+  .container-see-more {
+    align-items: flex-start;
+  }
+
+  .container-nft-detail-intro {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    @media (max-width: $break_l - 1) {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    & > .nft-detail-image-wrapper {
+      width: calc((100vw - 64px) - (450px - 1rem));
+      height: calc((100vw - 64px) - (450px - 1rem));
+      max-width: 600px;
+      max-height: 600px;
       position: relative;
       border-radius: 2rem;
       overflow: hidden;
+      margin: 2rem 0;
+
+      @include deviceL {
+        max-width: 472px;
+        max-height: 472px;
+        width: calc((100vw - 64px) - (400px - 1rem));
+        height: calc((100vw - 64px) - (400px - 1rem));
+      }
+
+      @media (max-width: $break_l - 1) {
+        width: calc((100vw - 64px - 4rem));
+        height: calc((100vw - 64px - 4rem));
+      }
     }
 
-    &:nth-child(2) {
-      width: 100%;
-      display: flex;
+    & > .box-white {
+      width: 420px;
+      position: fixed;
+      right: 32px;
+
+      @include deviceL {
+        width: 370px;
+      }
+
+      // 마지막 Divider 가시성 처리
+      & > div:last-of-type {
+        display: none;
+      }
+
+      @media (max-width: $break_l - 1) {
+        position: relative;
+        right: unset;
+        width: 100%;
+        padding: 0;
+
+        // 마지막 Divider 가시성 처리
+        & > div:last-of-type {
+          display: block;
+        }
+      }
+      display: inline-flex;
       align-items: flex-start;
       flex-direction: column;
+      justify-content: flex-start;
+      height: auto;
 
-      & > div {
+      h1 {
+        margin-bottom: 1rem;
+      }
+
+      & > .info-box {
+        width: 100%;
         display: flex;
 
         & > div {
           width: 50%;
+          h4 {
+            margin-bottom: 0.25rem;
+            color: $black-50;
+          }
         }
+      }
+
+      & > .sale-box {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+
+        & > div {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          gap: 0.25rem;
+
+          span {
+            &:first-of-type {
+              color: $black-50;
+              font-size: $f-sm;
+            }
+            &:last-of-type {
+              font-weight: $semibold;
+
+              font-size: $f-xl;
+            }
+          }
+
+          @media (max-width: $break_l - 1) {
+            gap: 1rem;
+            flex-direction: row;
+            align-items: flex-end;
+          }
+        }
+
+        button {
+          width: 100%;
+          height: 3rem;
+          border-radius: 1rem;
+          background-color: $light-pink;
+          border: 1px solid $light-pink;
+          color: $white-100;
+          font-size: $f-m;
+        }
+      }
+    }
+  }
+
+  .nft-attributes {
+    & > div {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+
+      & > div {
+        width: calc(50% - 0.25rem);
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        background-color: rgba(18, 18, 18, 0.04);
+        border-radius: 1rem;
+        overflow: hidden;
+
+        @include deviceL {
+          width: 100%;
+        }
+
+        @include deviceXS {
+          width: 100%;
+        }
+
+        .trait {
+          color: $black-100;
+          font-weight: $semibold;
+        }
+
+        .value {
+          display: flex;
+          justify-content: space-between;
+        }
+      }
+    }
+  }
+
+  .more-nfts {
+    width: 100%;
+    background-color: rgba(18, 18, 18, 0.04);
+    overflow-y: auto;
+    padding: 1rem;
+    display: flex;
+    border-radius: 1rem;
+
+    & > div {
+      display: flex;
+      gap: 1rem;
+      .box-nft-preview {
+        width: 300px;
+        height: calc(300px * 1.25);
       }
     }
   }

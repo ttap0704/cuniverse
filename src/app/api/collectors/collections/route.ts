@@ -4,8 +4,10 @@ import alchemy from "@/utils/alchemy";
 import { OwnedNftsResponse } from "alchemy-sdk";
 
 export async function GET(request: NextRequest) {
-  // 인증 토큰 조회
-  const address = cookies().get("wallet-address")?.value;
+  const url = new URL(request.url);
+  const searchParams = new URLSearchParams(url.search);
+  const address = searchParams.get("address");
+
   let pass = false,
     message = "",
     data: OwnedNftsResponse | null = null;

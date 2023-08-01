@@ -1,3 +1,5 @@
+"use client";
+
 import useAccountQuery from "@/queries/useAccountQuery";
 import TypographyContentTitle from "../typography/TypographyContentTitle";
 import TypographyContentDescription from "../typography/TypographyContentDescription";
@@ -11,9 +13,17 @@ import { useEffect, useState } from "react";
 import { PLATFORM_LINKS } from "../../../constants";
 import { FaGear } from "react-icons/fa6";
 import LoadingSpinner from "../common/LoadingSpinner";
+import useCollectorQuery from "@/queries/useCollectorQuery";
 
-function ContainerContentIntro() {
-  const { data: account, isLoading } = useAccountQuery();
+interface ContainerContentIntroProps {
+  address?: string;
+}
+
+function ContainerContentIntro(props: ContainerContentIntroProps) {
+  const address = props.address;
+  const { data: account, isLoading } = address
+    ? useCollectorQuery(address)
+    : useAccountQuery();
   const [links, setLinks] = useState<PlatformLinkWithHref[]>([]);
 
   useEffect(() => {
@@ -38,12 +48,14 @@ function ContainerContentIntro() {
         <TypographyContentTitle
           title={account?.nickname ? account.nickname : "Unnamed"}
         />
-        <IconLink
-          href="/account/settings"
-          icon={<FaGear />}
-          target="_self"
-          tooltipText="프로필 수정"
-        />
+        {address ? null : (
+          <IconLink
+            href="/account/settings"
+            icon={<FaGear />}
+            target="_self"
+            tooltipText="프로필 수정"
+          />
+        )}
       </div>
       <div className="address-wrapper">
         <Image src={etherSvg} alt="ethereum-logo" width={16} height={16} />
@@ -58,7 +70,7 @@ function ContainerContentIntro() {
         {links.map((link, linkIdx) => {
           return (
             <IconLink
-              key={`icon_link_${linkIdx}`}
+              key={`icon-link-${linkIdx}`}
               href={link.href}
               icon={link.icon}
               tooltipText={link.platform}

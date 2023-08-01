@@ -1,9 +1,19 @@
 import { PropsWithChildren } from "react";
 
-function BoxWhite(props: PropsWithChildren) {
-  const children = props.children;
+interface BoxWhiteProps extends PropsWithChildren {
+  title?: string;
+}
 
-  return <div className="box-white">{children}</div>;
+function BoxWhite(props: BoxWhiteProps) {
+  const children = props.children;
+  const title = props.title;
+
+  return (
+    <div className="box-white">
+      {title ? <h3></h3> : null}
+      {children}
+    </div>
+  );
 }
 
 export default BoxWhite;

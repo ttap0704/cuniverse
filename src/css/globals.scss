@@ -85,6 +85,13 @@ button {
   box-shadow: none;
   outline: none;
   cursor: pointer;
+
+  &:disabled {
+    border-color: $black-10 !important;
+    background-color: $black-10 !important;
+    color: $black-30 !important;
+    cursor: inherit;
+  }
 }
 
 .triangle-bottom-small {

@@ -121,6 +121,42 @@ export async function fetchGetAccountInfo() {
   return finalResponse;
 }
 
+// Get Collector Info API
+export async function fetchGetCollectorInfo(address: string) {
+  const res: AccountInfoReponse | null = await fetchGetApi(
+    `/collectors?address=${address}`,
+    {
+      cache: "no-store",
+    }
+  );
+  let finalResponse: Collector | null = null;
+
+  // 유저가 있다면 Query Key ['collector'] 최종 업데이트
+  if (res) {
+    finalResponse = {
+      ...res,
+      banner: res.banner ? `${S3_IMAGES_URL}/images/${res.banner}` : res.banner,
+      profile: res.profile
+        ? `${S3_IMAGES_URL}/images/${res.profile}`
+        : res.profile,
+      createdAt: new Date(res.created_at).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+      }),
+    };
+  }
+
+  return finalResponse;
+}
+
+// 사용자 NFT Collection List
+export async function fetchGetCollectorNFTs(address: string) {
+  const res: OwnedNftsResponse | null = await fetchGetApi(
+    `/collectors/collections?address=${address}`
+  );
+  return res;
+}
+
 // S3 이미지 업로드 권한 취득 API
 export async function fetchUploadS3(body: object) {
   const res: string = await fetchPostApi(body, "/image/upload");

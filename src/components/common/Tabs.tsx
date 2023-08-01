@@ -13,7 +13,7 @@ function Tabs(props: TabsProps) {
     <ul className="tabs-wrapper">
       {items.map((item) => {
         return (
-          <li key={`tabs_item_${item.id}`}>
+          <li key={`tabs-item-${item.id}`}>
             <button
               onClick={() => router.push(item.path)}
               className={

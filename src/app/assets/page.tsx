@@ -1,7 +1,7 @@
-import ContainerNFTDetailIntro from "@/components/containers/ContainerNFTDetailIntro";
 import { fetchGetNFTMetadata } from "@/utils/api";
 import { use } from "react";
-import { DEFAULT_PROFILE } from "../../../constants";
+import ContainerNFTDetail from "@/components/containers/ContainerNFTDetail";
+import WrongApproach from "@/components/common/WrongApproach";
 
 function AssetsIndex({
   searchParams,
@@ -14,22 +14,9 @@ function AssetsIndex({
   const data = use(fetchGetNFTMetadata(address, tokenId));
 
   if (!data) {
-    return <div>잘모댄접근</div>;
+    return <WrongApproach />;
   } else {
-    return (
-      <div>
-        <ContainerNFTDetailIntro
-          deployer={data.deployer}
-          contract={{
-            address: data.contract.address,
-            title: data.contract.name ?? "",
-          }}
-          image={data.rawMetadata?.image ?? DEFAULT_PROFILE}
-          owner={data.owners}
-          name={data.rawMetadata?.name ?? data.tokenId}
-        />
-      </div>
-    );
+    return <ContainerNFTDetail {...data}></ContainerNFTDetail>;
   }
 }
 

@@ -60,6 +60,7 @@ export function setCookieExpireInClient(name: string) {
 
 // wallet/contract adderss 줄이기
 export function getShortAddress(address: string) {
+  if (address.length <= 6) return address;
   return address.slice(0, 6) + "..." + address.slice(address.length - 4);
 }
 

@@ -1,100 +1,86 @@
 import { NextRequest, NextResponse } from "next/server";
 import alchemy from "@/utils/alchemy";
-import { NftAttributeRarity } from "alchemy-sdk";
+import { NftAttributeRarity, NftContractNftsResponse } from "alchemy-sdk";
 import db from "../db";
 
 export async function GET(request: NextRequest) {
   const url = new URL(request.url);
-  const search_params = new URLSearchParams(url.search);
-  const address = search_params.get("address");
-  const tokenId = BigInt(Number(search_params.get("tokenId")));
+  const searchParams = new URLSearchParams(url.search);
+  const address = searchParams.get("address");
+  const tokenId = BigInt(Number(searchParams.get("tokenId")));
   let pass = false,
     message = "",
     data: NFTDetail | null = null;
 
-  if (address && tokenId) {
-    pass = true;
-
+  if (address && tokenId >= 0) {
     const metadata = await alchemy.nft.getNftMetadata(address, tokenId);
-    // computeRarity는 아직 Test Net 지원 X
-    // 임시데이터 활용하여 테스트 진행
-    // const attributes= await alchemy.nft.computeRarity(address, tokenId);
-    const attributes: NftAttributeRarity[] = [
-      {
-        traitType: "Background",
-        value: "Green Orange",
-        prevalence: 0.0303,
-      },
-      {
-        traitType: "Skin Tone",
-        value: "Medium Gold",
-        prevalence: 0.0294,
-      },
-      {
-        traitType: "Eyes",
-        value: "Green To The Left",
-        prevalence: 0.0128,
-      },
-      {
-        traitType: "Facial Features",
-        value: "Freckles",
-        prevalence: 0.0189,
-      },
-      {
-        traitType: "Hairstyle",
-        value: "Boy Cut",
-        prevalence: 0.017,
-      },
-      {
-        traitType: "Clothes",
-        value: "Tunic",
-        prevalence: 0.0062,
-      },
-      {
-        traitType: "Earrings",
-        value: "Spikes",
-        prevalence: 0.0249,
-      },
-      {
-        traitType: "Mouth",
-        value: "Slight Smile",
-        prevalence: 0.0547,
-      },
-      {
-        traitType: "Lips Color",
-        value: "Purple",
-        prevalence: 0.0619,
-      },
-    ];
+    if (
+      metadata.rawMetadata &&
+      metadata.rawMetadata.image &&
+      metadata.rawMetadata.image.includes("ipfs://")
+    ) {
+      metadata.rawMetadata.image = metadata.rawMetadata.image.replace(
+        "ipfs://",
+        "https://ipfs.io/ipfs/"
+      );
+    }
 
-    const ownersResponse = await alchemy.nft.getOwnersForNft(address, tokenId);
+    // 잘못된 콘트랙트 주소로 요청시에는 data = null
+    if (metadata.tokenType != "NOT_A_CONTRACT") {
+      // const attributes = await alchemy.nft.computeRarity(address, tokenId);
+      const attributes: NftAttributeRarity[] = [];
 
-    const owners: { nickname: string; address: string }[] = await db.query({
-      sql: "SELECT nickname, address FROM accounts WHERE address IN (?);",
-      values: [ownersResponse.owners],
-    });
+      const ownersResponse = await alchemy.nft.getOwnersForNft(
+        address,
+        tokenId,
+        {}
+      );
 
-    console.log(
-      "metadata.contract.contractDeployer:",
-      metadata.contract.contractDeployer
-    );
-    const deployer: { nickname: string; address: string }[] = await db.query({
-      sql: "SELECT nickname, address FROM accounts WHERE address = ?;",
-      values: [metadata.contract.contractDeployer],
-    });
+      // 현재 NFT 소유자 점검
+      const owners: { nickname: string; address: string }[] =
+        ownersResponse.owners.length > 0
+          ? await db.query({
+              sql: "SELECT nickname, address FROM accounts WHERE address IN (?);",
+              values: [ownersResponse.owners],
+            })
+          : [];
 
-    data = {
-      ...metadata,
-      attributes,
-      owners: owners[0] ?? {
-        nickname: "",
-        address: ownersResponse.owners[0],
-      },
-      deployer: deployer[0] ?? {
-        nickname: "",
-        address: metadata.contract.contractDeployer ?? "testDeployer",
-      },
-    };
+      // 컨트랙트 배포자 점검
+      const deployer: { nickname: string; address: string }[] = await db.query({
+        sql: "SELECT nickname, address FROM accounts WHERE address = ?;",
+        values: [metadata.contract.contractDeployer],
+      });
+
+      // 해당 컬렉션에 소개할 NFTs 가져오기
+      const moreNFTsResponse = await alchemy.nft.getNftsForContract(address, {
+        pageSize: 10,
+      });
+      const moreNFTs: NftContractNftsResponse["nfts"] = moreNFTsResponse.nfts;
+
+      // 현재 해당 NFT가 판매중인지 체크
+      const saleResponse: { end_time: string; price: number }[] =
+        await db.query({
+          sql: "SELECT price, end_time FROM sales WHERE contract_address = ? AND token_id = ?;",
+          values: [address, tokenId],
+        });
+      const sale = saleResponse[0] ?? null;
+
+      pass = true;
+      data = {
+        ...metadata,
+        attributes,
+        owners: owners[0] ?? {
+          nickname: null,
+          address: ownersResponse.owners[0],
+        },
+        deployer: deployer[0] ?? {
+          nickname: metadata.contract.contractDeployer ? null : "알 수 없음",
+          address: metadata.contract.contractDeployer,
+        },
+        moreNFTs,
+        sale,
+      };
+    }
   }
 
   const res: APIResponse = { pass, message, data };
