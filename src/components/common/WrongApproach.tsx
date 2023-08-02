@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 
+// 사용자가 잘못 접근하였을 때 사용되는 Component
+
 function WrongApproach() {
   return (
     <div className="wrong-approach">

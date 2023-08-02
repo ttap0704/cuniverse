@@ -6,6 +6,9 @@ import {
 import { useSetAtom } from "jotai";
 import { useRef } from "react";
 
+// Text Copy를 위해 사용되는 Component
+// Mouse Enter/Leave 시, Tooltip On/Off
+
 interface TypographyCopyProps {
   text: string;
   copyText: string;

@@ -2,10 +2,10 @@ import { memo } from "react";
 import Image from "next/image";
 import ButtonImageUpload from "../buttons/ButtonImageUpload";
 import InputImage from "../inputs/InputImage";
-import { uploadImageToS3 } from "@/utils/tools";
-import useAccountUpdateMutation from "@/queries/useAccountUpdateMutation";
 import useAccountImageUploadMutation from "@/queries/useAccountImageUploadMutation";
 import LoadingWaterDrop from "../common/LoadingWaterDrop";
+
+// 사용자 Profile Image Component
 
 interface ContainerProfileImageProps {
   defaultUri: string;

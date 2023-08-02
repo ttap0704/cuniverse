@@ -5,6 +5,8 @@ import { dropdownAtom, setDropdownAtom } from "@/store/dropdown";
 import { useEffect, useState } from "react";
 import { useSetAtom } from "jotai";
 
+// 모든 Dropdown에 사용되는 공통 Component
+
 interface DropdownDefaultProps {
   children: React.ReactNode;
   targetId: string;

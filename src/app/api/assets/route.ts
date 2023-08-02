@@ -5,28 +5,41 @@ import { NftContractNftsResponse } from "alchemy-sdk";
 import alchemy from "@/utils/alchemy";
 
 export async function GET(request: NextRequest, response: NextResponse) {
+  // Search Params 조회
   const url = new URL(request.url);
   const searchParams = new URLSearchParams(url.search);
+
+  // Address, Token Id 조회
   const address = searchParams.get("address");
   const tokenId = BigInt(Number(searchParams.get("tokenId")));
   let pass = false,
     message = "",
     data: NFTDetail | null = null;
 
+  // Address와 Token Id 모두 있다면 로직 실행
   if (address && tokenId >= 0) {
+    // Etherscan API 통해
+    // Smart Contract ABI 조회
     const getAbi = await fetch(
       `https://api-sepolia.etherscan.io/api?module=contract&action=getabi&address=${address}&apikey=${process.env.NEXT_PUBLIC_ETHERSCAN_API_KEY}`
     );
     const abiRespoonse: { status: string; message: string; result: string } =
       await getAbi.json();
+
+    // ABI 조회가 성공이라면 로직 실행
     if (abiRespoonse.message == "OK") {
       const abi = JSON.parse(abiRespoonse.result);
+
+      // Contract Intance 생성
       const contract = new web3.eth.Contract(abi, address);
 
+      // Contract Name과 Metadata 조회
       const contractName: string = await contract.methods.name().call();
       let metadataUrl: string = await (contract.methods.tokenURI as any)(
         tokenId
       ).call();
+
+      // ipfs 프로토콜을 https 프로토콜로 조정
       if (metadataUrl.includes("ipfs://")) {
         metadataUrl = metadataUrl.replace("ipfs://", "https://ipfs.io/ipfs/");
       }
@@ -41,6 +54,7 @@ export async function GET(request: NextRequest, response: NextResponse) {
         );
       }
 
+      // 토근 Owner와 Contract Deployer 조회
       const owner = await (contract.methods.ownerOf as any)(tokenId).call();
       const getDeployer = await fetch(
         `https://api-sepolia.etherscan.io/api?module=contract&action=getcontractcreation&contractaddresses=${address}&apikey=${process.env.NEXT_PUBLIC_ETHERSCAN_API_KEY}`

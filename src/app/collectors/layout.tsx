@@ -9,6 +9,7 @@ import { useSearchParams } from "next/navigation";
 import WrongApproach from "@/components/common/WrongApproach";
 import useCollectorQuery from "@/queries/useCollectorQuery";
 
+// Collections 페이지 Tabs 데이터 정의
 const tabsItems: TabsMenuItem[] = [
   {
     id: 0,
@@ -20,6 +21,7 @@ const tabsItems: TabsMenuItem[] = [
 ];
 
 function CollectorsLayout({ children }: { children: React.ReactNode }) {
+  // Query String으로 address 필수
   const searchParams = useSearchParams();
   const address = searchParams.get("address");
   const { data: account } = useCollectorQuery(address ?? "");

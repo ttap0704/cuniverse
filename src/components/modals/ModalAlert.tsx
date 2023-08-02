@@ -1,9 +1,12 @@
 "use client";
 
 import { useAtomValue, useSetAtom } from "jotai";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { clearModalAlertAtom, modalAlertAtom } from "@/store/modalAlert";
 import { FaCheck, FaExclamation } from "react-icons/fa";
+
+// 우측 하단 전역으로 사용되는 Modal Component
+// 전역 데이터는 modalAlertAtom 확인
 
 function ModalAlert() {
   const [contents, setContents] = useState("");

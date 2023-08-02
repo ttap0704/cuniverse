@@ -2,6 +2,8 @@
 
 import React from "react";
 
+// Image Upload를 위한 Input Component
+
 interface InputImageProps {
   id: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;

@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
 
   if (address) {
     try {
-      // 최종으로 저장된 Account 조회
+      // 저장된 Collector(Account) 조회
       const accountData: AccountInfoReponse[] = await db.query({
         sql: "SELECT * FROM accounts WHERE address = ?",
         values: [address],

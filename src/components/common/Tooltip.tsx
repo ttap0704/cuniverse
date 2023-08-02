@@ -4,8 +4,13 @@ import { useAtomValue } from "jotai";
 import { useEffect, useState } from "react";
 import { tooltipAtom } from "@/store/tooltip";
 
+// 전역으로 사용되는 Tooltip Component
+
 function Tooltip() {
+  // tooltipAtom의 open과 별개로
+  // 애니메이션 처리하기 위한 State
   const [tooltipOpen, setTooltipOpen] = useState(false);
+
   const [contents, setContents] = useState("");
   const { open, targetElement, text } = useAtomValue(tooltipAtom);
   const [offset, setOffset] = useState({

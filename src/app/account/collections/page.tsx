@@ -13,13 +13,16 @@ function AccountCollections() {
     account?.id
   );
 
+  // NFT 리스트 로딩처리
   if (accountLoading || nftsLoading) {
     return <LoadingSpinner />;
   }
 
   if (!nfts || nfts.ownedNfts.length == 0) {
+    // 아이템이 없을 때
     return <BoxNotice text="No Items" />;
   } else {
+    // 아이템이 있을 때
     return (
       <ContainerNFTContents>
         {nfts.ownedNfts.map((item, item_idx) => {

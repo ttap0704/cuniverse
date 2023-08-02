@@ -1,5 +1,6 @@
 import { atom } from "jotai";
 
+// Modal 전역 데이터 Store
 interface ModalAlert {
   open: boolean;
   text: string;

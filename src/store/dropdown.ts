@@ -1,5 +1,6 @@
 import { atom } from "jotai";
-import React from "react";
+
+// Dropdown 전역 데이터 Store
 
 export const dropdownAtom = atom<{
   open: boolean;

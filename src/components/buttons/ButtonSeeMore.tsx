@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 
+// "더보기" 기능에 사용되는 Button
+
 interface ButtonSeeMoreProps {
   onClick: (view: boolean) => void;
 }

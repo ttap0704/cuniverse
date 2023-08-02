@@ -2,6 +2,7 @@ import { OwnedNft } from "alchemy-sdk";
 import Image from "next/image";
 import Link from "next/link";
 
+// NFT 리스트 Box
 interface BoxNFTPreviewProps {
   item: OwnedNft;
 }
@@ -15,6 +16,7 @@ function BoxNFTPreview(props: BoxNFTPreviewProps) {
       href={`/assets?contract=${nft.contract.address}&tokenId=${nft.tokenId}`}
     >
       <div className="preview-image-wrapper">
+        {/* NFT Raw Metadata 여부에 따른 UI 분리 */}
         {nft.rawMetadata && nft.rawMetadata.image ? (
           <Image
             src={nft.rawMetadata.image}

@@ -8,6 +8,7 @@ import ContainerContentIntro from "@/components/containers/ContainerContentIntro
 import Tabs from "@/components/common/Tabs";
 import { usePathname } from "next/navigation";
 
+// Tabs 아이템 정의
 const tabsItems: TabsMenuItem[] = [
   {
     id: 0,
@@ -18,10 +19,12 @@ const tabsItems: TabsMenuItem[] = [
   { id: 1, label: "Creations", path: "/account/creations" },
 ];
 
+// /accounts/* Layout
 function AccountLayout({ children }: { children: React.ReactNode }) {
   const { data: account } = useAccountQuery();
   const pathname = usePathname();
 
+  // settings 페이지에서는 Layout 필요 없으므로 예외처리
   if (["/account/settings"].includes(pathname)) return <>{children}</>;
 
   return (

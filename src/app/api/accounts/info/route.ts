@@ -3,7 +3,6 @@ import { NextRequest, NextResponse } from "next/server";
 import db from "../../db";
 
 export async function PUT(request: NextRequest) {
-  // 인증 토큰 조회
   const address = cookies().get("wallet-address")?.value;
   let pass = false,
     message = "",
@@ -11,6 +10,7 @@ export async function PUT(request: NextRequest) {
 
   if (address) {
     try {
+      // Update Data 확인
       const body = await request.json();
       const updatedata: UpdateAccountRequest = body.data;
 
@@ -18,11 +18,13 @@ export async function PUT(request: NextRequest) {
       const values = [],
         sqlList = [];
 
+      // Query 설정 및 Update Value Array 추가
       for (const [key, val] of Object.entries(updatedata)) {
         sqlList.push(` ${key} = ?`);
         values.push(val);
       }
 
+      // 마지막으로 address로 WHERE절 처리
       sql += sqlList.join(",") + " WHERE address = ?";
       values.push(address);
       // 최종으로 Account 수정

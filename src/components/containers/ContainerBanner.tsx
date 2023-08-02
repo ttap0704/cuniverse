@@ -7,6 +7,8 @@ import ButtonImageUpload from "../buttons/ButtonImageUpload";
 import LoadingWaterDrop from "../common/LoadingWaterDrop";
 import useAccountImageUploadMutation from "@/queries/useAccountImageUploadMutation";
 
+// Collectors(Accounts)/Collections 페이지의 소개 배너 Component
+
 interface ContainerBannerProps {
   defaultUri: string;
   edit: boolean;
@@ -30,6 +32,7 @@ function ContainerBanner(props: ContainerBannerProps) {
       {isLoading ? (
         <LoadingWaterDrop />
       ) : edit ? (
+        // 수정 여부에 따라, Upload Button 생성
         <>
           <ButtonImageUpload targetId="input-image-banner" />
           <InputImage id="input-image-banner" onChange={uploadBanner} />

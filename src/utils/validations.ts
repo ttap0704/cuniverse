@@ -1,3 +1,5 @@
+// 애플리케이션에 필요한 Validation 정의
+
 const validations: {
   [key: string]: (target: StringOrNumber) => string;
 } = {

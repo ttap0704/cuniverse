@@ -15,6 +15,9 @@ import { FaGear } from "react-icons/fa6";
 import LoadingSpinner from "../common/LoadingSpinner";
 import useCollectorQuery from "@/queries/useCollectorQuery";
 
+// Collectors(Accounts) 페이지에서 사용되는
+// 사용자 소개 Component
+
 interface ContainerContentIntroProps {
   address?: string;
 }
@@ -23,6 +26,8 @@ function ContainerContentIntro(props: ContainerContentIntroProps) {
   const address = props.address;
   const { data: tmpCollector, isLoading } = useCollectorQuery(address ?? "");
   const { data: tmpAccount } = useAccountQuery();
+
+  // 사용할 Query 예외처리
   const account = address ? tmpCollector : tmpAccount;
 
   const [links, setLinks] = useState<PlatformLinkWithHref[]>([]);
@@ -30,6 +35,8 @@ function ContainerContentIntro(props: ContainerContentIntroProps) {
   useEffect(() => {
     if (account) {
       const tmpLinks: PlatformLinkWithHref[] = [];
+
+      // 사용자가 정의한 소개 페이지(youtube, twitch 등) 링크 여부에 따라 데이터 추가
       for (let i = 0; i < PLATFORM_LINKS.length; i++) {
         if (account[PLATFORM_LINKS[i].platform])
           tmpLinks.push({
@@ -49,6 +56,7 @@ function ContainerContentIntro(props: ContainerContentIntroProps) {
         <TypographyContentTitle
           title={account?.nickname ? account.nickname : "Unnamed"}
         />
+        {/* 사용자 본인이라면 settings 페이지 이동 가능하도록 설정 */}
         {address ? null : (
           <IconLink
             href="/account/settings"
@@ -59,6 +67,7 @@ function ContainerContentIntro(props: ContainerContentIntroProps) {
         )}
       </div>
       <div className="address-wrapper">
+        {/* Wallet Address */}
         <Image src={etherSvg} alt="ethereum-logo" width={16} height={16} />
         <TypographyCopy
           text={account?.address ? getShortAddress(account.address) : ""}
@@ -68,6 +77,7 @@ function ContainerContentIntro(props: ContainerContentIntroProps) {
         <span className="joined">Joined {account?.createdAt}</span>
       </div>
       <div className="links-wrapper">
+        {/* Links */}
         {links.map((link, linkIdx) => {
           return (
             <IconLink
@@ -79,6 +89,7 @@ function ContainerContentIntro(props: ContainerContentIntroProps) {
           );
         })}
       </div>
+      {/* 소개 Description */}
       <ContainerSeeMore defaultMaxHeight={50}>
         <TypographyContentDescription
           description={account?.description ? account.description : ""}

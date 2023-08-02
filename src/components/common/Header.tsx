@@ -11,14 +11,15 @@ import { FiSmile } from "react-icons/fi";
 import useAccountLogoutMutation from "@/queries/useAccountLogoutMutation";
 import useAccountQuery from "@/queries/useAccountQuery";
 
+// 개인정보란 클릭 시, 생성되는 Dropdown Menu Items
 const headerDropdownMenu: DropdownMenuItem[] = [
   { id: 0, label: "프로필" },
   { id: 1, label: "컬렉션" },
   { id: 2, label: "로그아웃" },
 ];
-
 const headerDropdownMenuNotAccount: DropdownMenuItem[] = [];
 
+// 이동 페이지 정의
 const redirectPages: { [key: number]: string } = {
   0: "/account",
   1: "/collections",
@@ -31,6 +32,7 @@ function Header() {
   const { data: account } = useAccountQuery();
 
   const checkItem = (id: StringOrNumber) => {
+    // Menu의 id == 2 제외한 나머지는 모두 페이지 이동
     if (id == 2) {
       logout();
     } else {

@@ -1,5 +1,7 @@
 import Input from "./Input";
 
+// 정보 수정 / 추가에 사용되는 Input Component
+
 interface InputWithLabelProps extends InputProps {
   labelText: string;
 }

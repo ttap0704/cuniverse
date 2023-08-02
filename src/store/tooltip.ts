@@ -1,5 +1,7 @@
 import { atom } from "jotai";
 
+// Tooltip 전역 데이터 Store
+
 interface Tooltip {
   open: boolean;
   targetElement: HTMLElement | null;

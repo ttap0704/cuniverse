@@ -1,5 +1,7 @@
 "use client";
 
+// Header Component에 사용되는 버튼 정의
+
 interface ButtonHeaderProps extends InterfaceButton {}
 
 function ButtonHeader(props: ButtonHeaderProps) {

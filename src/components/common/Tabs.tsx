@@ -1,5 +1,8 @@
 import { usePathname, useRouter } from "next/navigation";
 
+// 페이지에 사용되는 Tabs
+// Menu 클릭 시, 해당하는 페이지로 이동
+
 interface TabsProps {
   items: TabsMenuItem[];
 }

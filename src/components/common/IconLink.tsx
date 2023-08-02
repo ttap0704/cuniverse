@@ -3,6 +3,8 @@ import { useSetAtom } from "jotai";
 import Link from "next/link";
 import { useRef } from "react";
 
+// Icon과 함께 사용되는 Link Component
+
 interface IconLinkProps {
   href: string;
   icon: React.ReactNode;
@@ -16,6 +18,7 @@ function IconLink(props: IconLinkProps) {
   const tooltipText = props.tooltipText;
   const target = props.target;
 
+  // Tooltip에 사용되는 Atom
   const setTooltip = useSetAtom(setTooltipAtom);
   const clearTooltip = useSetAtom(clearTooltipAtom);
 

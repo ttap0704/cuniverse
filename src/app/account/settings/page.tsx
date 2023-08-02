@@ -66,13 +66,16 @@ function AccountSettings() {
   });
 
   useEffect(() => {
+    // Account가 바뀔때 실행
     if (account) setIsSetting(true), setFormData();
   }, [account]);
 
   useEffect(() => {
+    // Account Update 성공하면 실행
     if (isSuccess) openModalAlert();
   }, [isSuccess]);
 
+  // 페이지 진입 시, Initial Form Data 생성
   const setFormData = () => {
     if (account) {
       const tmpForm: InputProps[] = [];
@@ -108,19 +111,24 @@ function AccountSettings() {
   const updateSettings = async () => {
     if (account) {
       const finalUpdateData: { [key: string]: string } = {};
+
       for (let i = 0; i < editKeys.length; i++) {
         const key = editKeys[i],
           val = updateAccountData.current[key];
+        // 각 입력란 Validation 확인
         if (val.error) {
           alert("정보를 올바르게 입력해주세요.");
           return;
         }
 
+        // 기존값과 입력란이 같지 않다면 Update Data에 추가
         if (val.value.length != 0 && account[key] != val.value) {
           finalUpdateData[key] = val.value;
         }
       }
 
+      // Update 내용 여부에 따라
+      // Update 또는 Modal 생성
       if (Object.keys(finalUpdateData).length != 0) {
         await updateAccount({ data: finalUpdateData });
       } else {
