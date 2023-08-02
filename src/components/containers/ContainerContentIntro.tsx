@@ -21,9 +21,10 @@ interface ContainerContentIntroProps {
 
 function ContainerContentIntro(props: ContainerContentIntroProps) {
   const address = props.address;
-  const { data: account, isLoading } = address
-    ? useCollectorQuery(address)
-    : useAccountQuery();
+  const { data: tmpCollector, isLoading } = useCollectorQuery(address ?? "");
+  const { data: tmpAccount } = useAccountQuery();
+  const account = address ? tmpCollector : tmpAccount;
+
   const [links, setLinks] = useState<PlatformLinkWithHref[]>([]);
 
   useEffect(() => {

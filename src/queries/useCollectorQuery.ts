@@ -9,6 +9,7 @@ const useCollectorQuery = (address: string) => {
   return useQuery([QUERY_KEY], () => fetcher(address), {
     staleTime: Infinity,
     cacheTime: 0,
+    enabled: address.length > 0,
   });
 };
 

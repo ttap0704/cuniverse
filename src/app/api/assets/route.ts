@@ -20,13 +20,13 @@ export async function GET(request: NextRequest, response: NextResponse) {
     const abiRespoonse: { status: string; message: string; result: string } =
       await getAbi.json();
     if (abiRespoonse.message == "OK") {
-      const contract = new web3.eth.Contract(
-        JSON.parse(abiRespoonse.result),
-        address
-      );
+      const abi = JSON.parse(abiRespoonse.result);
+      const contract = new web3.eth.Contract(abi, address);
 
       const contractName: string = await contract.methods.name().call();
-      let metadataUrl: string = await contract.methods.tokenURI(tokenId).call();
+      let metadataUrl: string = await (contract.methods.tokenURI as any)(
+        tokenId
+      ).call();
       if (metadataUrl.includes("ipfs://")) {
         metadataUrl = metadataUrl.replace("ipfs://", "https://ipfs.io/ipfs/");
       }
@@ -41,7 +41,7 @@ export async function GET(request: NextRequest, response: NextResponse) {
         );
       }
 
-      const owner = await contract.methods.ownerOf(tokenId).call();
+      const owner = await (contract.methods.ownerOf as any)(tokenId).call();
       const getDeployer = await fetch(
         `https://api-sepolia.etherscan.io/api?module=contract&action=getcontractcreation&contractaddresses=${address}&apikey=${process.env.NEXT_PUBLIC_ETHERSCAN_API_KEY}`
       );

@@ -22,9 +22,8 @@ const tabsItems: TabsMenuItem[] = [
 function CollectorsLayout({ children }: { children: React.ReactNode }) {
   const searchParams = useSearchParams();
   const address = searchParams.get("address");
+  const { data: account } = useCollectorQuery(address ?? "");
   if (!address) return <WrongApproach />;
-
-  const { data: account } = useCollectorQuery(address);
 
   return (
     <>
