@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ACCOUNT_API, ACCOUNT_PAGES, SERVER_NAME } from "../constants";
-import Web3Token from "web3-token";
+// import Web3Token from "web3-token";
 
 export async function middleware(request: NextRequest) {
   const requestHeaders = new Headers(request.headers);
@@ -22,10 +22,9 @@ export async function middleware(request: NextRequest) {
     if ((token && !walletAddress) || (!token && walletAddress)) {
       logout = true;
     } else if (token && walletAddress) {
-      const valifiedToken = await Web3Token.verify(token);
-      const address = valifiedToken.address;
-
-      if (address != walletAddress) logout = true;
+      // const valifiedToken = await Web3Token.verify(token);
+      // const address = valifiedToken.address;
+      // if (address != walletAddress) logout = true;
     } else if (!token && !walletAddress && ACCOUNT_PAGES.includes(path)) {
       logout = true;
     }
@@ -46,10 +45,9 @@ export async function middleware(request: NextRequest) {
         logout = true;
       } else if (token && walletAddress) {
         // web3-token과 address비교하여 값이 다르다면 로그인 유지에 필요한 cookies 만료처리
-        const valifiedToken = await Web3Token.verify(token);
-        const address = valifiedToken.address;
-
-        if (address != walletAddress) logout = true;
+        // const valifiedToken = await Web3Token.verify(token);
+        // const address = valifiedToken.address;
+        // if (address != walletAddress) logout = true;
       }
 
       if (logout) {

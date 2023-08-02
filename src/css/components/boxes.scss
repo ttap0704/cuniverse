@@ -78,3 +78,21 @@
 
   @include d-flex-center;
 }
+
+.box-white {
+  padding: 3rem;
+  border-radius: 2rem;
+  background-color: $white-100;
+
+  @include d-flex-center;
+}
+
+.box-with-title {
+  width: 100%;
+  color: $black-70;
+
+  h2 {
+    color: $black-100;
+    margin-bottom: 0.5rem;
+  }
+}

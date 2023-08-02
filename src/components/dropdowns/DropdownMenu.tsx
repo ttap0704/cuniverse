@@ -27,9 +27,9 @@ function DropdownMenu(props: DropdownMenuProps) {
       <ul data-testid="dropdown-menu-wrapper">
         {items.map((item) => {
           return (
-            <li key={`dropdown_item_${item.id}`}>
+            <li key={`dropdown-item-${item.id}`}>
               <ButtonDropdownMenuItem
-                data-testid={`dropdown_item_${item.id}`}
+                data-testid={`dropdown-item-${item.id}`}
                 item={item}
                 onClick={dropdownClicked}
               />

@@ -1,4 +1,6 @@
 import type { MetaMaskInpageProvider } from "@metamask/providers";
+import { GetOwnersForNftResponse, Nft, NftAttributeRarity } from "alchemy-sdk";
+import { Account } from "aws-sdk";
 import React from "react";
 
 declare global {
@@ -69,6 +71,27 @@ declare global {
     createdAt: string;
   }
 
+  // NFT Metdata
+  interface NFTMetadata {
+    title?: string;
+    name?: string;
+    description?: string;
+    image?: string;
+    external_url?: string;
+    background_color?: string;
+    animation_url?: string;
+    youtube_url?: string;
+    attributes?: {
+      trait_type: string;
+      value: string;
+      display_type?: string;
+    }[];
+  }
+
+  // Collector 공통 Type
+  // Collector는 balance를 가져올 필요없음 => Web3 사용하지 않아도 됨
+  type Collector = Omit<Account, "balance">;
+
   // Button 공통 Interface
   interface InterfaceButton {
     children: React.ReactNode;
@@ -125,4 +148,14 @@ declare global {
 
   // 문자열 또는 숫자
   type StringOrNumber = StringOrNumber;
+
+  // NFT Detail
+  interface NFTDetail extends NFTMetadata {
+    tokenId: string;
+    contract: { name: string; address: string };
+    owners: { nickname: string; address: string };
+    deployer: { nickname: string; address: string };
+    moreNFTs: Nft[];
+    sale: { end_time: string; price: number } | null;
+  }
 }

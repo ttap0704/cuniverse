@@ -4,12 +4,11 @@ import { Web3 } from "web3";
 import Web3Token from "web3-token";
 import { checkNetwork, setCookieInClient } from "@/utils/tools";
 import { NETWORK_SEPOLIA } from "../../constants";
+import web3 from "@/utils/web3";
 
 const fetcher = () => {
   return new Promise(async (resolve) => {
     if (window.ethereum) {
-      const web3 = new Web3(window.ethereum);
-
       // Current Network == Target Network 확인
       const checking = await checkNetwork(web3, NETWORK_SEPOLIA);
       if (!checking) {

@@ -1,8 +1,9 @@
 import Web3 from "web3";
 import { SERVER_NAME } from "../../../next-react-state-management/constants";
 import { S3_IMAGES_URL } from "../../constants";
-import { OwnedNftsResponse } from "alchemy-sdk";
+import { Nft, OwnedNftsResponse } from "alchemy-sdk";
 import { uploadImageToS3 } from "./tools";
+import web3 from "./web3";
 
 function setHeader() {
   const headers: { [key: string]: string } = {
@@ -100,7 +101,6 @@ export async function fetchGetAccountInfo() {
 
   // 유저가 있다면 Query Key ['account'] 최종 업데이트
   if (res && window.ethereum) {
-    const web3 = new Web3(window.ethereum);
     const balance = await web3.eth.getBalance(res.address);
     const wei = web3.utils.fromWei(balance, "ether");
 
@@ -121,15 +121,61 @@ export async function fetchGetAccountInfo() {
   return finalResponse;
 }
 
+// Get Collector Info API
+export async function fetchGetCollectorInfo(address: string) {
+  const res: AccountInfoReponse | null = await fetchGetApi(
+    `/collectors?address=${address}`,
+    {
+      cache: "no-store",
+    }
+  );
+  let finalResponse: Collector | null = null;
+
+  // 유저가 있다면 Query Key ['collector'] 최종 업데이트
+  if (res) {
+    finalResponse = {
+      ...res,
+      banner: res.banner ? `${S3_IMAGES_URL}/images/${res.banner}` : res.banner,
+      profile: res.profile
+        ? `${S3_IMAGES_URL}/images/${res.profile}`
+        : res.profile,
+      createdAt: new Date(res.created_at).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+      }),
+    };
+  }
+
+  return finalResponse;
+}
+
+// 사용자 NFT Collection List
+export async function fetchGetCollectorNFTs(address: string) {
+  const res: OwnedNftsResponse | null = await fetchGetApi(
+    `/collectors/collections?address=${address}`
+  );
+  return res;
+}
+
 // S3 이미지 업로드 권한 취득 API
 export async function fetchUploadS3(body: object) {
   const res: string = await fetchPostApi(body, "/image/upload");
   return res;
 }
 
+// 사용자 NFT Collection List
 export async function fetchGetAccountNFTs() {
   const res: OwnedNftsResponse | null = await fetchGetApi(
     "/accounts/collections"
+  );
+  return res;
+}
+
+// NFT Metadata API
+export async function fetchGetNFTMetadata(address: string, tokenId: string) {
+  const res: NFTDetail | null = await fetchGetApi(
+    `/assets?address=${address}&tokenId=${tokenId}`,
+    { cache: "no-store" }
   );
   return res;
 }
