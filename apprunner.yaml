@@ -3,9 +3,8 @@ runtime: nodejs16
 build:
   commands:
     build:
-      - yarn --production
-      - yarn build
+      - npm run build
 run:
-  command: yarn start
+  command: npm run start
   network:
     port: 3000
