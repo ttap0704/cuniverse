@@ -24,6 +24,7 @@ function ContainerNFTDetailIntro(props: ContainerNFTDetailIntroProps) {
   return (
     <div className="container-nft-detail-intro">
       <div className="nft-detail-image-wrapper">
+        {image}
         <Image src={image} alt={name} fill={true} objectFit={"cover"} />
       </div>
       <BoxWhite>
@@ -36,11 +37,11 @@ function ContainerNFTDetailIntro(props: ContainerNFTDetailIntroProps) {
         <div className="info-box">
           <div>
             <h4>창작자</h4>
-            <span>
+            <Link href={`/collectors/address=${deployer.address}`}>
               {deployer.nickname !== null
                 ? deployer.nickname
                 : getShortAddress(deployer.address)}
-            </span>
+            </Link>
           </div>
           <div>
             <h4>소유자</h4>

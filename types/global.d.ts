@@ -71,6 +71,23 @@ declare global {
     createdAt: string;
   }
 
+  // NFT Metdata
+  interface NFTMetadata {
+    title?: string;
+    name?: string;
+    description?: string;
+    image?: string;
+    external_url?: string;
+    background_color?: string;
+    animation_url?: string;
+    youtube_url?: string;
+    attributes?: {
+      trait_type: string;
+      value: string;
+      display_type?: string;
+    }[];
+  }
+
   // Collector 공통 Type
   // Collector는 balance를 가져올 필요없음 => Web3 사용하지 않아도 됨
   type Collector = Omit<Account, "balance">;
@@ -133,8 +150,9 @@ declare global {
   type StringOrNumber = StringOrNumber;
 
   // NFT Detail
-  interface NFTDetail extends Nft {
-    attributes: NftAttributeRarity[];
+  interface NFTDetail extends NFTMetadata {
+    tokenId: string;
+    contract: { name: string; address: string };
     owners: { nickname: string; address: string };
     deployer: { nickname: string; address: string };
     moreNFTs: Nft[];

@@ -14,12 +14,14 @@ const nextConfig = {
     ],
   },
   swcMinify: true,
-  webpack: (config, { dev }) => {
-    if (dev) {
-      config.devtool = "cheap-module-source-map";
-    }
-    return config;
-  },
+  reactStrictMode: true,
+  // webpack: (config, { dev }) => {
+  //   config.infrastructureLogging = { debug: /PackFileCache/ };
+  //   if (dev) {
+  //     config.devtool = "cheap-module-source-map";
+  //   }
+  //   return config;
+  // },
 };
 
 module.exports = nextConfig;

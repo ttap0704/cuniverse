@@ -8,8 +8,7 @@ import { OwnedNftsResponse } from "alchemy-sdk";
 function ContainerNFTDetail(props: NFTDetail) {
   const data = props;
 
-  const contractDescription =
-    data.description || data.contract.openSea?.description || "";
+  const contractDescription = data.description || "";
 
   return (
     <div id="container-nft-detail">
@@ -19,18 +18,20 @@ function ContainerNFTDetail(props: NFTDetail) {
           address: data.contract.address,
           title: data.contract.name ?? "",
         }}
-        image={data.rawMetadata?.image ?? DEFAULT_PROFILE}
+        image={data.image ?? DEFAULT_PROFILE}
         owner={data.owners}
-        name={data.rawMetadata?.name ?? data.tokenId}
+        name={data.name ?? data.tokenId}
         sale={data.sale}
       />
-      <BoxWithTitle title="소개" style={{ marginBottom: "2rem" }}>
-        <ContainerSeeMore defaultMaxHeight={50}>
-          <p>{contractDescription}</p>
-        </ContainerSeeMore>
-      </BoxWithTitle>
+      {data.description ? (
+        <BoxWithTitle title="소개" style={{ marginBottom: "2rem" }}>
+          <ContainerSeeMore defaultMaxHeight={50}>
+            <p>{contractDescription}</p>
+          </ContainerSeeMore>
+        </BoxWithTitle>
+      ) : null}
 
-      {data.attributes.length > 0 ? (
+      {data.attributes !== undefined && data.attributes.length > 0 ? (
         <BoxWithTitle
           className="nft-attributes"
           title="NFT 속성"
@@ -38,13 +39,13 @@ function ContainerNFTDetail(props: NFTDetail) {
         >
           <div>
             {data.attributes.map((attribute) => (
-              <div key={`nft-attribute-${attribute.traitType}`}>
-                <span className="trait">{attribute.traitType}</span>
+              <div key={`nft-attribute-${attribute.trait_type}`}>
+                <span className="trait">{attribute.trait_type}</span>
                 <span className="value">
                   <span>{attribute.value}</span>
-                  <span>
+                  {/* <span>
                     {(Number(attribute.prevalence) * 100).toFixed(2)}%
-                  </span>
+                  </span> */}
                 </span>
               </div>
             ))}

@@ -21,6 +21,12 @@ function BoxNFTPreview(props: BoxNFTPreviewProps) {
             alt={nft.rawMetadata.name ?? ""}
             fill={true}
           />
+        ) : nft.contract.openSea && nft.contract.openSea.imageUrl ? (
+          <Image
+            src={nft.contract.openSea.imageUrl}
+            alt={nft.contract.openSea.collectionName ?? ""}
+            fill={true}
+          />
         ) : (
           <div></div>
         )}
