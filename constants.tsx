@@ -51,3 +51,7 @@ export const PLATFORM_LINKS: PlatformLink[] = [
     icon: <BsBalloon />,
   },
 ];
+
+// Web3 Sign Text
+export const SIGN_TEXT =
+  "cuniverse에 오신 것을 환영합니다!\n\ncuniverse에 로그인하는 것을 동의합니다.\n\n이 요청은 블록체인 거래를 유발하거나 가스 요금을 내지 않습니다.\n\n인증 상태는 24시간 후에 재설정됩니다.\n\n현재 시간 : ";

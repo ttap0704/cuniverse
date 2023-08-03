@@ -24,11 +24,14 @@ interface ContainerContentIntroProps {
 
 function ContainerContentIntro(props: ContainerContentIntroProps) {
   const address = props.address;
-  const { data: tmpCollector, isLoading } = useCollectorQuery(address ?? "");
-  const { data: tmpAccount } = useAccountQuery();
+  const { data: tmpCollector, isLoading: collectorLoading } = useCollectorQuery(
+    address ?? ""
+  );
+  const { data: tmpAccount, isLoading: accountLoading } = useAccountQuery();
 
   // 사용할 Query 예외처리
   const account = address ? tmpCollector : tmpAccount;
+  const isLoading = address ? collectorLoading : accountLoading;
 
   const [links, setLinks] = useState<PlatformLinkWithHref[]>([]);
 

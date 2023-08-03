@@ -22,7 +22,9 @@ const nextConfig = {
   reactStrictMode: true,
   productionBrowserSourceMaps: true,
   webpack: (config, { dev }) => {
-    config.infrastructureLogging = { debug: /PackFileCache/ };
+    // config.infrastructureLogging = {
+    //   debug: /PackFileCache|PackFileCacheStrategy/,
+    // };
     if (dev) {
       config.devtool = "cheap-module-source-map";
     }

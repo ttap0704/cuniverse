@@ -6,6 +6,7 @@ import useMetaMaskMutation from "@/queries/useMetaMaskMutation";
 import { HiOutlineWallet } from "react-icons/hi2";
 import { useEffect } from "react";
 import useAccountLogoutMutation from "@/queries/useAccountLogoutMutation";
+import ethersBrowserProvider from "@/utils/ethersBrowserProvider";
 
 function ButtonConnectWallet() {
   const { mutate: logout } = useAccountLogoutMutation();
@@ -16,16 +17,21 @@ function ButtonConnectWallet() {
     if (window.ethereum) {
       // 메타마스크 지갑 계정이 바뀌면 로그아웃 설정
       window.ethereum.on("accountsChanged", logout);
-      window.ethereum.on("chainChanged", logout);
+      window.ethereum.on("chainChanged", onChangeChainId);
     }
 
     return () => {
       if (window.ethereum) {
         window.ethereum.removeListener("accountsChanged", logout);
-        window.ethereum.removeListener("chainChanged", logout);
+        window.ethereum.removeListener("chainChanged", onChangeChainId);
       }
     };
   }, []);
+
+  const onChangeChainId = () => {
+    logout();
+    ethersBrowserProvider.changeNetwork();
+  };
 
   const handleConnetWallet = () => {
     if (!account) mutate();

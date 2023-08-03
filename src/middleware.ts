@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { ACCOUNT_API, ACCOUNT_PAGES, SERVER_NAME } from "../constants";
-// import Web3Token from "web3-token";
+import {
+  ACCOUNT_API,
+  ACCOUNT_PAGES,
+  SERVER_NAME,
+  SIGN_TEXT,
+} from "../constants";
+import { verifyMessage } from "ethers";
 
 export async function middleware(request: NextRequest) {
   const requestHeaders = new Headers(request.headers);
@@ -9,6 +14,7 @@ export async function middleware(request: NextRequest) {
 
   const token = request.cookies.get("web3-token")?.value;
   const walletAddress = request.cookies.get("wallet-address")?.value;
+  const loginTime = request.cookies.get("login-time")?.value;
 
   let response: NextResponse = NextResponse.next({
     request: {
@@ -19,13 +25,24 @@ export async function middleware(request: NextRequest) {
   let logout = false;
   if (!request.nextUrl.pathname.startsWith("/api")) {
     // web3-token과 address비교하여 값이 다르다면 로그인 유지에 필요한 cookies 만료처리
-    if ((token && !walletAddress) || (!token && walletAddress)) {
+    if (
+      (token && !walletAddress && !loginTime) ||
+      (!token && walletAddress && !loginTime) ||
+      (!token && !walletAddress && loginTime)
+    ) {
       logout = true;
-    } else if (token && walletAddress) {
-      // const valifiedToken = await Web3Token.verify(token);
-      // const address = valifiedToken.address;
-      // if (address != walletAddress) logout = true;
-    } else if (!token && !walletAddress && ACCOUNT_PAGES.includes(path)) {
+    } else if (token && walletAddress && loginTime) {
+      const address = await verifyMessage(
+        SIGN_TEXT + new Date(Number(loginTime)).toLocaleString(),
+        token
+      );
+      if (address != walletAddress) logout = true;
+    } else if (
+      !token &&
+      !walletAddress &&
+      !loginTime &&
+      ACCOUNT_PAGES.includes(path)
+    ) {
       logout = true;
     }
 
@@ -41,13 +58,15 @@ export async function middleware(request: NextRequest) {
     // API는 Account 전용 경로만 검증
     if (ACCOUNT_API.includes(path)) {
       let logout = false;
-      if (!token || !walletAddress) {
+      if (!token || !walletAddress || !loginTime) {
         logout = true;
-      } else if (token && walletAddress) {
+      } else if (token && walletAddress && loginTime) {
         // web3-token과 address비교하여 값이 다르다면 로그인 유지에 필요한 cookies 만료처리
-        // const valifiedToken = await Web3Token.verify(token);
-        // const address = valifiedToken.address;
-        // if (address != walletAddress) logout = true;
+        const address = await verifyMessage(
+          SIGN_TEXT + new Date(Number(loginTime)).toLocaleString(),
+          token
+        );
+        if (address != walletAddress) logout = true;
       }
 
       if (logout) {

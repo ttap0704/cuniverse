@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import db from "../db";
-import web3 from "@/utils/web3";
 import { NftContractNftsResponse } from "alchemy-sdk";
 import alchemy from "@/utils/alchemy";
+import { Contract } from "ethers";
+import ethersServerProvider from "@/utils/ethersServerProvider";
 
 export async function GET(request: NextRequest, response: NextResponse) {
   // Search Params 조회
@@ -31,13 +32,15 @@ export async function GET(request: NextRequest, response: NextResponse) {
       const abi = JSON.parse(abiRespoonse.result);
 
       // Contract Intance 생성
-      const contract = new web3.eth.Contract(abi, address);
+      const contract = new Contract(address, abi).connect(ethersServerProvider);
 
       // Contract Name과 Metadata 조회
-      const contractName: string = await contract.methods.name().call();
-      let metadataUrl: string = await (contract.methods.tokenURI as any)(
-        tokenId
-      ).call();
+      const contractName: string = await contract
+        .getFunction("name")
+        .staticCall();
+      let metadataUrl: string = await contract
+        .getFunction("tokenURI")
+        .staticCall(tokenId);
 
       // ipfs 프로토콜을 https 프로토콜로 조정
       if (metadataUrl.includes("ipfs://")) {
@@ -55,7 +58,7 @@ export async function GET(request: NextRequest, response: NextResponse) {
       }
 
       // 토근 Owner와 Contract Deployer 조회
-      const owner = await (contract.methods.ownerOf as any)(tokenId).call();
+      const owner = await contract.getFunction("ownerOf").staticCall(tokenId);
       const getDeployer = await fetch(
         `https://api-sepolia.etherscan.io/api?module=contract&action=getcontractcreation&contractaddresses=${address}&apikey=${process.env.NEXT_PUBLIC_ETHERSCAN_API_KEY}`
       );

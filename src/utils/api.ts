@@ -1,9 +1,9 @@
-import Web3 from "web3";
 import { SERVER_NAME } from "../../../next-react-state-management/constants";
 import { S3_IMAGES_URL } from "../../constants";
-import { Nft, OwnedNftsResponse } from "alchemy-sdk";
+import { OwnedNftsResponse } from "alchemy-sdk";
 import { uploadImageToS3 } from "./tools";
-import web3 from "./web3";
+import ethersServerProvider from "./ethersServerProvider";
+import { formatEther } from "ethers";
 
 function setHeader() {
   const headers: { [key: string]: string } = {
@@ -101,8 +101,8 @@ export async function fetchGetAccountInfo() {
 
   // 유저가 있다면 Query Key ['account'] 최종 업데이트
   if (res && window.ethereum) {
-    const balance = await web3.eth.getBalance(res.address);
-    const wei = web3.utils.fromWei(balance, "ether");
+    const balance = await ethersServerProvider.getBalance(res.address);
+    const wei = formatEther(balance);
 
     finalResponse = {
       ...res,
