@@ -73,6 +73,7 @@ declare global {
 
   // NFT Metdata
   interface NFTMetadata {
+    tokenId: string;
     title?: string;
     name?: string;
     description?: string;
@@ -151,11 +152,23 @@ declare global {
 
   // NFT Detail
   interface NFTDetail extends NFTMetadata {
-    tokenId: string;
     contract: { name: string; address: string };
     owners: { nickname: string; address: string };
     deployer: { nickname: string; address: string };
-    moreNFTs: Nft[];
+    moreNFTs: NFTMetadata[];
     sale: { end_time: string; price: number } | null;
+  }
+
+  // Contract Detail
+  interface ContractDetail {
+    id: number;
+    contractAddress: string;
+    accountId: number;
+    name: string;
+    symbol: string;
+    description: string;
+    banner?: string;
+    profile?: string;
+    createdAt: string;
   }
 }

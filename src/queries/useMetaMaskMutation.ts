@@ -24,6 +24,7 @@ const fetcher = () => {
           // 사용자가 네트워크 변경을 하지않는다면 에러 발생
           // null 처리
           resolve(false);
+          return;
         }
       }
 

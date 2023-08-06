@@ -171,6 +171,12 @@ export async function fetchGetAccountNFTs() {
   return res;
 }
 
+// 사용자 Contract List
+export async function fetchGetAccountContracts() {
+  const res: ContractDetail[] | null = await fetchGetApi("/accounts/contracts");
+  return res;
+}
+
 // NFT Metadata API
 export async function fetchGetNFTMetadata(address: string, tokenId: string) {
   const res: NFTDetail | null = await fetchGetApi(

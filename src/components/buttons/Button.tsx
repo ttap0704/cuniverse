@@ -1,5 +1,10 @@
 function Button(props: InterfaceButton) {
-  return <button></button>;
+  const children = props.children;
+  return (
+    <button {...props} className="button-default">
+      {children}
+    </button>
+  );
 }
 
 export default Button;

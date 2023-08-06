@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import db from "../db";
 import { NftContractNftsResponse } from "alchemy-sdk";
 import alchemy from "@/utils/alchemy";
-import { Contract } from "ethers";
+import { Contract, InterfaceAbi } from "ethers";
 import ethersServerProvider from "@/utils/ethersServerProvider";
 
 export async function GET(request: NextRequest, response: NextResponse) {
@@ -83,6 +83,49 @@ export async function GET(request: NextRequest, response: NextResponse) {
           values: [address, tokenId],
         });
       const sale = saleResponse[0] ?? null;
+
+      // **** 추후에 변경 예정 **** //
+      // "Transfer" 이벤트 로그 가져오기
+      //  const filter = contract.filters.Transfer();
+      //  const transferEvents = await contract.queryFilter(filter);
+      // const more: NFTMetadata[] = [];
+      // for (let i = transferEvents.length - 1; i >= 0; i--) {
+      //   // 추천 NFT는 10개 까지
+      //   if (more.length >= 10) break;
+
+      //   const curLog = transferEvents[i];
+      //   const log = contract.interface.parseLog({
+      //     data: curLog.data,
+      //     topics: curLog.topics as string[],
+      //   });
+
+      //   // from == '0x0000000000000000000000000000000000000000' 일 때가 Mint이기 때문에
+      //   // 해당 address만 필터링
+      //   if (!log || log.args[0] != "0x0000000000000000000000000000000000000000")
+      //     continue;
+      //   let metadataUrl: string = await contract
+      //     .getFunction("tokenURI")
+      //     .staticCall(log.args[2]);
+
+      //   // ipfs 프로토콜을 https 프로토콜로 조정
+      //   if (metadataUrl.includes("ipfs://")) {
+      //     metadataUrl = metadataUrl.replace("ipfs://", "https://ipfs.io/ipfs/");
+      //   }
+
+      //   const metadataResponse = await fetch(`${metadataUrl}`);
+      //   const metadata: NFTMetadata = {
+      //     ...(await metadataResponse.json()),
+      //     tokenId: BigInt(log.args[2]).toString(),
+      //   };
+      //   more.push(metadata);
+      // }
+
+      // const moretest = await ethersServerProvider.getLogs({
+      //   fromBlock: 0,
+      //   address,
+      // });
+      // console.log("moretest:", moretest);
+      // **** 추후에 변경 예정 **** //
 
       // 해당 컬렉션에 소개할 NFTs 가져오기
       const moreNFTsResponse = await alchemy.nft.getNftsForContract(address, {

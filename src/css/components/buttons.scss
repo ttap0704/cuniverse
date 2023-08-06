@@ -87,3 +87,12 @@
     height: 1.75rem;
   }
 }
+
+.button-default {
+  padding: 1rem 2rem;
+  border: none;
+  background-color: $orange;
+  font-size: $f-sm;
+  color: $white-100;
+  border-radius: 1rem;
+}
