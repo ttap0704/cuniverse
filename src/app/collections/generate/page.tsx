@@ -7,95 +7,92 @@ import InputWithLabel from "@/components/inputs/InputWithLabel";
 import useAccountQuery from "@/queries/useAccountQuery";
 import useAccountUpdateMutation from "@/queries/useAccountUpdateMutation";
 import { setModalAlertAtom } from "@/store/modalAlert";
+import { fetchCreateConllection } from "@/utils/api";
+import { base64ToFile, uploadImageToS3 } from "@/utils/tools";
 import validations from "@/utils/validations";
 import { useSetAtom } from "jotai";
 import { useEffect, useRef, useState } from "react";
+import ethersBrowserProvider from "@/utils/ethersBrowserProvider";
+import { ethers } from "ethers";
+import NFT from "@/contracts/NFT.json";
+import LoadingWaterDrop from "@/components/common/LoadingWaterDrop";
+import { useRouter } from "next/navigation";
 
-const editKeys: UpdateAccountKeys[] = [
-  "nickname",
+const generateKeys: UpdateContractKeys[] = [
+  "banner",
+  "profile",
+  "name",
+  "symbol",
   "description",
-  "website",
-  "instagram",
-  "youtube",
-  "afreecatv",
-  "twitch",
-  "twitter",
 ];
-const editKeysKR: { [key in UpdateAccountKeys]: string } = {
-  nickname: "닉네임",
-  description: "소개글",
-  website: "웹사이트 링크",
-  twitter: "트위터 링크",
-  youtube: "유튜브 링크",
-  afreecatv: "아프리카tv 링크",
-  instagram: "인스타그램 링크",
-  twitch: "트위치tv 링크",
+const generateKeysData: {
+  [key in UpdateContractKeys]: {
+    KR: string;
+    type: InputTypes;
+    required: boolean;
+  };
+} = {
+  banner: { KR: "배너 사진", type: "file", required: false },
+  profile: { KR: "프로필 사진", type: "file", required: false },
+  name: { KR: "컬렉션 이름", type: "text", required: true },
+  symbol: { KR: "컬렉션 심볼", type: "text", required: true },
+  description: { KR: "컬렉션 소개", type: "textarea", required: true },
 };
 
-const editValidations: {
-  [key in UpdateAccountKeys]: (text: StringOrNumber) => string;
+const generateValidations: {
+  [key in UpdateContractKeys]: (text: StringOrNumber) => string;
 } = {
-  nickname: validations["nickname"],
+  banner: () => "",
+  profile: () => "",
+  name: validations["collectionName"],
+  symbol: validations["collectionSymbol"],
   description: () => "",
-  website: validations["webAddress"],
-  twitter: validations["webAddress"],
-  youtube: validations["webAddress"],
-  afreecatv: validations["webAddress"],
-  instagram: validations["webAddress"],
-  twitch: validations["webAddress"],
 };
 
 function AccountSettings() {
   const { data: account } = useAccountQuery();
-  const { mutate: updateAccount, isSuccess } = useAccountUpdateMutation();
   const setModalAlert = useSetAtom(setModalAlertAtom);
+  const router = useRouter();
 
   const [form, setForm] = useState<InputProps[]>([]);
   const [isSetting, setIsSetting] = useState(true);
+  const [isDeploying, setIsDeploying] = useState(false);
 
   const updateAccountData = useRef<
-    { [key in UpdateAccountKeys]: { value: string; error: boolean } }
+    { [key in UpdateContractKeys]: { value: string; error: boolean } }
   >({
-    nickname: { value: "", error: false },
+    banner: { value: "", error: false },
+    profile: { value: "", error: false },
+    name: { value: "", error: false },
+    symbol: { value: "", error: false },
     description: { value: "", error: false },
-    website: { value: "", error: false },
-    twitter: { value: "", error: false },
-    youtube: { value: "", error: false },
-    afreecatv: { value: "", error: false },
-    instagram: { value: "", error: false },
-    twitch: { value: "", error: false },
   });
 
   useEffect(() => {
-    // Account가 바뀔때 실행
     if (account) setIsSetting(true), setFormData();
   }, [account]);
-
-  useEffect(() => {
-    // Account Update 성공하면 실행
-    if (isSuccess) openModalAlert();
-  }, [isSuccess]);
 
   // 페이지 진입 시, Initial Form Data 생성
   const setFormData = () => {
     if (account) {
       const tmpForm: InputProps[] = [];
-      for (let i = 0; i < editKeys.length; i++) {
+      for (let i = 0; i < generateKeys.length; i++) {
         tmpForm.push({
-          id: `account-edit-${editKeys[i]}`,
-          value: account[editKeys[i]] ?? "",
-          type: editKeys[i] == "description" ? "textarea" : "text",
+          id: `collection-generate-${generateKeys[i]}`,
+          value: "",
+          type: generateKeysData[generateKeys[i]].type,
           onChange: (text: StringOrNumber, error: boolean) => {
-            const tmpUpdateData = { ...updateAccountData.current };
-            tmpUpdateData[editKeys[i]].value = `${text}`;
-            tmpUpdateData[editKeys[i]].error = error;
+            const tmpUpdateData: {
+              [key in UpdateContractKeys]: { value: string; error: boolean };
+            } = JSON.parse(JSON.stringify(updateAccountData.current));
+            tmpUpdateData[generateKeys[i]].value = `${text}`;
+            tmpUpdateData[generateKeys[i]].error = error;
             updateAccountData.current = { ...tmpUpdateData };
           },
-          dataKey: editKeys[i],
-          validation: editValidations[editKeys[i]],
+          dataKey: generateKeys[i],
+          validation: generateValidations[generateKeys[i]],
         });
       }
-
       setForm([...tmpForm]);
       setIsSetting(false);
     }
@@ -109,32 +106,103 @@ function AccountSettings() {
     });
   };
 
-  const updateSettings = async () => {
+  const createContract = async () => {
     if (account) {
-      const finalUpdateData: { [key: string]: string } = {};
+      const finalUpdateData: CreateContractRequest = {
+        name: "",
+        symbol: "",
+        description: "",
+        banner: "",
+        profile: "",
+        contract_address: "",
+        account_id: account.id,
+      };
 
-      for (let i = 0; i < editKeys.length; i++) {
-        const key = editKeys[i],
+      for (let i = 0; i < generateKeys.length; i++) {
+        const key = generateKeys[i],
           val = updateAccountData.current[key];
         // 각 입력란 Validation 확인
         if (val.error) {
-          alert("정보를 올바르게 입력해주세요.");
+          setModalAlert({
+            open: true,
+            type: "error",
+            text: "정보를 올바르게 입력해주세요.",
+          });
           return;
         }
 
-        // 기존값과 입력란이 같지 않다면 Update Data에 추가
-        if (val.value.length != 0 && account[key] != val.value) {
+        if (val.value.length === 0 && generateKeysData[key].required) {
+          setModalAlert({
+            open: true,
+            type: "error",
+            text: "필수 정보를 모두 입력해주세요.",
+          });
+          return;
+        }
+
+        if (val.value.length != 0) {
           finalUpdateData[key] = val.value;
+        }
+      }
+
+      const imageKeys: ("banner" | "profile")[] = ["banner", "profile"];
+
+      for (const key of imageKeys) {
+        if ((finalUpdateData[key] as string).length != 0) {
+          const bannerFile = base64ToFile(
+            finalUpdateData[key] as string,
+            `tmp-${key}`
+          );
+          if (bannerFile) {
+            const newImageName = await uploadImageToS3(bannerFile);
+            if (newImageName) {
+              finalUpdateData[key] = newImageName;
+            }
+          }
+        } else {
+          delete finalUpdateData[key];
         }
       }
 
       // Update 내용 여부에 따라
       // Update 또는 Modal 생성
-      if (Object.keys(finalUpdateData).length != 0) {
-        await updateAccount({ data: finalUpdateData });
-      } else {
-        openModalAlert();
+      console.log(finalUpdateData);
+      if (ethersBrowserProvider.provider) {
+        setIsDeploying(true);
+        const signer = await ethersBrowserProvider.provider.getSigner();
+        console.log(signer);
+        const factory = new ethers.ContractFactory(
+          NFT.abi,
+          NFT.bytecode,
+          signer
+        );
+
+        console.log(factory);
+
+        try {
+          const contract = await factory.deploy(
+            finalUpdateData.name,
+            finalUpdateData.symbol
+          );
+          await contract.waitForDeployment();
+          finalUpdateData["contract_address"] = await contract.getAddress();
+        } catch (err) {
+          setModalAlert({
+            open: true,
+            type: "error",
+            text: "컬렉션 배포에 실패하였습니다.",
+          });
+        }
       }
+
+      await fetchCreateConllection({ data: finalUpdateData });
+      setModalAlert({
+        open: true,
+        type: "success",
+        text: "컬렉션 배포에 성공하였습니다.",
+      });
+      setIsDeploying(false);
+      router.push("/collections");
     }
   };
 
@@ -142,10 +210,11 @@ function AccountSettings() {
 
   return (
     <ContainerForm>
+      {isDeploying ? <LoadingWaterDrop /> : null}
       {form.map((data) => {
         return (
           <InputWithLabel
-            labelText={editKeysKR[data.dataKey as UpdateAccountKeys]}
+            labelText={generateKeysData[data.dataKey as UpdateContractKeys].KR}
             id={data.id}
             value={data.value}
             onChange={data.onChange}
@@ -153,10 +222,13 @@ function AccountSettings() {
             key={data.id}
             dataKey={data.dataKey}
             validation={data.validation}
+            required={
+              generateKeysData[data.dataKey as UpdateContractKeys].required
+            }
           />
         );
       })}
-      <Button onClick={updateSettings}>저장</Button>
+      <Button onClick={createContract}>저장</Button>
     </ContainerForm>
   );
 }

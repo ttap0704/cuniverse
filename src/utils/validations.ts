@@ -16,6 +16,18 @@ const validations: {
       return "닉네임은 영어 소/대문자, 숫자, _로 설정해주세요. (5~25자)";
     return "";
   },
+  collectionName: (text: StringOrNumber) => {
+    const reg = new RegExp(/^[A-Za-z가-힣]{1}[A-Za-z가-힣\s]{5,25}$/);
+    if (!reg.test(`${text}`))
+      return "컬렉션 이름은 한글, 영어 소/대문자, 숫자로 설정해주세요. (1~25자)";
+    return "";
+  },
+  collectionSymbol: (text: StringOrNumber) => {
+    const reg = new RegExp(/^[A-Z]{1,25}$/);
+    if (!reg.test(`${text}`))
+      return "컬렉션 심볼은 영어 대문자로 설정해주세요. (1~25자)";
+    return "";
+  },
 };
 
 export default validations;

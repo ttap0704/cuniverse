@@ -4,10 +4,24 @@ import BoxPageIntro from "@/components/boxes/BoxPageIntro";
 import BoxWhite from "@/components/boxes/BoxWhite";
 import Button from "@/components/buttons/Button";
 import ContainerNFTCollections from "@/components/containers/ContainerNFTCollections";
+import ModalConfirmGenerateContract from "@/components/modals/ModalConfirmGenerateContract";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 function CollectionsIndex() {
+  const router = useRouter();
+  const [modalOpen, setModalOpen] = useState(false);
   const openConfirmModal = () => {
-    console.log("openConfirmModal");
+    setModalOpen(true);
+  };
+
+  const closeConfirmModal = () => {
+    setModalOpen(false);
+  };
+
+  const moveGeneratePage = (mode: string) => {
+    closeConfirmModal();
+    router.push(`/collections/generate?mode=${mode}`);
   };
 
   return (
@@ -27,6 +41,11 @@ function CollectionsIndex() {
         <br />
         <ContainerNFTCollections />
       </BoxWhite>
+      <ModalConfirmGenerateContract
+        open={modalOpen}
+        onConfirm={moveGeneratePage}
+        onClose={closeConfirmModal}
+      />
     </>
   );
 }

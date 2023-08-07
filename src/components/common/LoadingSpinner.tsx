@@ -1,7 +1,18 @@
-function LoadingSpinner() {
+interface LoadingSpinnerProps {
+  color?: "black" | "white";
+}
+
+function LoadingSpinner(props: LoadingSpinnerProps) {
+  const color = props.color;
+  const strokeColor = color === "black" ? "#666" : "#fff";
   return (
     <div className="loading-spinner">
-      <svg viewBox="0 0 38 38" width="75" role="progressbar" stroke="#fff">
+      <svg
+        viewBox="0 0 38 38"
+        width="75"
+        role="progressbar"
+        stroke={strokeColor}
+      >
         <defs>
           <linearGradient
             x1="8.042%"
@@ -10,9 +21,13 @@ function LoadingSpinner() {
             y2="23.865%"
             id="tail-spin_svg__a"
           >
-            <stop stopColor="#fff" stopOpacity="0" offset="0%"></stop>
-            <stop stopColor="#fff" stopOpacity="0.631" offset="63.146%"></stop>
-            <stop stopColor="#fff" offset="100%"></stop>
+            <stop stopColor={strokeColor} stopOpacity="0" offset="0%"></stop>
+            <stop
+              stopColor={strokeColor}
+              stopOpacity="0.631"
+              offset="63.146%"
+            ></stop>
+            <stop stopColor={strokeColor} offset="100%"></stop>
           </linearGradient>
         </defs>
         <g transform="translate(1 1)" fill="none" fillRule="evenodd">
@@ -30,7 +45,7 @@ function LoadingSpinner() {
               repeatCount="indefinite"
             ></animateTransform>
           </path>
-          <circle fill="#fff" cx="36" cy="18" r="1">
+          <circle fill={strokeColor} cx="36" cy="18" r="1">
             <animateTransform
               attributeName="transform"
               type="rotate"

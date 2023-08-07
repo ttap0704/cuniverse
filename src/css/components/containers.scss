@@ -158,6 +158,8 @@
   border-radius: 1rem;
   padding: 2rem 3rem;
   flex-direction: column;
+  position: relative;
+  overflow: hidden;
   @include d-flex-center;
 
   & > div {
@@ -375,5 +377,10 @@
   }
 }
 
+// NFT Collections Container
 .container-nft-collections {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
 }

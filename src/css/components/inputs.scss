@@ -12,6 +12,35 @@
     font-size: $f-sm;
     font-weight: $semibold;
     margin-bottom: 0.25rem;
+
+    & > span {
+      color: $red;
+      margin-left: 0.25rem;
+    }
+  }
+
+  .file-input-wrapper {
+    position: relative;
+    overflow: hidden;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
+    @include d-flex-center;
+
+    & > svg {
+      width: 2rem;
+      height: 2rem;
+    }
+
+    &.collection-generate-banner-wrapper {
+      width: 100%;
+      height: 200px;
+      border-radius: 2rem;
+    }
+
+    &.collection-generate-profile-wrapper {
+      width: 10rem;
+      height: 10rem;
+      border-radius: 50%;
+    }
   }
 }
 

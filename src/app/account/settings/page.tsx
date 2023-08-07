@@ -45,6 +45,19 @@ const editValidations: {
   twitch: validations["webAddress"],
 };
 
+const editRequired: {
+  [key in UpdateAccountKeys]: boolean;
+} = {
+  nickname: false,
+  description: false,
+  website: false,
+  twitter: false,
+  youtube: false,
+  afreecatv: false,
+  instagram: false,
+  twitch: false,
+};
+
 function AccountSettings() {
   const { data: account } = useAccountQuery();
   const { mutate: updateAccount, isSuccess } = useAccountUpdateMutation();
@@ -153,6 +166,7 @@ function AccountSettings() {
             key={data.id}
             dataKey={data.dataKey}
             validation={data.validation}
+            required={editRequired[data.dataKey as UpdateAccountKeys]}
           />
         );
       })}

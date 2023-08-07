@@ -109,3 +109,85 @@
     font-size: $f-sm;
   }
 }
+
+// NFT Collection Box
+.box-nft-collection {
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
+
+  @include deviceXS {
+    width: 100%;
+    height: calc((100vw - 64px - 6rem) * 0.75);
+  }
+
+  @include deviceS {
+    width: calc(50% - 0.5rem);
+    height: calc((((100vw - 64px - 6rem) / 2) - 0.5rem) * 0.75);
+  }
+
+  @include deviceM {
+    width: calc(50% - 0.5rem);
+    height: calc((((100vw - 64px - 6rem) / 2) - 0.5rem) * 0.75);
+  }
+
+  @include deviceL {
+    width: calc((100% / 3) - (2rem / 3));
+    height: calc((((100vw - 64px - 6rem) / 3) - (2rem / 3)) * 0.75);
+  }
+
+  @include deviceXL {
+    width: calc((100% / 3) - (2rem / 3));
+    height: calc((((100vw - 64px - 6rem) / 3) - (2rem / 3)) * 0.75);
+  }
+
+  @include device2XL {
+    width: calc((100% / 4) - (3rem / 4));
+    height: calc((((100vw - 64px - 6rem) / 4) - (3rem / 4)) * 0.75);
+  }
+
+  &:hover {
+    .collection-banner {
+      transform: scale(1.1);
+    }
+  }
+
+  .collection-banner {
+    width: 100%;
+    height: 60%;
+    position: relative;
+    @include transition-03;
+    @include d-flex-center;
+
+    & > svg {
+      width: 4rem;
+      height: 4rem;
+      color: $black-60;
+    }
+  }
+
+  .collection-intro {
+    width: 100%;
+    height: 40%;
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    gap: 1rem;
+
+    & > div {
+      width: 4rem;
+      height: 4rem;
+      border-radius: 50%;
+      overflow: hidden;
+      position: relative;
+      box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
+      @include d-flex-center;
+
+      & > svg {
+        width: 2.5rem;
+        height: 2.5rem;
+        color: $black-60;
+      }
+    }
+  }
+}

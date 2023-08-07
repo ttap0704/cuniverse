@@ -48,3 +48,50 @@
     }
   }
 }
+
+.modal-confirm-wrapper {
+  width: 100vw;
+  height: 100vh;
+  background-color: $black-20;
+  position: fixed;
+  left: 0;
+  top: 0;
+
+  @include d-flex-center;
+  @include transition-03;
+
+  & > div {
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+    width: 80%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    background-color: $white-100;
+    padding: 2rem;
+    border-radius: 2rem;
+
+    & > .modal-confrim-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      svg {
+        width: 2rem;
+        height: 2rem;
+        cursor: pointer;
+      }
+    }
+
+    button {
+      width: 100%;
+    }
+  }
+}
+
+.modal-confrim-generate-contract-contents {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
