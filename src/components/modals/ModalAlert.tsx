@@ -10,6 +10,7 @@ import { FaCheck, FaExclamation } from "react-icons/fa";
 
 function ModalAlert() {
   const [contents, setContents] = useState("");
+  const [alertType, setAlertType] = useState("");
   const { open, type, text } = useAtomValue(modalAlertAtom);
   const clearModalAlert = useSetAtom(clearModalAlertAtom);
 
@@ -23,7 +24,7 @@ function ModalAlert() {
   }, [open]);
 
   useEffect(() => {
-    if (open) setContents(text);
+    if (open) setContents(text), setAlertType(type);
   }, [text]);
 
   const closeModalAlert = () => {
@@ -45,8 +46,8 @@ function ModalAlert() {
           : {}
       }
     >
-      <div className={`modal-alert-contents ${type}`}>
-        <div>{type == "success" ? <FaCheck /> : <FaExclamation />}</div>
+      <div className={`modal-alert-contents ${alertType}`}>
+        <div>{alertType == "success" ? <FaCheck /> : <FaExclamation />}</div>
         <span>{contents}</span>
       </div>
     </div>

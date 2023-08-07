@@ -48,7 +48,9 @@ export async function middleware(request: NextRequest) {
 
     if (logout) {
       // 로그인 유저 전용페이지에 접근할 때에는 Root Page로 Reirect
-      if (ACCOUNT_PAGES.includes(path)) {
+      const startPath = path.split("/")[1];
+
+      if (ACCOUNT_PAGES.includes(startPath)) {
         response = NextResponse.redirect(new URL("/", request.url), {
           headers: requestHeaders,
         });

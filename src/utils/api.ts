@@ -171,6 +171,12 @@ export async function fetchGetAccountNFTs() {
   return res;
 }
 
+// 사용자 Contract List
+export async function fetchGetAccountContracts() {
+  const res: ContractDetail[] | null = await fetchGetApi("/accounts/contracts");
+  return res;
+}
+
 // NFT Metadata API
 export async function fetchGetNFTMetadata(address: string, tokenId: string) {
   const res: NFTDetail | null = await fetchGetApi(
@@ -179,3 +185,30 @@ export async function fetchGetNFTMetadata(address: string, tokenId: string) {
   );
   return res;
 }
+
+// Collction Insert API
+export async function fetchCreateConllection(body: {
+  data: CreateContractRequest;
+}) {
+  const res: boolean = await fetchPostApi(body.data, `/accounts/contracts`);
+  return res;
+}
+
+// // Collction Update API
+// export async function fetchUpdateConllection(body: {
+//   data: UpdateContractRequest;
+// }) {
+//   const res: boolean = await fetchPutApi(body.data, `/collections/info`);
+//   return res;
+// }
+
+// // Collection Image Upload API
+// export async function fetchCollectionImageUpload(body: {
+//   image: File;
+//   key: string;
+// }) {
+//   const image = await uploadImageToS3(body.image);
+//   const res = await fetchUpdateAccount({ data: { [body.key]: image } });
+
+//   return res;
+// }

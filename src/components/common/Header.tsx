@@ -14,7 +14,7 @@ import useAccountQuery from "@/queries/useAccountQuery";
 // 개인정보란 클릭 시, 생성되는 Dropdown Menu Items
 const headerDropdownMenu: DropdownMenuItem[] = [
   { id: 0, label: "프로필" },
-  { id: 1, label: "컬렉션" },
+  { id: 1, label: "내 컬렉션" },
   { id: 2, label: "로그아웃" },
 ];
 const headerDropdownMenuNotAccount: DropdownMenuItem[] = [];

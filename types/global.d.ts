@@ -73,6 +73,7 @@ declare global {
 
   // NFT Metdata
   interface NFTMetadata {
+    tokenId: string;
     title?: string;
     name?: string;
     description?: string;
@@ -135,12 +136,13 @@ declare global {
     href: string;
   }
 
+  type InputTypes = "text" | "number" | "textarea" | "file";
   // Input 공통 Interface
   interface InputProps {
     id: string;
     dataKey: string;
     value: StringOrNumber;
-    type: "text" | "number" | "textarea";
+    type: InputTypes;
     onChange: (text: StringOrNumber, error: boolean) => void;
     validation?: (text: StringOrNumber) => string;
     errorMessage?: string;
@@ -151,11 +153,59 @@ declare global {
 
   // NFT Detail
   interface NFTDetail extends NFTMetadata {
-    tokenId: string;
     contract: { name: string; address: string };
     owners: { nickname: string; address: string };
     deployer: { nickname: string; address: string };
-    moreNFTs: Nft[];
+    moreNFTs: NFTMetadata[];
     sale: { end_time: string; price: number } | null;
+  }
+
+  // Contract Detail
+  interface ContractDetail {
+    id: number;
+    contractAddress: string;
+    accountId: number;
+    name: string;
+    symbol: string;
+    description: string;
+    banner?: string;
+    profile?: string;
+    createdAt: string;
+  }
+
+  // Radio Button 공통 Interface
+  interface ButtonRadioInterface {
+    title: string;
+    description: string;
+    checked: boolean;
+    id: string;
+  }
+
+  // Account Info 수정가능 Keys
+  type UpdateContractKeys =
+    | "banner"
+    | "profile"
+    | "name"
+    | "symbol"
+    | "description";
+
+  // Contract 생성 Request Body
+  interface CreateContractRequest {
+    banner?: string;
+    profile?: string;
+    name: string;
+    symbol: string;
+    description: string;
+    contract_address: string;
+    account_id: number;
+  }
+
+  // Contract 수정 Request Body
+  interface UpdateContractRequest {
+    banner?: string;
+    profile?: string;
+    name?: string;
+    symbol?: string;
+    description?: string;
   }
 }

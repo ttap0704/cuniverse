@@ -1,5 +1,6 @@
 "use client";
 
+import Button from "@/components/buttons/Button";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
 import ContainerForm from "@/components/containers/ContainerForm";
 import InputWithLabel from "@/components/inputs/InputWithLabel";
@@ -42,6 +43,19 @@ const editValidations: {
   afreecatv: validations["webAddress"],
   instagram: validations["webAddress"],
   twitch: validations["webAddress"],
+};
+
+const editRequired: {
+  [key in UpdateAccountKeys]: boolean;
+} = {
+  nickname: false,
+  description: false,
+  website: false,
+  twitter: false,
+  youtube: false,
+  afreecatv: false,
+  instagram: false,
+  twitch: false,
 };
 
 function AccountSettings() {
@@ -152,10 +166,11 @@ function AccountSettings() {
             key={data.id}
             dataKey={data.dataKey}
             validation={data.validation}
+            required={editRequired[data.dataKey as UpdateAccountKeys]}
           />
         );
       })}
-      <button onClick={updateSettings}>저장</button>
+      <Button onClick={updateSettings}>저장</Button>
     </ContainerForm>
   );
 }

@@ -1,5 +1,53 @@
+"use client";
+
+import BoxPageIntro from "@/components/boxes/BoxPageIntro";
+import BoxWhite from "@/components/boxes/BoxWhite";
+import Button from "@/components/buttons/Button";
+import ContainerNFTCollections from "@/components/containers/ContainerNFTCollections";
+import ModalConfirmGenerateContract from "@/components/modals/ModalConfirmGenerateContract";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+
 function CollectionsIndex() {
-  return <>CollectionsIndex</>;
+  const router = useRouter();
+  const [modalOpen, setModalOpen] = useState(false);
+  const openConfirmModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeConfirmModal = () => {
+    setModalOpen(false);
+  };
+
+  const moveGeneratePage = (mode: string) => {
+    closeConfirmModal();
+    router.push(`/collections/generate?mode=${mode}`);
+  };
+
+  return (
+    <>
+      <BoxPageIntro title="내 컬렉션">
+        공유할 NFT 컬렉션을 관리합니다. 공유한 컬렉션은 사용자에게 노출 및
+        판매가 가능합니다.
+      </BoxPageIntro>
+      <br />
+      <BoxWhite
+        style={{
+          flexDirection: "column",
+          alignItems: "flex-start",
+        }}
+      >
+        <Button onClick={openConfirmModal}>컬렉션 생성</Button>
+        <br />
+        <ContainerNFTCollections />
+      </BoxWhite>
+      <ModalConfirmGenerateContract
+        open={modalOpen}
+        onConfirm={moveGeneratePage}
+        onClose={closeConfirmModal}
+      />
+    </>
+  );
 }
 
 export default CollectionsIndex;

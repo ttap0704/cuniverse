@@ -103,6 +103,7 @@
   height: 100%;
   position: absolute;
   background-color: $black-50;
+  z-index: 5001;
 
   @include d-flex-center;
 }
