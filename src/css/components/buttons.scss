@@ -96,12 +96,16 @@
   color: $white-100;
   border-radius: 1rem;
   font-weight: $semibold;
+
+  &.fill {
+    width: 100%;
+  }
 }
 
 // Button Radio
 .button-radio-with-description {
   width: 100%;
-  padding: 1rem;
+  padding: 1.5rem 1rem;
   border: 1px solid $black-20;
   border-radius: 1rem;
   align-items: center;
@@ -111,7 +115,7 @@
   gap: 2rem;
 
   &:hover {
-    border-color: $black-50;
+    border-color: $black-30;
   }
 
   input {
@@ -121,6 +125,7 @@
 
   & > div {
     span {
+      font-size: $f-sm;
       color: $black-60;
     }
   }

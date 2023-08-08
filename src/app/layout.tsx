@@ -3,7 +3,6 @@ import "@/css/globals.scss";
 import type { Metadata } from "next";
 import Background from "@/components/common/Background";
 import ProviderQueryClient from "@/components/providers/ProviderQueryClient";
-import ProviderAuth from "@/components/providers/ProviderAuth";
 import { Noto_Sans_KR } from "next/font/google";
 import Tooltip from "@/components/common/Tooltip";
 import ModalAlert from "@/components/modals/ModalAlert";
@@ -27,11 +26,9 @@ export default function RootLayout({
     <html lang="en" className={notnSansKR.className}>
       <body>
         <ProviderQueryClient>
-          <ProviderAuth>
-            <Header />
-            <Background />
-            <div id="main-contents-container">{children}</div>
-          </ProviderAuth>
+          <Header />
+          <Background />
+          <div id="main-contents-container">{children}</div>
         </ProviderQueryClient>
         <Tooltip />
         <ModalAlert />
