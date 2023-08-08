@@ -9,6 +9,7 @@ function Input(props: InputProps) {
   const defaultValue = props.value;
   const onChange = props.onChange;
   const validation = props.validation;
+  const readOnly = props.readOnly;
 
   const [value, setValue] = useState<StringOrNumber>("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -35,6 +36,12 @@ function Input(props: InputProps) {
     setValue(defaultValue);
   }, [defaultValue]);
 
+  const handleInputChange = () => {
+    if (readOnly) return;
+
+    onChange(value, errorMessage.length != 0);
+  };
+
   const errorElement =
     errorMessage.length == 0 ? null : (
       <span
@@ -55,9 +62,10 @@ function Input(props: InputProps) {
           id={id}
           value={value}
           onChange={handleInputValue}
-          onBlur={() => onChange(value, errorMessage.length != 0)}
+          onBlur={handleInputChange}
           aria-invalid={true}
           aria-errormessage={`input-error-message-${dataKey}`}
+          readOnly={readOnly ?? false}
         />
         {errorElement}
       </>
@@ -70,9 +78,10 @@ function Input(props: InputProps) {
           id={id}
           value={value}
           onChange={handleInputValue}
-          onBlur={() => onChange(value, errorMessage.length != 0)}
+          onBlur={handleInputChange}
           aria-invalid={true}
           aria-errormessage={`input-error-message-${dataKey}`}
+          readOnly={readOnly ?? false}
         />
         {errorElement}
       </>

@@ -1,8 +1,14 @@
+import { isAddress } from "ethers";
 // 애플리케이션에 필요한 Validation 정의
 
 const validations: {
   [key: string]: (target: StringOrNumber) => string;
 } = {
+  contractAddress: (text: StringOrNumber) => {
+    const check = isAddress(`${text}`);
+    if (!check) return "올바른 주소를 입력해주세요.";
+    return "";
+  },
   webAddress: (text: StringOrNumber) => {
     const reg = new RegExp(
       /^(http(s):\/\/.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/
@@ -19,7 +25,7 @@ const validations: {
   collectionName: (text: StringOrNumber) => {
     const reg = new RegExp(/^[A-Za-z가-힣]{1}[A-Za-z가-힣\s]{5,25}$/);
     if (!reg.test(`${text}`))
-      return "컬렉션 이름은 한글, 영어 소/대문자, 숫자로 설정해주세요. (1~25자)";
+      return "컬렉션 이름은 한글, 영어 소/대문자, 숫자로 설정해주세요. (5~25자)";
     return "";
   },
   collectionSymbol: (text: StringOrNumber) => {

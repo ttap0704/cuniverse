@@ -146,6 +146,7 @@ declare global {
     onChange: (text: StringOrNumber, error: boolean) => void;
     validation?: (text: StringOrNumber) => string;
     errorMessage?: string;
+    readOnly?: boolean;
   }
 
   // 문자열 또는 숫자

@@ -66,6 +66,10 @@
   &:focus {
     border-color: $black-50;
   }
+
+  &:read-only {
+    background-color: $black-10;
+  }
 }
 
 .input-error-message {

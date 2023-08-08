@@ -5,6 +5,11 @@ import { uploadImageToS3 } from "./tools";
 import ethersServerProvider from "./ethersServerProvider";
 import { formatEther } from "ethers";
 
+export const alertMessage = new Proxy<{
+  type: "error" | "success";
+  message: string;
+}>({ type: "success", message: "" }, {});
+
 function setHeader() {
   const headers: { [key: string]: string } = {
     "Content-Type": "application/json",
@@ -22,7 +27,8 @@ async function fetchGetApi(url: string, options?: RequestInit) {
 
   const data: APIResponse = await res.json();
   if (data.message) {
-    alert(data.message);
+    alertMessage.type = data.pass ? "success" : "error";
+    alertMessage.message = data.message;
   }
 
   return data.data;
@@ -38,7 +44,8 @@ async function fetchPostApi(body: object, url: string, options?: RequestInit) {
 
   const data: APIResponse = await res.json();
   if (data.message) {
-    alert(data.message);
+    alertMessage.type = data.pass ? "success" : "error";
+    alertMessage.message = data.message;
   }
 
   return data.data;
@@ -54,7 +61,8 @@ async function fetchPutApi(body: object, url: string, options?: RequestInit) {
 
   const data: APIResponse = await res.json();
   if (data.message) {
-    alert(data.message);
+    alertMessage.type = data.pass ? "success" : "error";
+    alertMessage.message = data.message;
   }
 
   return data.data;
@@ -69,7 +77,8 @@ async function fetchDeleteApi(url: string, options?: RequestInit) {
 
   const data: APIResponse = await res.json();
   if (data.message) {
-    alert(data.message);
+    alertMessage.type = data.pass ? "success" : "error";
+    alertMessage.message = data.message;
   }
 
   return data.data;
@@ -191,6 +200,14 @@ export async function fetchCreateConllection(body: {
   data: CreateContractRequest;
 }) {
   const res: boolean = await fetchPostApi(body.data, `/accounts/contracts`);
+  return res;
+}
+
+// Check Own Contract
+export async function fetchCheckOwnContract(contractAddress: string) {
+  const res: { name: string; symbol: string } | null = await fetchGetApi(
+    `/utils/check-address?contract-address=${contractAddress}`
+  );
   return res;
 }
 
