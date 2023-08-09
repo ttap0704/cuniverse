@@ -20,7 +20,7 @@ export async function GET() {
       pass = true;
 
       data = await db.query({
-        sql: "SELECT * FROM contracts WHERE account_id = ? ORDER BY created_at DESC;",
+        sql: "SELECT * FROM contracts WHERE accountId = ? ORDER BY createdAt DESC;",
         values: [accountResponse[0].id],
       });
     }

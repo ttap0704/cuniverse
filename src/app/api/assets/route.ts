@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import db from "../db";
 import { NftContractNftsResponse } from "alchemy-sdk";
 import alchemy from "@/utils/alchemy";
-import { Contract, InterfaceAbi } from "ethers";
+import { Contract } from "ethers";
 import ethersServerProvider from "@/utils/ethersServerProvider";
 
 export async function GET(request: NextRequest, response: NextResponse) {
@@ -77,11 +77,12 @@ export async function GET(request: NextRequest, response: NextResponse) {
       });
 
       // 현재 해당 NFT가 판매중인지 체크
-      const saleResponse: { end_time: string; price: number }[] =
-        await db.query({
-          sql: "SELECT price, end_time FROM sales WHERE contract_address = ? AND token_id = ?;",
+      const saleResponse: { endTime: string; price: number }[] = await db.query(
+        {
+          sql: "SELECT price, endTime FROM sales WHERE contractAddress = ? AND tokenId = ?;",
           values: [address, tokenId],
-        });
+        }
+      );
       const sale = saleResponse[0] ?? null;
 
       // **** 추후에 변경 예정 **** //

@@ -36,7 +36,7 @@ declare global {
     afreecatv: string | null;
     instagram: string | null;
     twitch: string | null;
-    created_at: string;
+    createdAt: string;
   }
 
   // Account Info 수정가능 Keys
@@ -65,7 +65,7 @@ declare global {
   }
 
   // Account 공통 Interface
-  type AccountClient = Omit<AccountInfoReponse, "created_at">;
+  type AccountClient = Omit<AccountInfoReponse, "createdAt">;
   interface Account extends AccountClient {
     balance: string;
     createdAt: string;
@@ -158,7 +158,7 @@ declare global {
     owners: { nickname: string; address: string };
     deployer: { nickname: string; address: string };
     moreNFTs: NFTMetadata[];
-    sale: { end_time: string; price: number } | null;
+    sale: { endTime: string; price: number } | null;
   }
 
   // Contract Detail
@@ -171,7 +171,17 @@ declare global {
     description: string;
     banner?: string;
     profile?: string;
+    latestBlockNumber?: number;
+    totalSupply: number;
     createdAt: string;
+  }
+
+  // Collection Detail
+  interface CollectionDetail extends ContractDetail {
+    deployerNickname: string;
+    deployerAddress: string;
+    nfts: NftContractNftsResponse["nfts"];
+    owners: number;
   }
 
   // Radio Button 공통 Interface
@@ -197,8 +207,8 @@ declare global {
     name: string;
     symbol: string;
     description: string;
-    contract_address: string;
-    account_id: number;
+    contractAddress: string;
+    accountId: number;
   }
 
   // Contract 수정 Request Body

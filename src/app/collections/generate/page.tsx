@@ -87,7 +87,7 @@ function AccountSettings() {
     description: { value: "", error: false },
   });
 
-  // 페이지 진입 시, Initial Form Data 생성
+  // 페이지 진입 시 또는 가져오기 완료 시, Initial Form Data 생성
   const setFormData = (name?: string, symbol?: string) => {
     const tmpForm: InputProps[] = [];
     for (let i = 0; i < generateKeys.length; i++) {
@@ -152,8 +152,8 @@ function AccountSettings() {
         description: "",
         banner: "",
         profile: "",
-        contract_address: "",
-        account_id: account.id,
+        contractAddress: "",
+        accountId: account.id,
       };
 
       for (let i = 0; i < generateKeys.length; i++) {
@@ -221,7 +221,7 @@ function AccountSettings() {
             );
 
             await contract.waitForDeployment();
-            finalGenerateData["contract_address"] = await contract.getAddress();
+            finalGenerateData["contractAddress"] = await contract.getAddress();
           } catch (err) {
             setModalAlert({
               open: true,
@@ -230,7 +230,7 @@ function AccountSettings() {
             });
           }
         } else {
-          finalGenerateData["contract_address"] = contractAddress.value;
+          finalGenerateData["contractAddress"] = contractAddress.value;
         }
       }
 

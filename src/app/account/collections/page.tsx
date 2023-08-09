@@ -25,9 +25,9 @@ function AccountCollections() {
     // 아이템이 있을 때
     return (
       <ContainerNFTContents>
-        {nfts.ownedNfts.map((item, item_idx) => {
+        {nfts.ownedNfts.map((item, itemIdx) => {
           return (
-            <BoxNFTPreview key={`account_nft_item_${item_idx}`} item={item} />
+            <BoxNFTPreview key={`account_nft_item_${itemIdx}`} item={item} />
           );
         })}
       </ContainerNFTContents>

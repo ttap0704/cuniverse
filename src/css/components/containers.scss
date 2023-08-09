@@ -100,6 +100,11 @@
 
   @include d-flex-align-center;
 
+  .address-container {
+    gap: 2rem;
+    @include d-flex-center;
+  }
+
   .nickname-wrapper {
     gap: 0.5rem;
     @include d-flex-center;
@@ -113,6 +118,10 @@
       margin-right: 0.25rem;
     }
 
+    .address-sort {
+      color: $white-90;
+    }
+
     .intro-address {
       color: $white-90;
       font-weight: $bold;
@@ -122,6 +131,36 @@
       margin-left: 1rem;
       font-size: $f-sm;
       color: $white-90;
+    }
+  }
+
+  .count-wrapper {
+    gap: 2rem;
+    margin-bottom: 2rem;
+    @include d-flex-center;
+    & > div {
+      display: flex;
+      flex-direction: column;
+
+      &.count-divider {
+        width: 1px;
+        height: 40px;
+        background-color: $white-50;
+      }
+
+      & > span {
+        color: $white-80;
+        font-size: $f-ml;
+      }
+      & > p {
+        color: $white-100;
+        font-size: $f-xl;
+
+        & > span {
+          margin-left: 0.25rem;
+          font-size: $f-m;
+        }
+      }
     }
   }
 
