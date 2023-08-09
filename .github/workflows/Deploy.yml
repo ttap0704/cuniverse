@@ -20,10 +20,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-
-      - name: Install dependencies
-        run: yarn install
-
+          
       - name: Build next app
         run: yarn build
 
