@@ -120,7 +120,7 @@ export async function fetchGetAccountInfo() {
         ? `${S3_IMAGES_URL}/images/${res.profile}`
         : res.profile,
       balance: wei != "0." ? wei.slice(0, 6) : "0",
-      createdAt: new Date(res.created_at).toLocaleDateString("en-US", {
+      createdAt: new Date(res.createdAt).toLocaleDateString("en-US", {
         year: "numeric",
         month: "long",
       }),
@@ -148,7 +148,7 @@ export async function fetchGetCollectorInfo(address: string) {
       profile: res.profile
         ? `${S3_IMAGES_URL}/images/${res.profile}`
         : res.profile,
-      createdAt: new Date(res.created_at).toLocaleDateString("en-US", {
+      createdAt: new Date(res.createdAt).toLocaleDateString("en-US", {
         year: "numeric",
         month: "long",
       }),

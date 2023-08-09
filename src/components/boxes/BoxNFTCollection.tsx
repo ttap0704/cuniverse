@@ -1,12 +1,16 @@
 import { HiOutlinePhoto } from "react-icons/hi2";
 import { S3_IMAGES_URL } from "../../../constants";
 import Image from "next/image";
+import Link from "next/link";
 
 function BoxNFTCollection(props: ContractDetail) {
-  const { name, profile, banner } = props;
+  const { name, profile, banner, contractAddress } = props;
 
   return (
-    <div className="box-nft-collection">
+    <Link
+      className="box-nft-collection"
+      href={`/collection?address=${contractAddress}`}
+    >
       <div className="collection-banner">
         {banner ? (
           <Image
@@ -34,7 +38,7 @@ function BoxNFTCollection(props: ContractDetail) {
         </div>
         <h3>{name}</h3>
       </div>
-    </div>
+    </Link>
   );
 }
 

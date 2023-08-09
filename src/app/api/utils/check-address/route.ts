@@ -24,7 +24,7 @@ export async function GET(request: NextRequest, response: NextResponse) {
       sql: `
         SELECT COUNT(*) AS cnt
         FROM contracts
-        WHERE contract_address = ? AND account_id = (
+        WHERE contractAddress = ? AND accountId = (
           SELECT id FROM accounts WHERE address = ?
         );
       `,

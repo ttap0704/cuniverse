@@ -10,7 +10,7 @@ interface ContainerNFTDetailIntroProps {
   contract: { address: string; title: string };
   deployer: { address: string; nickname: string };
   owner: { address: string; nickname: string };
-  sale: { end_time: string; price: number } | null;
+  sale: { endTime: string; price: number } | null;
 }
 
 function ContainerNFTDetailIntro(props: ContainerNFTDetailIntroProps) {
