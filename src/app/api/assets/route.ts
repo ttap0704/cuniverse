@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import db from "../db";
 import { NftContractNftsResponse } from "alchemy-sdk";
 import alchemy from "@/utils/alchemy";
-import { Contract, InterfaceAbi } from "ethers";
+import { Contract } from "ethers";
 import ethersServerProvider from "@/utils/ethersServerProvider";
 
 export async function GET(request: NextRequest, response: NextResponse) {

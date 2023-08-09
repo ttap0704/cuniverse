@@ -171,7 +171,17 @@ declare global {
     description: string;
     banner?: string;
     profile?: string;
+    latestBlockNumber?: number;
+    totalSupply: number;
     createdAt: string;
+  }
+
+  // Collection Detail
+  interface CollectionDetail extends ContractDetail {
+    deployerNickname: string;
+    deployerAddress: string;
+    nfts: NftContractNftsResponse["nfts"];
+    owners: number;
   }
 
   // Radio Button 공통 Interface

@@ -5,7 +5,7 @@ import ContainerSeeMore from "./ContainerSeeMore";
 import BoxNFTPreview from "../boxes/BoxNFTPreview";
 import { OwnedNftsResponse } from "alchemy-sdk";
 
-// NFT Detail 정보 표기 Component
+// NFT Detail 정보 표기
 
 function ContainerNFTDetail(props: NFTDetail) {
   const data = props;

@@ -211,6 +211,14 @@ export async function fetchCheckOwnContract(contractAddress: string) {
   return res;
 }
 
+// Get Collection Detail
+export async function fetchGetCollectionDetail(contractAddress: string) {
+  const res: CollectionDetail | null = await fetchGetApi(
+    `/collection?address=${contractAddress}`
+  );
+  return res;
+}
+
 // // Collction Update API
 // export async function fetchUpdateConllection(body: {
 //   data: UpdateContractRequest;

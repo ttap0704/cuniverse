@@ -23,10 +23,9 @@ export async function GET(request: NextRequest, response: NextResponse) {
     const check: { cnt: number }[] = await db.query({
       sql: `
         SELECT COUNT(*) AS cnt
-        FROM contracts
-        WHERE contractAddress = ? AND accountId = (
-          SELECT id FROM accounts WHERE address = ?
-        );
+        FROM accounts ac
+        INNER JOIN contracts ct ON ac.id = ct.accountId
+        WHERE ct.contractAddress =? AND ac.address = ?;
       `,
       values: [contractAddress, address],
     });
