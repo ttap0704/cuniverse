@@ -20,12 +20,15 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
+          
+      - name: Install latest Yarn
+        run: corepack prepare yarn@stable --activate
+
+      - name: Activate latest Yarn
+        run: yarn set version stable
 
       - name: Run build
-        run: |
-          corepack yarn
-          yarn set version berry
-          yarn run build
+        run: yarn run build
 
       - name: Make zip file
         run: zip -qq -r ./$GITHUB_SHA.zip . -x "node_modules/*"
