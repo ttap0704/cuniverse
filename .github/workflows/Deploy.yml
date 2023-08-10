@@ -26,6 +26,9 @@ jobs:
 
       - name: Activate latest Yarn
         run: yarn set version stable
+        
+      - name: Run Install
+        run: yarn install
 
       - name: Run build
         run: yarn run build
