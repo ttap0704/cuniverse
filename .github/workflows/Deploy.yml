@@ -21,12 +21,12 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install Dependencies
-        run: yarn install
-          
-      - name: Build next app
-        run: yarn build
-          
+      - name: Run build
+        run: |
+          corepack yarn
+          yarn set version berry
+          yarn run build
+
       - name: Make zip file
         run: zip -qq -r ./$GITHUB_SHA.zip . -x "node_modules/*"
         shell: bash
