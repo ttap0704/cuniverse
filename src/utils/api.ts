@@ -1,5 +1,4 @@
-import { SERVER_NAME } from "../../../next-react-state-management/constants";
-import { S3_IMAGES_URL } from "../../constants";
+import { S3_IMAGES_URL, SERVER_NAME } from "../../constants";
 import { OwnedNftsResponse } from "alchemy-sdk";
 import { uploadImageToS3 } from "./tools";
 import ethersServerProvider from "./ethersServerProvider";
