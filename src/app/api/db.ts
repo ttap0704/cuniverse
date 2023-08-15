@@ -1,6 +1,5 @@
 import mysql from "serverless-mysql";
 
-// Mysql DB 설정
 const db = mysql({
   config: {
     user: `${process.env.DB_USER}`,

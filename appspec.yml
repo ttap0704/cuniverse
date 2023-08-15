@@ -12,5 +12,5 @@ permissions: # EC2 인스턴스에 프로젝트를 저장하기 위한 권한 �
 hooks:
   AfterInstall: # AfterInstall 즉, 배포 완료 후 실행할 동작 설정.
     - location: deploy.sh # deploy.sh를 실행.
-      timeout: 1000 # 제한 시간 1000초 으로 설정. 1000초가 넘어가면 실패함.
+      timeout: 60 # 제한 시간 60초 으로 설정. 60초가 넘어가면 실패함.
       runas: root # run as root 즉, root 권한으로 실행.
