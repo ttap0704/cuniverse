@@ -1,8 +1,8 @@
 import { S3_IMAGES_URL, SERVER_NAME } from "../../constants";
 import { OwnedNftsResponse } from "alchemy-sdk";
 import { uploadImageToS3 } from "./tools";
-import ethersServerProvider from "./ethersServerProvider";
 import { formatEther } from "ethers";
+import ethersBrowserProvider from "./ethersBrowserProvider";
 
 export const alertMessage = new Proxy<{
   type: "error" | "success";
@@ -38,6 +38,26 @@ async function fetchPostApi(body: object, url: string, options?: RequestInit) {
     method: "POST",
     headers: { ...setHeader() },
     body: JSON.stringify({ time: new Date().toISOString(), data: body }),
+    ...options,
+  });
+
+  const data: APIResponse = await res.json();
+  if (data.message) {
+    alertMessage.type = data.pass ? "success" : "error";
+    alertMessage.message = data.message;
+  }
+
+  return data.data;
+}
+
+async function fetchPostFormdataApi(
+  body: FormData,
+  url: string,
+  options?: RequestInit
+) {
+  const res = await fetch(`${SERVER_NAME}/api${url}`, {
+    method: "POST",
+    body,
     ...options,
   });
 
@@ -108,8 +128,10 @@ export async function fetchGetAccountInfo() {
   let finalResponse: Account | null = null;
 
   // 유저가 있다면 Query Key ['account'] 최종 업데이트
-  if (res && window.ethereum) {
-    const balance = await ethersServerProvider.getBalance(res.address);
+  if (res && window.ethereum && ethersBrowserProvider.provider) {
+    const balance = await ethersBrowserProvider.provider.getBalance(
+      res.address
+    );
     const wei = formatEther(balance);
 
     finalResponse = {
@@ -214,6 +236,15 @@ export async function fetchCheckOwnContract(contractAddress: string) {
 export async function fetchGetCollectionDetail(contractAddress: string) {
   const res: CollectionDetail | null = await fetchGetApi(
     `/collection?address=${contractAddress}`
+  );
+  return res;
+}
+
+// Upload IPFS
+export async function fetchUploadIPFS(data: FormData) {
+  const res: string | null = await fetchPostFormdataApi(
+    data,
+    "/accounts/minting/assets"
   );
   return res;
 }

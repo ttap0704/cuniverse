@@ -1,6 +1,9 @@
 "use client";
 
+import { setDropdownAtom } from "@/store/dropdown";
+import { useSetAtom } from "jotai";
 import React, { memo, useEffect, useState } from "react";
+import DropdownMenu from "../dropdowns/DropdownMenu";
 
 function Input(props: InputProps) {
   const id = props.id;
@@ -9,7 +12,11 @@ function Input(props: InputProps) {
   const defaultValue = props.value;
   const onChange = props.onChange;
   const validation = props.validation;
-  const readOnly = props.readOnly;
+  const readOnly = props.readOnly || type === "dropdown";
+  const placeholder = props.placeholder;
+  const items = props.items;
+
+  const setDropdown = useSetAtom(setDropdownAtom);
 
   const [value, setValue] = useState<StringOrNumber>("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -42,6 +49,22 @@ function Input(props: InputProps) {
     onChange(value, errorMessage.length != 0);
   };
 
+  const openDropdownMenu = () => {
+    if (type === "dropdown" && items) {
+      setDropdown({ open: true, id });
+    }
+  };
+
+  const checkItem = (id: StringOrNumber) => {
+    if (items) {
+      const checked = items.find((item) => item.id == id);
+      if (checked) {
+        setValue(checked.label);
+        onChange(checked.id, false);
+      }
+    }
+  };
+
   const errorElement =
     errorMessage.length == 0 ? null : (
       <span
@@ -66,6 +89,7 @@ function Input(props: InputProps) {
           aria-invalid={true}
           aria-errormessage={`input-error-message-${dataKey}`}
           readOnly={readOnly ?? false}
+          placeholder={placeholder}
         />
         {errorElement}
       </>
@@ -74,16 +98,26 @@ function Input(props: InputProps) {
     return (
       <>
         <input
-          className={`input-default ${errorMessage.length != 0 ? "error" : ""}`}
+          className={`input-default ${
+            errorMessage.length != 0 ? "error" : ""
+          } ${type == "dropdown" ? "dropdown" : ""}`}
           id={id}
           value={value}
           onChange={handleInputValue}
           onBlur={handleInputChange}
+          onClick={openDropdownMenu}
           aria-invalid={true}
           aria-errormessage={`input-error-message-${dataKey}`}
           readOnly={readOnly ?? false}
+          placeholder={placeholder}
         />
+
         {errorElement}
+        <DropdownMenu
+          items={items ?? []}
+          onItemClicked={checkItem}
+          targetId={id}
+        />
       </>
     );
   }

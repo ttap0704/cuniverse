@@ -22,7 +22,7 @@ export async function GET(request: NextRequest, response: NextResponse) {
     // Etherscan API 통해
     // Smart Contract ABI 조회
     const getAbi = await fetch(
-      `https://api-sepolia.etherscan.io/api?module=contract&action=getabi&address=${address}&apikey=${process.env.NEXT_PUBLIC_ETHERSCAN_API_KEY}`
+      `https://api-sepolia.etherscan.io/api?module=contract&action=getabi&address=${address}&apikey=${process.env.ETHERSCAN_API_KEY}`
     );
     const abiRespoonse: { status: string; message: string; result: string } =
       await getAbi.json();
@@ -60,7 +60,7 @@ export async function GET(request: NextRequest, response: NextResponse) {
       // 토근 Owner와 Contract Deployer 조회
       const owner = await contract.getFunction("ownerOf").staticCall(tokenId);
       const getDeployer = await fetch(
-        `https://api-sepolia.etherscan.io/api?module=contract&action=getcontractcreation&contractaddresses=${address}&apikey=${process.env.NEXT_PUBLIC_ETHERSCAN_API_KEY}`
+        `https://api-sepolia.etherscan.io/api?module=contract&action=getcontractcreation&contractaddresses=${address}&apikey=${process.env.ETHERSCAN_API_KEY}`
       );
       const deployerReponse = await getDeployer.json();
 

@@ -64,6 +64,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["next-router-mock", "virtual:80ffb1d58ea35384396d91374a30820e6e05e47551245d7f2e0729f2d74fa80e31a49eb77a569f8128954fcb5b7dc01cc2b632a323261e0a835267ad8266f95c#npm:0.9.7"],\
             ["postcss-import", "virtual:80ffb1d58ea35384396d91374a30820e6e05e47551245d7f2e0729f2d74fa80e31a49eb77a569f8128954fcb5b7dc01cc2b632a323261e0a835267ad8266f95c#npm:15.1.0"],\
             ["postcss-nesting", "virtual:80ffb1d58ea35384396d91374a30820e6e05e47551245d7f2e0729f2d74fa80e31a49eb77a569f8128954fcb5b7dc01cc2b632a323261e0a835267ad8266f95c#npm:11.3.0"],\
+            ["pull-stream", "npm:3.7.0"],\
             ["react", "npm:18.2.0"],\
             ["react-dom", "virtual:80ffb1d58ea35384396d91374a30820e6e05e47551245d7f2e0729f2d74fa80e31a49eb77a569f8128954fcb5b7dc01cc2b632a323261e0a835267ad8266f95c#npm:18.2.0"],\
             ["react-icons", "virtual:80ffb1d58ea35384396d91374a30820e6e05e47551245d7f2e0729f2d74fa80e31a49eb77a569f8128954fcb5b7dc01cc2b632a323261e0a835267ad8266f95c#npm:4.10.1"],\
@@ -6331,6 +6332,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["next-router-mock", "virtual:80ffb1d58ea35384396d91374a30820e6e05e47551245d7f2e0729f2d74fa80e31a49eb77a569f8128954fcb5b7dc01cc2b632a323261e0a835267ad8266f95c#npm:0.9.7"],\
             ["postcss-import", "virtual:80ffb1d58ea35384396d91374a30820e6e05e47551245d7f2e0729f2d74fa80e31a49eb77a569f8128954fcb5b7dc01cc2b632a323261e0a835267ad8266f95c#npm:15.1.0"],\
             ["postcss-nesting", "virtual:80ffb1d58ea35384396d91374a30820e6e05e47551245d7f2e0729f2d74fa80e31a49eb77a569f8128954fcb5b7dc01cc2b632a323261e0a835267ad8266f95c#npm:11.3.0"],\
+            ["pull-stream", "npm:3.7.0"],\
             ["react", "npm:18.2.0"],\
             ["react-dom", "virtual:80ffb1d58ea35384396d91374a30820e6e05e47551245d7f2e0729f2d74fa80e31a49eb77a569f8128954fcb5b7dc01cc2b632a323261e0a835267ad8266f95c#npm:18.2.0"],\
             ["react-icons", "virtual:80ffb1d58ea35384396d91374a30820e6e05e47551245d7f2e0729f2d74fa80e31a49eb77a569f8128954fcb5b7dc01cc2b632a323261e0a835267ad8266f95c#npm:4.10.1"],\
@@ -11572,6 +11574,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/psl-npm-1.9.0-a546edad1a-20c4277f64.zip/node_modules/psl/",\
           "packageDependencies": [\
             ["psl", "npm:1.9.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["pull-stream", [\
+        ["npm:3.7.0", {\
+          "packageLocation": "./.yarn/cache/pull-stream-npm-3.7.0-c7f0713a39-df0b864fd9.zip/node_modules/pull-stream/",\
+          "packageDependencies": [\
+            ["pull-stream", "npm:3.7.0"]\
           ],\
           "linkType": "HARD"\
         }]\

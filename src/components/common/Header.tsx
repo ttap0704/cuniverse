@@ -15,6 +15,7 @@ import useAccountQuery from "@/queries/useAccountQuery";
 const headerDropdownMenu: DropdownMenuItem[] = [
   { id: 0, label: "프로필" },
   { id: 1, label: "내 컬렉션" },
+  { id: 3, label: "NFT 생성" },
   { id: 2, label: "로그아웃" },
 ];
 const headerDropdownMenuNotAccount: DropdownMenuItem[] = [];
@@ -22,7 +23,8 @@ const headerDropdownMenuNotAccount: DropdownMenuItem[] = [];
 // 이동 페이지 정의
 const redirectPages: { [key: number]: string } = {
   0: "/account",
-  1: "/collections",
+  1: "/contracts",
+  3: "/minting",
 };
 
 function Header() {

@@ -22,6 +22,12 @@ const validations: {
       return "닉네임은 영어 소/대문자, 숫자, _로 설정해주세요. (5~25자)";
     return "";
   },
+  NFTName: (text: StringOrNumber) => {
+    const reg = new RegExp(/^[A-Za-z가-힣]{1}[A-Za-z가-힣\s]{5,15}$/);
+    if (!reg.test(`${text}`))
+      return "NFT 이름은 한글, 영어 소/대문자, 숫자로 설정해주세요. (5~15자)";
+    return "";
+  },
   collectionName: (text: StringOrNumber) => {
     const reg = new RegExp(/^[A-Za-z가-힣]{1}[A-Za-z가-힣\s]{5,25}$/);
     if (!reg.test(`${text}`))

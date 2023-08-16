@@ -136,7 +136,7 @@ declare global {
     href: string;
   }
 
-  type InputTypes = "text" | "number" | "textarea" | "file";
+  type InputTypes = "text" | "number" | "textarea" | "file" | "dropdown";
   // Input 공통 Interface
   interface InputProps {
     id: string;
@@ -147,6 +147,8 @@ declare global {
     validation?: (text: StringOrNumber) => string;
     errorMessage?: string;
     readOnly?: boolean;
+    placeholder?: string;
+    items?: DropdownMenuItem[];
   }
 
   // 문자열 또는 숫자

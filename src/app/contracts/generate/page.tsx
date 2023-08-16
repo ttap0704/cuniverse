@@ -241,7 +241,7 @@ function AccountSettings() {
         text: "컬렉션 배포에 성공하였습니다.",
       });
       setIsDeploying(false);
-      router.push("/collections");
+      router.push("/contracts");
     }
   };
 

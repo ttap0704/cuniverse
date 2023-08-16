@@ -4428,6 +4428,7 @@ __metadata:
     next-router-mock: ^0.9.7
     postcss-import: ^15.1.0
     postcss-nesting: ^11.3.0
+    pull-stream: ^3.7.0
     react: 18.2.0
     react-dom: 18.2.0
     react-icons: ^4.10.1
@@ -8839,6 +8840,13 @@ __metadata:
   version: 1.9.0
   resolution: "psl@npm:1.9.0"
   checksum: 20c4277f640c93d393130673f392618e9a8044c6c7bf61c53917a0fddb4952790f5f362c6c730a9c32b124813e173733f9895add8d26f566ed0ea0654b2e711d
+  languageName: node
+  linkType: hard
+
+"pull-stream@npm:^3.7.0":
+  version: 3.7.0
+  resolution: "pull-stream@npm:3.7.0"
+  checksum: df0b864fd92bb61e84d02764a064bf023188c1c917d854029a5b8e543e163f9aaf1a9553067d4fdf5e248b0d96338e0a23fac9257e86cf740e7d03e05b7a77a3
   languageName: node
   linkType: hard
 

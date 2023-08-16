@@ -15,7 +15,7 @@ export const S3_IMAGES_URL =
   "https://cuniverse-images.s3.ap-northeast-2.amazonaws.com";
 
 // Need Connect Wallet Pages/API
-export const ACCOUNT_PAGES = ["account", "collections"];
+export const ACCOUNT_PAGES = ["account", "contracts", "minting"];
 export const ACCOUNT_API = ["/api/accounts/info"];
 
 // Default Account Images
@@ -55,3 +55,6 @@ export const PLATFORM_LINKS: PlatformLink[] = [
 // Web3 Sign Text
 export const SIGN_TEXT =
   "cuniverse에 오신 것을 환영합니다!\n\ncuniverse에 로그인하는 것을 동의합니다.\n\n이 요청은 블록체인 거래를 유발하거나 가스 요금을 내지 않습니다.\n\n인증 상태는 24시간 후에 재설정됩니다.\n\n현재 시간 : ";
+
+// Infura IPFS Sub Domain
+export const INFURA_IPFS_SUB_DOMAIN = "https://cuniverse.infura-ipfs.io";

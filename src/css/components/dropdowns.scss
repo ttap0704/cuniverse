@@ -8,13 +8,13 @@
 
   .dropdown-contents-wrapper {
     position: absolute;
-
     @include transition-03;
 
     .dropdown-contents {
       background-color: $white-100;
       padding: 1rem;
       border-radius: 1rem;
+      box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
     }
   }
 }
