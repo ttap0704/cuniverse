@@ -249,6 +249,14 @@ export async function fetchUploadIPFS(data: FormData) {
   return res;
 }
 
+// Get Contract Specific Metadata
+export async function fetchGetContractSpecificMetadata(searchParams: string) {
+  const res: { [key: string]: string } | null = await fetchGetApi(
+    `/utils/contract-metadata?${searchParams}`
+  );
+  return res;
+}
+
 // // Collction Update API
 // export async function fetchUpdateConllection(body: {
 //   data: UpdateContractRequest;

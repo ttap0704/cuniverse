@@ -21,7 +21,7 @@ function CollectionsIndex() {
 
   const moveGeneratePage = (mode: string) => {
     closeConfirmModal();
-    router.push(`/collections/generate?mode=${mode}`);
+    router.push(`/contracts/generate?mode=${mode}`);
   };
 
   return (

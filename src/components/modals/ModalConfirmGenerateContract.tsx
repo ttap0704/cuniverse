@@ -44,7 +44,6 @@ function ModalConfirmGenerateContract(
 
   const confirmGenerate = () => {
     const findOption = radioOptions.find((option) => option.checked);
-    console.log(findOption);
     if (findOption) onConfirm(findOption.id);
   };
 

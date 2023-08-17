@@ -6,13 +6,21 @@ import ContainerForm from "@/components/containers/ContainerForm";
 import InputWithLabel from "@/components/inputs/InputWithLabel";
 import useAccountQuery from "@/queries/useAccountQuery";
 import { setModalAlertAtom } from "@/store/modalAlert";
-import { fetchGetAccountContracts, fetchUploadIPFS } from "@/utils/api";
+import {
+  fetchGetAccountContracts,
+  fetchGetContractSpecificMetadata,
+  fetchUploadIPFS,
+} from "@/utils/api";
 import validations from "@/utils/validations";
 import { useSetAtom } from "jotai";
 import { use, useEffect, useRef, useState } from "react";
 import LoadingWaterDrop from "@/components/common/LoadingWaterDrop";
 import { useRouter, useSearchParams } from "next/navigation";
 import { base64ToFile } from "@/utils/tools";
+import TypographyFormTitle from "@/components/typography/TypographyFormTitle";
+import ethersBrowserProvider from "@/utils/ethersBrowserProvider";
+import NFT from "@/contracts/NFT.json";
+import { Contract, ethers } from "ethers";
 
 // Create NFT Metadata
 interface CreateNFTMetadata {
@@ -129,12 +137,14 @@ function AccountSettings() {
   const setContractDropdown = async () => {
     const contractRes = await fetchGetAccountContracts();
     if (contractRes) {
-      const tmpMenu: DropdownMenuItem[] = contractRes.map((item) => {
-        return {
-          label: `${item.name} (${item.symbol})`,
-          id: item.contractAddress,
-        };
-      });
+      const tmpMenu: DropdownMenuItem[] = contractRes
+        .filter((item) => item.created == 1)
+        .map((item) => {
+          return {
+            label: `${item.name} (${item.symbol})`,
+            id: item.contractAddress,
+          };
+        });
       setContractDropdownItems([...tmpMenu]);
 
       setFormData();
@@ -244,8 +254,50 @@ function AccountSettings() {
             MetadataFormdata.append("file", JSON.stringify(finalMintingData));
             MetadataFormdata.append("fileType", "json");
 
-            const uploadMetadataUrl = await fetchUploadIPFS(MetadataFormdata);
-            console.log("uploadMetadataUrl:", uploadMetadataUrl);
+            const uploadMetadataHash = await fetchUploadIPFS(MetadataFormdata);
+
+            if (uploadMetadataHash && ethersBrowserProvider.provider) {
+              const signer = await ethersBrowserProvider.provider.getSigner();
+              const contract = new Contract(
+                finalMintingData.contractAddress,
+                NFT.abi,
+                signer
+              );
+
+              try {
+                // mint 시작
+                // const tx: ethers.TransactionRequest = {
+                //   from: signer.address,
+                //   to: finalMintingData.contractAddress,
+                //   value: 0,
+                //   nonce:
+                //     await ethersBrowserProvider.provider.getTransactionCount(
+                //       signer.address,
+                //       "latest"
+                //     ),
+                //   gasLimit: "3000000",
+                //   gasPrice: "21000000000",
+                // };
+
+                console.log("address:", finalMintingData.contractAddress);
+                const NFTTx = await contract
+                  .getFunction("mintTo")
+                  .staticCall(await signer.getAddress(), uploadMetadataHash);
+
+                let tx = await NFTTx.wait();
+
+                // const test = await signer.sendTransaction(tx);
+                console.log(test);
+              } catch (err) {
+                console.log("mintError:", err);
+                setModalAlert({
+                  open: true,
+                  type: "error",
+                  text: "NFT 업로드에 실패하였습니다.\r다시 시도해주세요.",
+                });
+                return;
+              }
+            }
           }
         } else {
           setModalAlert({
@@ -319,6 +371,7 @@ function AccountSettings() {
     return (
       <ContainerForm>
         {isDeploying ? <LoadingWaterDrop /> : null}
+        <TypographyFormTitle title="NFT 생성하기" />
         {form.map((data) => {
           return (
             <InputWithLabel

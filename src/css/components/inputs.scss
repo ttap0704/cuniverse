@@ -7,18 +7,6 @@
 .input-width-label {
   width: 100%;
 
-  label {
-    display: inline-block;
-    font-size: $f-sm;
-    font-weight: $semibold;
-    margin-bottom: 0.25rem;
-
-    & > span {
-      color: $red;
-      margin-left: 0.25rem;
-    }
-  }
-
   .file-input-wrapper {
     position: relative;
     overflow: hidden;

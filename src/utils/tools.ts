@@ -17,8 +17,6 @@ export async function uploadImageToS3(file: File) {
     .pop()
     ?.toLocaleLowerCase()}`;
 
-  console.log(file.name);
-
   // 수정 권한 받은 Url Return
   const url = await fetchUploadS3({
     name: `images/${newImageName}`,
@@ -78,7 +76,6 @@ export function base64ToFile(dataurl: string, filename: string) {
     let n = bstr.length;
     const u8arr = new Uint8Array(n);
 
-    console.log("u8arr:", u8arr);
     while (n--) {
       u8arr[n] = bstr.charCodeAt(n);
     }
@@ -86,7 +83,6 @@ export function base64ToFile(dataurl: string, filename: string) {
     const file = new File([u8arr], filename + `.${mimeType.split("/")[1]}`, {
       type: mimeType,
     });
-    console.log("file:", file);
     return file;
   } else return null;
 }

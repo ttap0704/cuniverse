@@ -87,8 +87,6 @@ export async function GET(request: NextRequest, response: NextResponse) {
         });
         const nfts: NftContractNftsResponse["nfts"] = nftsResponse.nfts;
 
-        console.log(nfts);
-
         pass = true;
         data = {
           ...contract[0],

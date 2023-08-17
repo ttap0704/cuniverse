@@ -56,7 +56,6 @@ async function CollectionIndex({
         <ContainerNFTContents>
           {(contractDetail.nfts as OwnedNftsResponse["ownedNfts"]).map(
             (item, itemIdx) => {
-              console.log(item);
               return (
                 <BoxNFTPreview
                   key={`account_nft_item_${itemIdx}`}

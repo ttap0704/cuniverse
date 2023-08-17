@@ -176,6 +176,7 @@ declare global {
     latestBlockNumber?: number;
     totalSupply: number;
     createdAt: string;
+    created: number;
   }
 
   // Collection Detail
@@ -211,6 +212,7 @@ declare global {
     description: string;
     contractAddress: string;
     accountId: number;
+    created: number;
   }
 
   // Contract 수정 Request Body

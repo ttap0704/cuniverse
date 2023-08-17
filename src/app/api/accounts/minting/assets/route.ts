@@ -1,7 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { base64ToFile } from "@/utils/tools";
-import { INFURA_IPFS_SUB_DOMAIN } from "../../../../../../constants";
-import fs from "fs";
 
 export async function POST(request: NextRequest) {
   let pass = false,
@@ -11,7 +8,7 @@ export async function POST(request: NextRequest) {
   const body = await request.formData();
   const uploadData = body.get("file");
   const fileType = body.get("fileType");
-  if (uploadData && fileType) {
+  if (fileType) {
     try {
       const projectId = process.env.INFURA_IPFS_KEY;
       const projectSecret = process.env.INFURA_IPFS_KEY_SECRET;
@@ -21,7 +18,7 @@ export async function POST(request: NextRequest) {
       const headers = new Headers();
       headers.append("Authorization", auth);
       const formdata = new FormData();
-      formdata.append("file", uploadData);
+      if (uploadData) formdata.append("file", uploadData);
 
       const requestOptions = {
         method: "POST",
@@ -29,15 +26,13 @@ export async function POST(request: NextRequest) {
         body: formdata,
       };
 
-      const response = await fetch(
-        "https://ipfs.infura.io:5001/api/v0/add",
-        requestOptions
-      );
+      const requestURI = "https://ipfs.infura.io:5001/api/v0/add";
 
+      const response = await fetch(requestURI, requestOptions);
       const responseJson = await response.json();
 
       if (responseJson["Hash"] && responseJson["Hash"].length > 0) {
-        data = `https://cuniverse.infura-ipfs.io/ipfs/${responseJson["Hash"]}`;
+        data = responseJson["Hash"];
         pass = true;
       }
     } catch (err) {

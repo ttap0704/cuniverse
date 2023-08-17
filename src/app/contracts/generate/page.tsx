@@ -6,7 +6,11 @@ import ContainerForm from "@/components/containers/ContainerForm";
 import InputWithLabel from "@/components/inputs/InputWithLabel";
 import useAccountQuery from "@/queries/useAccountQuery";
 import { setModalAlertAtom } from "@/store/modalAlert";
-import { fetchCheckOwnContract, fetchCreateConllection } from "@/utils/api";
+import {
+  fetchCheckOwnContract,
+  fetchCreateConllection,
+  fetchUploadIPFS,
+} from "@/utils/api";
 import { base64ToFile, uploadImageToS3 } from "@/utils/tools";
 import validations from "@/utils/validations";
 import { useSetAtom } from "jotai";
@@ -146,6 +150,7 @@ function AccountSettings() {
 
   const createContract = async () => {
     if (account) {
+      setIsDeploying(true);
       const finalGenerateData: CreateContractRequest = {
         name: "",
         symbol: "",
@@ -154,6 +159,7 @@ function AccountSettings() {
         profile: "",
         contractAddress: "",
         accountId: account.id,
+        created: generateMode == "generate-new" ? 1 : 0,
       };
 
       for (let i = 0; i < generateKeys.length; i++) {
@@ -205,7 +211,6 @@ function AccountSettings() {
       // Update 내용 여부에 따라
       // Update 또는 Modal 생성
       if (ethersBrowserProvider.provider) {
-        setIsDeploying(true);
         if (!validAddress) {
           const signer = await ethersBrowserProvider.provider.getSigner();
           const factory = new ethers.ContractFactory(
@@ -228,6 +233,8 @@ function AccountSettings() {
               type: "error",
               text: "컬렉션 배포에 실패하였습니다.",
             });
+            setIsDeploying(false);
+            return;
           }
         } else {
           finalGenerateData["contractAddress"] = contractAddress.value;
