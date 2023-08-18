@@ -2,8 +2,7 @@ import ContainerNFTDetailIntro from "./ContainerNFTDetailIntro";
 import { DEFAULT_PROFILE } from "../../../constants";
 import BoxWithTitle from "../boxes/BoxWithTitle";
 import ContainerSeeMore from "./ContainerSeeMore";
-import BoxNFTPreview from "../boxes/BoxNFTPreview";
-import { OwnedNftsResponse } from "alchemy-sdk";
+import BoxNFTPreview from "../boxes/BoxNFTPreview2";
 
 // NFT Detail 정보 표기
 
@@ -14,6 +13,16 @@ function ContainerNFTDetail(props: NFTDetail) {
 
   return (
     <div id="container-nft-detail">
+      {!data.deployer.contractId ? (
+        <p className="nft-notice">
+          <span className="red">*</span>
+          <span>
+            플랫폼에 등록되지 않은 NFT입니다. (구매 및 컬렉션 조회{" "}
+            <span className="red">불가</span>)
+          </span>
+        </p>
+      ) : null}
+
       <ContainerNFTDetailIntro
         deployer={data.deployer}
         contract={{
@@ -59,11 +68,13 @@ function ContainerNFTDetail(props: NFTDetail) {
         <BoxWithTitle title="MORE" style={{ marginBottom: "2rem" }}>
           <div className="more-nfts">
             <div>
-              {(data.moreNFTs as OwnedNftsResponse["ownedNfts"]).map((item) => {
+              {data.moreNFTs.map((item) => {
                 return (
                   <BoxNFTPreview
                     key={`more-nft-item-${item.tokenId}`}
                     item={item}
+                    contractAddress={data.contract.address}
+                    contractName={data.contract.name}
                   />
                 );
               })}

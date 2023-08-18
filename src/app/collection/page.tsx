@@ -7,7 +7,7 @@ import { DEFAULT_BANNER, DEFAULT_PROFILE } from "../../../constants";
 import ContainerCollectionIntro from "@/components/containers/ContainerCollectionIntro";
 import BoxNotice from "@/components/boxes/BoxNotice";
 import ContainerNFTContents from "@/components/containers/ContainerNFTContents";
-import BoxNFTPreview from "@/components/boxes/BoxNFTPreview";
+import BoxNFTPreview from "@/components/boxes/BoxNFTPreview2";
 import { OwnedNftsResponse } from "alchemy-sdk";
 import Tabs from "@/components/common/Tabs";
 
@@ -28,7 +28,8 @@ async function CollectionIndex({
   if (!contractAddress) return <WrongApproach />;
 
   const contractDetail = await fetchGetCollectionDetail(contractAddress);
-  if (!contractDetail) return <WrongApproach />;
+  if (!contractDetail)
+    return <WrongApproach text="플랫폼에 등록되지 않은 컬렉션입니다." />;
 
   return (
     <>
@@ -44,7 +45,6 @@ async function CollectionIndex({
         name={contractDetail.name}
         description={contractDetail.description}
         contractAddress={contractDetail.contractAddress}
-        owners={contractDetail.owners}
         totalSupply={contractDetail.totalSupply}
         deployerAddress={contractDetail.deployerAddress}
         symbol={contractDetail.symbol}
@@ -54,16 +54,16 @@ async function CollectionIndex({
         <BoxNotice text="No Items" />
       ) : (
         <ContainerNFTContents>
-          {(contractDetail.nfts as OwnedNftsResponse["ownedNfts"]).map(
-            (item, itemIdx) => {
-              return (
-                <BoxNFTPreview
-                  key={`account_nft_item_${itemIdx}`}
-                  item={item}
-                />
-              );
-            }
-          )}
+          {contractDetail.nfts.map((item, itemIdx) => {
+            return (
+              <BoxNFTPreview
+                key={`account_nft_item_${itemIdx}`}
+                item={item}
+                contractAddress={contractAddress}
+                contractName={contractDetail.name}
+              />
+            );
+          })}
         </ContainerNFTContents>
       )}
     </>

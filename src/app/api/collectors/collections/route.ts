@@ -2,6 +2,7 @@ import { cookies } from "next/dist/client/components/headers";
 import { NextRequest, NextResponse } from "next/server";
 import alchemy from "@/utils/alchemy";
 import { OwnedNftsResponse } from "alchemy-sdk";
+import ethersServerProvider from "@/utils/ethersServerProvider";
 
 export async function GET(request: NextRequest) {
   const url = new URL(request.url);

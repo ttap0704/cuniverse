@@ -118,6 +118,15 @@
       margin-right: 0.25rem;
     }
 
+    &.with-title {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      font-size: $f-s;
+      color: $white-80;
+      margin-bottom: 2rem;
+    }
+
     .address-sort {
       color: $white-90;
     }
@@ -136,7 +145,7 @@
 
   .count-wrapper {
     gap: 2rem;
-    margin-bottom: 2rem;
+    margin: 1rem 0;
     @include d-flex-center;
     & > div {
       display: flex;
@@ -218,6 +227,17 @@
   border-radius: 2rem;
   overflow: hidden;
   padding: 0 2rem;
+
+  & > .nft-notice {
+    padding: 0.5rem 0;
+    font-size: $f-s;
+    display: flex;
+    gap: 0.25rem;
+
+    .red {
+      color: $red;
+    }
+  }
 
   .button-see-more {
     color: $black-80;
@@ -409,8 +429,30 @@
       display: flex;
       gap: 1rem;
       .box-nft-preview {
-        width: 300px;
-        height: calc(300px * 1.25);
+        @include deviceXS {
+          width: 200px;
+          height: calc(200px * 1.25);
+        }
+
+        @include deviceS {
+          width: 210px;
+          height: calc(210px * 1.25);
+        }
+
+        @include deviceM {
+          width: 230px;
+          height: calc(230px * 1.25);
+        }
+
+        @include deviceL {
+          width: 250px;
+          height: calc(250px * 1.25);
+        }
+
+        @include deviceXL {
+          width: 275px;
+          height: calc(275px * 1.25);
+        }
       }
     }
   }

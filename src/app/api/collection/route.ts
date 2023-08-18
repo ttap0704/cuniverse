@@ -2,9 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import db from "../db";
 import { NftContractNftsResponse } from "alchemy-sdk";
 import alchemy from "@/utils/alchemy";
-import { S3_IMAGES_URL } from "../../../../constants";
+import { S3_IMAGES_URL, ZERO_ADDRESS } from "../../../../constants";
 import ethersServerProvider from "@/utils/ethersServerProvider";
-import { Contract, Interface } from "ethers";
+import { Contract, Log } from "ethers";
+import etherscanProvider from "@/utils/etherscanProvider";
 
 type ContractQueryResponse = Omit<CollectionDetail, "NFTs">;
 
@@ -77,15 +78,42 @@ export async function GET(request: NextRequest, response: NextResponse) {
           });
         }
 
-        const ownersResponse = await alchemy.nft.getOwnersForContract(address, {
-          withTokenBalances: false,
-        });
+        // "Transfer" 이벤트 로그 가져오기
+        const mintedFilter = baseContract.filters.Transfer(
+          ZERO_ADDRESS,
+          null,
+          null
+        );
+        const transferEvents = await baseContract.queryFilter(mintedFilter);
+        const nfts: NFTMetadata[] = [];
+        for (let i = transferEvents.length - 1; i >= 0; i--) {
+          // ** paging 추가 필요 ** //
+          const curLog = transferEvents[i];
+          const log = baseContract.interface.parseLog({
+            data: curLog.data,
+            topics: curLog.topics as string[],
+          });
 
-        // 해당 컬렉션 NFTs 가져오기
-        const nftsResponse = await alchemy.nft.getNftsForContract(address, {
-          pageSize: 10,
-        });
-        const nfts: NftContractNftsResponse["nfts"] = nftsResponse.nfts;
+          if (!log) continue;
+          let metadataUrl: string = await baseContract
+            .getFunction("tokenURI")
+            .staticCall(log.args[2]);
+
+          // ipfs 프로토콜을 https 프로토콜로 조정
+          if (metadataUrl.includes("ipfs://")) {
+            metadataUrl = metadataUrl.replace(
+              "ipfs://",
+              "https://ipfs.io/ipfs/"
+            );
+          }
+
+          const metadataResponse = await fetch(`${metadataUrl}`);
+          const metadata: NFTMetadata = {
+            ...(await metadataResponse.json()),
+            tokenId: BigInt(log.args[2]).toString(),
+          };
+          nfts.push(metadata);
+        }
 
         pass = true;
         data = {
@@ -99,7 +127,6 @@ export async function GET(request: NextRequest, response: NextResponse) {
           latestBlockNumber,
           totalSupply,
           nfts,
-          owners: ownersResponse.owners.length,
         };
       }
     }

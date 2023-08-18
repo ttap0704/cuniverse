@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import db from "../db";
-import { NftContractNftsResponse } from "alchemy-sdk";
-import alchemy from "@/utils/alchemy";
 import { Contract } from "ethers";
 import ethersServerProvider from "@/utils/ethersServerProvider";
+import { ZERO_ADDRESS } from "../../../../constants";
 
 export async function GET(request: NextRequest, response: NextResponse) {
   // Search Params 조회
@@ -16,8 +15,6 @@ export async function GET(request: NextRequest, response: NextResponse) {
   let pass = false,
     message = "",
     data: NFTDetail | null = null;
-
-  console.log("asset:", address, tokenId);
 
   // Address와 Token Id 모두 있다면 로직 실행
   if (address && tokenId >= 0) {
@@ -74,8 +71,11 @@ export async function GET(request: NextRequest, response: NextResponse) {
 
       // 컨트랙트 배포자 점검
       const deployer: { nickname: string; address: string }[] = await db.query({
-        sql: "SELECT nickname, address FROM accounts WHERE address = ?;",
-        values: [deployerReponse["result"][0]["contractCreator"]],
+        sql: `SELECT ac.nickname, ac.address, ct.id AS contractId
+        FROM accounts ac
+        LEFT JOIN contracts ct ON ac.id = ct.accountId AND ct.contractAddress = ?
+        WHERE address = ?;`,
+        values: [address, deployerReponse["result"][0]["contractCreator"]],
       });
 
       // 현재 해당 NFT가 판매중인지 체크
@@ -87,54 +87,45 @@ export async function GET(request: NextRequest, response: NextResponse) {
       );
       const sale = saleResponse[0] ?? null;
 
-      // **** 추후에 변경 예정 **** //
       // "Transfer" 이벤트 로그 가져오기
-      //  const filter = contract.filters.Transfer();
-      //  const transferEvents = await contract.queryFilter(filter);
-      // const more: NFTMetadata[] = [];
-      // for (let i = transferEvents.length - 1; i >= 0; i--) {
-      //   // 추천 NFT는 10개 까지
-      //   if (more.length >= 10) break;
+      const filter = contract.filters.Transfer(ZERO_ADDRESS, null, null);
+      const latestBlock = await ethersServerProvider.getBlock("latest");
+      const latestBlockNumber = Number(latestBlock?.number) - 1;
+      const transferEvents = await contract.queryFilter(
+        filter,
+        Math.max(latestBlockNumber - 500000, 0),
+        latestBlockNumber
+      );
+      const more: NFTMetadata[] = [];
+      for (let i = transferEvents.length - 1; i >= 0; i--) {
+        // 추천 NFT는 10개 까지
+        if (more.length >= 10) break;
 
-      //   const curLog = transferEvents[i];
-      //   const log = contract.interface.parseLog({
-      //     data: curLog.data,
-      //     topics: curLog.topics as string[],
-      //   });
+        const curLog = transferEvents[i];
+        const log = contract.interface.parseLog({
+          data: curLog.data,
+          topics: curLog.topics as string[],
+        });
 
-      //   // from == '0x0000000000000000000000000000000000000000' 일 때가 Mint이기 때문에
-      //   // 해당 address만 필터링
-      //   if (!log || log.args[0] != "0x0000000000000000000000000000000000000000")
-      //     continue;
-      //   let metadataUrl: string = await contract
-      //     .getFunction("tokenURI")
-      //     .staticCall(log.args[2]);
+        // from == '0x0000000000000000000000000000000000000000' 일 때가 Mint이기 때문에
+        // 해당 address만 필터링
+        if (!log) continue;
+        let metadataUrl: string = await contract
+          .getFunction("tokenURI")
+          .staticCall(log.args[2]);
 
-      //   // ipfs 프로토콜을 https 프로토콜로 조정
-      //   if (metadataUrl.includes("ipfs://")) {
-      //     metadataUrl = metadataUrl.replace("ipfs://", "https://ipfs.io/ipfs/");
-      //   }
+        // ipfs 프로토콜을 https 프로토콜로 조정
+        if (metadataUrl.includes("ipfs://")) {
+          metadataUrl = metadataUrl.replace("ipfs://", "https://ipfs.io/ipfs/");
+        }
 
-      //   const metadataResponse = await fetch(`${metadataUrl}`);
-      //   const metadata: NFTMetadata = {
-      //     ...(await metadataResponse.json()),
-      //     tokenId: BigInt(log.args[2]).toString(),
-      //   };
-      //   more.push(metadata);
-      // }
-
-      // const moretest = await ethersServerProvider.getLogs({
-      //   fromBlock: 0,
-      //   address,
-      // });
-      // console.log("moretest:", moretest);
-      // **** 추후에 변경 예정 **** //
-
-      // 해당 컬렉션에 소개할 NFTs 가져오기
-      const moreNFTsResponse = await alchemy.nft.getNftsForContract(address, {
-        pageSize: 10,
-      });
-      const moreNFTs: NftContractNftsResponse["nfts"] = moreNFTsResponse.nfts;
+        const metadataResponse = await fetch(`${metadataUrl}`);
+        const metadata: NFTMetadata = {
+          ...(await metadataResponse.json()),
+          tokenId: BigInt(log.args[2]).toString(),
+        };
+        more.push(metadata);
+      }
 
       pass = true;
       data = {
@@ -154,7 +145,7 @@ export async function GET(request: NextRequest, response: NextResponse) {
             : "알 수 없음",
           address: deployerReponse["result"][0]["contractCreator"],
         },
-        moreNFTs,
+        moreNFTs: more,
         sale,
       };
     }

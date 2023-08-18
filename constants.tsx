@@ -58,3 +58,5 @@ export const SIGN_TEXT =
 
 // Infura IPFS Sub Domain
 export const INFURA_IPFS_SUB_DOMAIN = "https://cuniverse.infura-ipfs.io";
+
+export const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";

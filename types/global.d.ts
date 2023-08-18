@@ -158,7 +158,7 @@ declare global {
   interface NFTDetail extends NFTMetadata {
     contract: { name: string; address: string };
     owners: { nickname: string; address: string };
-    deployer: { nickname: string; address: string };
+    deployer: { nickname: string; address: string; contractId?: number };
     moreNFTs: NFTMetadata[];
     sale: { endTime: string; price: number } | null;
   }
@@ -183,8 +183,7 @@ declare global {
   interface CollectionDetail extends ContractDetail {
     deployerNickname: string;
     deployerAddress: string;
-    nfts: NftContractNftsResponse["nfts"];
-    owners: number;
+    nfts: NFTMetadata[];
   }
 
   // Radio Button 공통 Interface
