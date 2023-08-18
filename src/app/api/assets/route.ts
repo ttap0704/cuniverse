@@ -17,6 +17,8 @@ export async function GET(request: NextRequest, response: NextResponse) {
     message = "",
     data: NFTDetail | null = null;
 
+  console.log("asset:", address, tokenId);
+
   // Address와 Token Id 모두 있다면 로직 실행
   if (address && tokenId >= 0) {
     // Etherscan API 통해

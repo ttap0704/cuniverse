@@ -21,6 +21,7 @@ import NFT from "@/contracts/NFT.json";
 import LoadingWaterDrop from "@/components/common/LoadingWaterDrop";
 import { useRouter, useSearchParams } from "next/navigation";
 import WrongApproach from "@/components/common/WrongApproach";
+import TypographyFormTitle from "@/components/typography/TypographyFormTitle";
 
 const generateKeys: UpdateContractKeys[] = [
   "banner",
@@ -41,6 +42,14 @@ const generateKeysData: {
   name: { KR: "컬렉션 이름", type: "text", required: true },
   symbol: { KR: "컬렉션 심볼", type: "text", required: true },
   description: { KR: "컬렉션 소개", type: "textarea", required: true },
+};
+
+const generatePlaceholder: { [key in UpdateContractKeys]: string } = {
+  banner: "",
+  profile: "",
+  name: "컬렉션 이름을 입력해주세요.",
+  symbol: "컬렉션 심볼을 입력해주세요. (ex. CU)",
+  description: "컬렉션 설명을 입력해주세요.",
 };
 
 const generateValidations: {
@@ -70,6 +79,9 @@ function AccountSettings() {
     error: false,
   });
 
+  const title =
+    generateMode == "generate-new" ? "컬렉션 생성하기" : "컬렉션 가져오기";
+
   useEffect(() => {
     setIsSetting(true);
     const mode = searchParams.get("mode");
@@ -95,29 +107,31 @@ function AccountSettings() {
   const setFormData = (name?: string, symbol?: string) => {
     const tmpForm: InputProps[] = [];
     for (let i = 0; i < generateKeys.length; i++) {
+      const key = generateKeys[i];
       let value = "";
-      if (generateKeys[i] == "name" && name) value = name;
-      else if (generateKeys[i] == "symbol" && symbol) value = symbol;
+      if (key == "name" && name) value = name;
+      else if (key == "symbol" && symbol) value = symbol;
 
       tmpForm.push({
-        id: `collection-generate-${generateKeys[i]}`,
+        id: `collection-generate-${key}`,
         value,
-        type: generateKeysData[generateKeys[i]].type,
+        type: generateKeysData[key].type,
         onChange: (text: StringOrNumber, error: boolean) => {
           const tmpUpdateData: {
             [key in UpdateContractKeys]: { value: string; error: boolean };
           } = JSON.parse(JSON.stringify(updateAccountData.current));
-          tmpUpdateData[generateKeys[i]].value = `${text}`;
-          tmpUpdateData[generateKeys[i]].error = error;
+          tmpUpdateData[key].value = `${text}`;
+          tmpUpdateData[key].error = error;
           updateAccountData.current = { ...tmpUpdateData };
         },
-        dataKey: generateKeys[i],
-        validation: generateValidations[generateKeys[i]],
+        dataKey: key,
+        validation: generateValidations[key],
         readOnly: value.length > 0 ? true : false,
+        placeholder: generatePlaceholder[key],
       });
 
       if (value.length > 0) {
-        updateAccountData.current[generateKeys[i]].value = value;
+        updateAccountData.current[key].value = value;
       }
     }
     setForm([...tmpForm]);
@@ -260,6 +274,7 @@ function AccountSettings() {
       if (generateMode == "generate-old" && !validAddress) {
         return (
           <ContainerForm>
+            <TypographyFormTitle title={title} />
             {isChecking ? <LoadingWaterDrop /> : null}
             <InputWithLabel
               labelText="스마트 콘트랙트 주소"
@@ -281,6 +296,7 @@ function AccountSettings() {
       } else {
         return (
           <ContainerForm>
+            <TypographyFormTitle title={title} />
             {isDeploying ? <LoadingWaterDrop /> : null}
             {form.map((data) => {
               return (

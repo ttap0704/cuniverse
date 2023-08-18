@@ -4,6 +4,7 @@ import Button from "@/components/buttons/Button";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
 import ContainerForm from "@/components/containers/ContainerForm";
 import InputWithLabel from "@/components/inputs/InputWithLabel";
+import TypographyFormTitle from "@/components/typography/TypographyFormTitle";
 import useAccountQuery from "@/queries/useAccountQuery";
 import useAccountUpdateMutation from "@/queries/useAccountUpdateMutation";
 import { setModalAlertAtom } from "@/store/modalAlert";
@@ -155,6 +156,7 @@ function AccountSettings() {
 
   return (
     <ContainerForm>
+      <TypographyFormTitle title="정보수정" />
       {form.map((data) => {
         return (
           <InputWithLabel

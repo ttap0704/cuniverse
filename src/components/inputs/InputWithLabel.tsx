@@ -1,10 +1,10 @@
-import Image from "next/image";
 import ButtonImageUpload from "../buttons/ButtonImageUpload";
 import Input from "./Input";
 import InputImage from "./InputImage";
 import { HiOutlinePhoto } from "react-icons/hi2";
 import { useEffect, useState } from "react";
 import TypographyInputLabel from "../typography/TypographyInputLabel";
+import ImageCuniverse from "../common/ImageCuniverse";
 
 // 정보 수정 / 추가에 사용되는 Input Component
 
@@ -47,7 +47,7 @@ function InputWithLabel(props: InputWithLabelProps) {
           <InputImage id={id} onChange={handleFile} />
           {imagePath.length !== 0 ? (
             fileType == "image" ? (
-              <Image
+              <ImageCuniverse
                 src={imagePath}
                 alt="uploaded-image"
                 objectFit="cover"

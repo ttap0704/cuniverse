@@ -14,6 +14,7 @@ import { PLATFORM_LINKS } from "../../../constants";
 import { FaGear } from "react-icons/fa6";
 import LoadingSpinner from "../common/LoadingSpinner";
 import useCollectorQuery from "@/queries/useCollectorQuery";
+import ImageCuniverse from "../common/ImageCuniverse";
 
 // Collectors(Accounts) 페이지에서 사용되는
 // 사용자 소개 Component
@@ -71,7 +72,12 @@ function ContainerContentIntro(props: ContainerContentIntroProps) {
       </div>
       <div className="address-wrapper">
         {/* Wallet Address */}
-        <Image src={etherSvg} alt="ethereum-logo" width={16} height={16} />
+        <ImageCuniverse
+          src={etherSvg}
+          alt="ethereum-logo"
+          width={16}
+          height={16}
+        />
         <TypographyCopy
           text={account?.address ? getShortAddress(account.address) : ""}
           copyText={account?.address ?? ""}

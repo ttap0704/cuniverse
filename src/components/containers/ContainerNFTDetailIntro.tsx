@@ -3,6 +3,7 @@ import BoxWhite from "../boxes/BoxWhite";
 import Divider from "../common/Divider";
 import { getShortAddress } from "@/utils/tools";
 import Link from "next/link";
+import ImageCuniverse from "../common/ImageCuniverse";
 
 interface ContainerNFTDetailIntroProps {
   image: string;
@@ -24,8 +25,12 @@ function ContainerNFTDetailIntro(props: ContainerNFTDetailIntroProps) {
   return (
     <div className="container-nft-detail-intro">
       <div className="nft-detail-image-wrapper">
-        {image}
-        <Image src={image} alt={name} fill={true} objectFit={"cover"} />
+        <ImageCuniverse
+          src={image}
+          alt={name}
+          fill={true}
+          objectFit={"cover"}
+        />
       </div>
       <BoxWhite>
         <h2>

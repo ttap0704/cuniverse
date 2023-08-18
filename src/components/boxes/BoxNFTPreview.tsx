@@ -1,6 +1,7 @@
 import { OwnedNft } from "alchemy-sdk";
 import Image from "next/image";
 import Link from "next/link";
+import ImageCuniverse from "../common/ImageCuniverse";
 
 // NFT 리스트 Box
 interface BoxNFTPreviewProps {
@@ -18,13 +19,13 @@ function BoxNFTPreview(props: BoxNFTPreviewProps) {
       <div className="preview-image-wrapper">
         {/* NFT Raw Metadata 여부에 따른 UI 분리 */}
         {nft.rawMetadata && nft.rawMetadata.image ? (
-          <Image
+          <ImageCuniverse
             src={nft.rawMetadata.image}
             alt={nft.rawMetadata.name ?? ""}
             fill={true}
           />
         ) : nft.contract.openSea && nft.contract.openSea.imageUrl ? (
-          <Image
+          <ImageCuniverse
             src={nft.contract.openSea.imageUrl}
             alt={nft.contract.openSea.collectionName ?? ""}
             fill={true}

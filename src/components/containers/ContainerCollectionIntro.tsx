@@ -5,6 +5,7 @@ import TypographyCopy from "../typography/TypographyCopy";
 import { getShortAddress } from "@/utils/tools";
 import etherSvg from "@/images/ethereum-eth-logo.svg";
 import Image from "next/image";
+import ImageCuniverse from "../common/ImageCuniverse";
 
 interface ContainerCollectionIntroProps {
   name: string;
@@ -34,7 +35,12 @@ function ContainerCollectionIntro(props: ContainerCollectionIntroProps) {
       </div>
       <div className="address-container">
         <div className="address-wrapper">
-          <Image src={etherSvg} alt="ethereum-logo" width={16} height={16} />
+          <ImageCuniverse
+            src={etherSvg}
+            alt="ethereum-logo"
+            width={16}
+            height={16}
+          />
           <TypographyCopy
             text={getShortAddress(contractAddress)}
             copyText={contractAddress}
@@ -42,7 +48,12 @@ function ContainerCollectionIntro(props: ContainerCollectionIntroProps) {
           />
         </div>
         <div className="address-wrapper">
-          <Image src={etherSvg} alt="ethereum-logo" width={16} height={16} />
+          <ImageCuniverse
+            src={etherSvg}
+            alt="ethereum-logo"
+            width={16}
+            height={16}
+          />
           <TypographyCopy
             text={getShortAddress(deployerAddress)}
             copyText={deployerAddress}
