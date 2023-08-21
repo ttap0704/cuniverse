@@ -35,6 +35,8 @@ const fetcher = () => {
           SIGN_TEXT + new Date(loginTime).toLocaleString("euc-kr");
         const token = await account.signMessage(signText);
 
+        console.log(token);
+
         const r = token.slice(0, 66);
         const s = "0x" + token.slice(66, 130);
         const v = parseInt(token.slice(130, 132), 16);

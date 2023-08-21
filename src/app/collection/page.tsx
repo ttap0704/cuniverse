@@ -7,7 +7,7 @@ import { DEFAULT_BANNER, DEFAULT_PROFILE } from "../../../constants";
 import ContainerCollectionIntro from "@/components/containers/ContainerCollectionIntro";
 import BoxNotice from "@/components/boxes/BoxNotice";
 import ContainerNFTContents from "@/components/containers/ContainerNFTContents";
-import BoxNFTPreview from "@/components/boxes/BoxNFTPreview2";
+import BoxNFTPreview from "@/components/boxes/BoxNFTPreview";
 import { OwnedNftsResponse } from "alchemy-sdk";
 import Tabs from "@/components/common/Tabs";
 

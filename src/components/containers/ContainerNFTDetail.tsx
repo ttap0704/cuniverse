@@ -2,7 +2,7 @@ import ContainerNFTDetailIntro from "./ContainerNFTDetailIntro";
 import { DEFAULT_PROFILE } from "../../../constants";
 import BoxWithTitle from "../boxes/BoxWithTitle";
 import ContainerSeeMore from "./ContainerSeeMore";
-import BoxNFTPreview from "../boxes/BoxNFTPreview2";
+import BoxNFTPreview from "../boxes/BoxNFTPreview";
 
 // NFT Detail 정보 표기
 

@@ -18,14 +18,19 @@ function CollectorsCollections({ address }: { address: string }) {
     return <LoadingSpinner />;
   }
 
-  if (!nfts || nfts.ownedNfts.length == 0) {
+  if (!nfts || nfts.length == 0) {
     return <BoxNotice text="No Items" />;
   } else {
     return (
       <ContainerNFTContents>
-        {nfts.ownedNfts.map((item, itemIdx) => {
+        {nfts.map((item, itemIdx) => {
           return (
-            <BoxNFTPreview key={`account_nft_item_${itemIdx}`} item={item} />
+            <BoxNFTPreview
+              key={`account_nft_item_${itemIdx}`}
+              item={item}
+              contractAddress={item.contract ? item.contract.address : ""}
+              contractName={item.contract ? item.contract.name : ""}
+            />
           );
         })}
       </ContainerNFTContents>

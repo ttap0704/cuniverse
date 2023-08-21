@@ -87,6 +87,10 @@ declare global {
       value: string;
       display_type?: string;
     }[];
+    contract?: {
+      address: string;
+      name: string;
+    };
   }
 
   // Collector 공통 Type
@@ -96,7 +100,7 @@ declare global {
   // Button 공통 Interface
   interface InterfaceButton {
     children: React.ReactNode;
-    onClick: () => void;
+    onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
     onMouseEnter?: () => void;
     onMouseLeave?: () => void;
     className?: string;

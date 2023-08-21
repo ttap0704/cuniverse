@@ -6,6 +6,7 @@
     rgba(0, 0, 0, 0.07) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
   display: flex;
   flex-direction: column;
+  position: relative;
 
   @include deviceXS {
     width: calc(50% - 0.5rem);
@@ -41,6 +42,10 @@
     .preview-image-wrapper {
       transform: scale(1.1);
     }
+
+    .button-nft-sale {
+      bottom: 0;
+    }
   }
 
   .preview-image-wrapper {
@@ -56,7 +61,7 @@
   }
 
   .preview-info {
-    height: 35%;
+    height: 25%;
     padding: 0 1rem;
     gap: 0.5rem;
     flex-direction: column;
@@ -66,6 +71,18 @@
       font-size: $f-s;
       font-weight: $semibold;
     }
+  }
+
+  .button-nft-sale {
+    border-radius: 0;
+    position: absolute;
+    height: 10%;
+    width: 100%;
+    bottom: -10%;
+    padding: 0;
+    font-size: $f-s;
+
+    @include transition-03;
   }
 }
 

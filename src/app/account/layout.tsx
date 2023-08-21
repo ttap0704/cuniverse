@@ -25,7 +25,8 @@ function AccountLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   // settings 페이지에서는 Layout 필요 없으므로 예외처리
-  if (["/account/settings"].includes(pathname)) return <>{children}</>;
+  if (["/account/settings", "/account/sale"].includes(pathname))
+    return <>{children}</>;
 
   return (
     <>

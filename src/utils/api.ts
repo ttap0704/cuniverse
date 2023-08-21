@@ -181,7 +181,7 @@ export async function fetchGetCollectorInfo(address: string) {
 
 // 사용자 NFT Collection List
 export async function fetchGetCollectorNFTs(address: string) {
-  const res: OwnedNftsResponse | null = await fetchGetApi(
+  const res: NFTMetadata[] | null = await fetchGetApi(
     `/collectors/collections?address=${address}`
   );
   return res;
@@ -195,9 +195,7 @@ export async function fetchUploadS3(body: object) {
 
 // 사용자 NFT Collection List
 export async function fetchGetAccountNFTs() {
-  const res: OwnedNftsResponse | null = await fetchGetApi(
-    "/accounts/collections"
-  );
+  const res: NFTMetadata[] | null = await fetchGetApi("/accounts/collections");
   return res;
 }
 
