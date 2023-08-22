@@ -1,6 +1,7 @@
 import { cookies } from "next/dist/client/components/headers";
 import { NextRequest, NextResponse } from "next/server";
 import alchemy from "@/utils/alchemy";
+import { ipfsToHttps } from "@/utils/tools";
 
 export async function GET(request: NextRequest) {
   const url = new URL(request.url);
@@ -21,12 +22,7 @@ export async function GET(request: NextRequest) {
 
       let image = "/";
       if (cur.rawMetadata && cur.rawMetadata.image) {
-        let imageUrl = cur.rawMetadata.image;
-        if (imageUrl.includes("ipfs://")) {
-          imageUrl = imageUrl.replace("ipfs://", "https://ipfs.io/ipfs/");
-        }
-
-        image = imageUrl;
+        image = ipfsToHttps(cur.rawMetadata.image);
       }
 
       data.push({

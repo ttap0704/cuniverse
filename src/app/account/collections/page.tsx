@@ -7,6 +7,8 @@ import ContainerNFTContents from "@/components/containers/ContainerNFTContents";
 import ModalSaleNFT from "@/components/modals/ModalSaleNFT";
 import useAccountNFTsQuery from "@/queries/useAccountNFTsQuery";
 import useAccountQuery from "@/queries/useAccountQuery";
+import useEtherPriceQuery from "@/queries/useEtherPriceQuery";
+import { ipfsToHttps } from "@/utils/tools";
 import { useState } from "react";
 
 function AccountCollections() {
@@ -14,14 +16,35 @@ function AccountCollections() {
   const { data: nfts, isLoading: nftsLoading } = useAccountNFTsQuery(
     account?.id
   );
-  const [saleModalOpen, setSaleModalOpen] = useState(false);
+  const { isLoading: priceLoading } = useEtherPriceQuery();
 
-  const saleNFT = (item: NFTMetadata, contractAddress: string) => {
-    console.log(item, contractAddress);
+  const [saleModalOpen, setSaleModalOpen] = useState(false);
+  const [saleNFTItem, setSaleNFTItem] = useState<ModalSaleNFTItem>({
+    image: "",
+    name: "",
+    contractName: "",
+    contractAddress: "",
+    tokenId: "",
+  });
+
+  const saleNFT = (
+    item: NFTMetadata,
+    contractAddress: string,
+    contractName: string
+  ) => {
+    setSaleModalOpen(true);
+
+    setSaleNFTItem({
+      image: item.image ? ipfsToHttps(item.image) : "/",
+      name: item.name ?? "",
+      contractName,
+      contractAddress,
+      tokenId: item.tokenId,
+    });
   };
 
   // NFT 리스트 로딩처리
-  if (accountLoading || nftsLoading) {
+  if (accountLoading || nftsLoading || priceLoading) {
     return <LoadingSpinner />;
   }
 
@@ -41,7 +64,13 @@ function AccountCollections() {
                 contractAddress={item.contract ? item.contract.address : ""}
                 contractName={item.contract ? item.contract.name : ""}
                 sale={true}
-                onSale={() => saleNFT(item, item.contract?.address ?? "")}
+                onSale={() =>
+                  saleNFT(
+                    item,
+                    item.contract?.address ?? "",
+                    item.contract?.name ?? ""
+                  )
+                }
               />
             );
           })}
@@ -49,7 +78,7 @@ function AccountCollections() {
         <ModalSaleNFT
           onClose={() => setSaleModalOpen(false)}
           open={saleModalOpen}
-          onConfirm={() => setSaleModalOpen(false)}
+          item={saleNFTItem}
         />
       </>
     );

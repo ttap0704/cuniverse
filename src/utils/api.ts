@@ -255,6 +255,16 @@ export async function fetchGetContractSpecificMetadata(searchParams: string) {
   return res;
 }
 
+export async function fetchGetEtherPrice() {
+  const res: number = await fetchGetApi(`/utils/ether-price`);
+  return res;
+}
+
+export async function fetchInsertSales(data: SalesDetail) {
+  const res: boolean = await fetchPostApi(data, `/accounts/collections/sale`);
+  return res;
+}
+
 // // Collction Update API
 // export async function fetchUpdateConllection(body: {
 //   data: UpdateContractRequest;

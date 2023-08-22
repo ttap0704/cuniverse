@@ -153,6 +153,7 @@ declare global {
     readOnly?: boolean;
     placeholder?: string;
     items?: DropdownMenuItem[];
+    direct?: boolean; // 입력 시, 바로 이벤트 전달
   }
 
   // 문자열 또는 숫자
@@ -225,5 +226,28 @@ declare global {
     name?: string;
     symbol?: string;
     description?: string;
+  }
+
+  // NFT 판매 모달 Item Type
+  interface ModalSaleNFTItem {
+    image: string;
+    name: string;
+    contractName: string;
+    contractAddress: string;
+    tokenId: string;
+  }
+
+  // Sales Detail
+  interface SalesDetail {
+    accountId: number;
+    contractAddress: string;
+    tokenId: string;
+    fee: string;
+    earning: string;
+    price: string;
+    endTime: number;
+    r: string;
+    s: string;
+    v: number;
   }
 }

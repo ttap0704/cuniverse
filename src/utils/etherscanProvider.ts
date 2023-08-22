@@ -1,8 +1,8 @@
 import { EtherscanProvider } from "ethers";
-import { NETWORK_SEPOLIA } from "../../constants";
+import { NETWORK_MAINNET } from "../../constants";
 
 const etherscanProvider = new EtherscanProvider(
-  NETWORK_SEPOLIA,
+  NETWORK_MAINNET,
   process.env.ETHERSCAN_API_KEY
 );
 

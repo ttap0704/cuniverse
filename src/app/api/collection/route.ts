@@ -1,11 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import db from "../db";
-import { NftContractNftsResponse } from "alchemy-sdk";
-import alchemy from "@/utils/alchemy";
 import { S3_IMAGES_URL, ZERO_ADDRESS } from "../../../../constants";
 import ethersServerProvider from "@/utils/ethersServerProvider";
-import { Contract, Log } from "ethers";
-import etherscanProvider from "@/utils/etherscanProvider";
+import { Contract } from "ethers";
+import { ipfsToHttps } from "@/utils/tools";
 
 type ContractQueryResponse = Omit<CollectionDetail, "NFTs">;
 
@@ -95,17 +93,9 @@ export async function GET(request: NextRequest, response: NextResponse) {
           });
 
           if (!log) continue;
-          let metadataUrl: string = await baseContract
-            .getFunction("tokenURI")
-            .staticCall(log.args[2]);
-
-          // ipfs 프로토콜을 https 프로토콜로 조정
-          if (metadataUrl.includes("ipfs://")) {
-            metadataUrl = metadataUrl.replace(
-              "ipfs://",
-              "https://ipfs.io/ipfs/"
-            );
-          }
+          let metadataUrl: string = ipfsToHttps(
+            await baseContract.getFunction("tokenURI").staticCall(log.args[2])
+          );
 
           const metadataResponse = await fetch(`${metadataUrl}`);
           const metadata: NFTMetadata = {

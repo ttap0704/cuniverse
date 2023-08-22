@@ -3,6 +3,7 @@
 import Link from "next/link";
 import ImageCuniverse from "../common/ImageCuniverse";
 import Button from "../buttons/Button";
+import { memo } from "react";
 
 // NFT 리스트 Box
 interface BoxNFTPreviewProps {
@@ -14,39 +15,49 @@ interface BoxNFTPreviewProps {
 }
 
 function BoxNFTPreview(props: BoxNFTPreviewProps) {
+  console.log("render BoxNFTPreview:");
   const { item: nft, contractAddress, contractName, sale, onSale } = props;
 
   const handleSale = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
+    e.preventDefault();
     if (onSale) onSale();
   };
 
   return (
-    <Link
-      className="box-nft-preview"
-      href={`/assets?contract=${contractAddress}&token-id=${nft.tokenId}`}
-    >
-      <div className="preview-image-wrapper">
-        {/* NFT Raw Metadata 여부에 따른 UI 분리 */}
-        {nft && nft.image ? (
-          <ImageCuniverse src={nft.image} alt={nft.name ?? ""} fill={true} />
-        ) : (
-          <div></div>
-        )}
-      </div>
-      <div className="preview-info">
-        <span>
-          {!nft.name || nft.name.length == 0 ? nft.tokenId : nft.name}
-        </span>
-        <span>{contractName ?? "Untitled Collection"}</span>
-      </div>
+    <div className="box-nft-preview">
+      <Link
+        href={`/assets?contract=${contractAddress}&token-id=${nft.tokenId}`}
+      >
+        <div className="preview-image-wrapper">
+          {/* NFT Raw Metadata 여부에 따른 UI 분리 */}
+          {nft && nft.image ? (
+            <ImageCuniverse src={nft.image} alt={nft.name ?? ""} fill={true} />
+          ) : (
+            <div></div>
+          )}
+        </div>
+        <div className="preview-info">
+          <span>
+            {!nft.name || nft.name.length == 0 ? nft.tokenId : nft.name}
+          </span>
+          <span>
+            {contractName ?? "Untitled Collection"} (#{nft.tokenId})
+          </span>
+        </div>
+      </Link>
       {sale ? (
         <Button className="button-nft-sale" onClick={handleSale}>
           판매하기
         </Button>
       ) : null}
-    </Link>
+    </div>
   );
 }
 
-export default BoxNFTPreview;
+export default memo(BoxNFTPreview, (prev, cur) => {
+  return (
+    prev.item.tokenId === cur.item.tokenId &&
+    prev.contractAddress === cur.contractAddress
+  );
+});

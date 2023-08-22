@@ -15,6 +15,7 @@ function Input(props: InputProps) {
   const readOnly = props.readOnly || type === "dropdown";
   const placeholder = props.placeholder;
   const items = props.items;
+  const direct = props.direct;
 
   const setDropdown = useSetAtom(setDropdownAtom);
 
@@ -36,7 +37,8 @@ function Input(props: InputProps) {
       if (errorMessage.length != 0) setErrorMessage("");
     }
 
-    setValue(curValue);
+    if (direct) onChange(curValue, tmpErrorMessage.length != 0);
+    else setValue(curValue);
   };
 
   useEffect(() => {
@@ -110,6 +112,7 @@ function Input(props: InputProps) {
           aria-errormessage={`input-error-message-${dataKey}`}
           readOnly={readOnly ?? false}
           placeholder={placeholder}
+          type={type === "dropdown" ? "text" : type}
         />
 
         {errorElement}

@@ -40,6 +40,20 @@ const validations: {
       return "컬렉션 심볼은 영어 대문자로 설정해주세요. (1~25자)";
     return "";
   },
+  NFTPrice: (text: StringOrNumber) => {
+    const curText = `${text}`.split(".");
+    let message = "";
+
+    if (Number(text) > 100000000000000) {
+      message = "최대 100,000,000,000,000 ETH까지 설정 가능합니다.";
+    }
+
+    if (curText[1] && curText[1].length > 15) {
+      message = "소숫점은 최대 15자리까지 설정 가능합니다.";
+    }
+
+    return message;
+  },
 };
 
 export default validations;

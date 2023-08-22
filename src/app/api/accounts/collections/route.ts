@@ -1,8 +1,7 @@
 import { cookies } from "next/dist/client/components/headers";
 import { NextResponse } from "next/server";
 import alchemy from "@/utils/alchemy";
-import { OwnedNftsResponse } from "alchemy-sdk";
-import ethersServerProvider from "@/utils/ethersServerProvider";
+import { ipfsToHttps } from "@/utils/tools";
 
 export async function GET() {
   // cookies에서 wallet address 가져오기
@@ -22,12 +21,7 @@ export async function GET() {
 
       let image = "/";
       if (cur.rawMetadata && cur.rawMetadata.image) {
-        let imageUrl = cur.rawMetadata.image;
-        if (imageUrl.includes("ipfs://")) {
-          imageUrl = imageUrl.replace("ipfs://", "https://ipfs.io/ipfs/");
-        }
-
-        image = imageUrl;
+        image = ipfsToHttps(cur.rawMetadata.image);
       }
 
       data.push({

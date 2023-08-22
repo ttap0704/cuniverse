@@ -3,6 +3,7 @@ import db from "../db";
 import { Contract } from "ethers";
 import ethersServerProvider from "@/utils/ethersServerProvider";
 import { ZERO_ADDRESS } from "../../../../constants";
+import { ipfsToHttps } from "@/utils/tools";
 
 export async function GET(request: NextRequest, response: NextResponse) {
   // Search Params 조회
@@ -37,23 +38,15 @@ export async function GET(request: NextRequest, response: NextResponse) {
       const contractName: string = await contract
         .getFunction("name")
         .staticCall();
-      let metadataUrl: string = await contract
-        .getFunction("tokenURI")
-        .staticCall(tokenId);
-
-      // ipfs 프로토콜을 https 프로토콜로 조정
-      if (metadataUrl.includes("ipfs://")) {
-        metadataUrl = metadataUrl.replace("ipfs://", "https://ipfs.io/ipfs/");
-      }
+      let metadataUrl: string = ipfsToHttps(
+        await contract.getFunction("tokenURI").staticCall(tokenId)
+      );
 
       const metadataResponse = await fetch(`${metadataUrl}`);
       const metadata: NFTMetadata = await metadataResponse.json();
 
-      if (metadata && metadata.image && metadata.image.includes("ipfs://")) {
-        metadata.image = metadata.image.replace(
-          "ipfs://",
-          "https://ipfs.io/ipfs/"
-        );
+      if (metadata && metadata.image) {
+        metadata.image = ipfsToHttps(metadata.image);
       }
 
       // 토근 Owner와 Contract Deployer 조회
@@ -110,14 +103,9 @@ export async function GET(request: NextRequest, response: NextResponse) {
         // from == '0x0000000000000000000000000000000000000000' 일 때가 Mint이기 때문에
         // 해당 address만 필터링
         if (!log) continue;
-        let metadataUrl: string = await contract
-          .getFunction("tokenURI")
-          .staticCall(log.args[2]);
-
-        // ipfs 프로토콜을 https 프로토콜로 조정
-        if (metadataUrl.includes("ipfs://")) {
-          metadataUrl = metadataUrl.replace("ipfs://", "https://ipfs.io/ipfs/");
-        }
+        let metadataUrl: string = ipfsToHttps(
+          await contract.getFunction("tokenURI").staticCall(log.args[2])
+        );
 
         const metadataResponse = await fetch(`${metadataUrl}`);
         const metadata: NFTMetadata = {

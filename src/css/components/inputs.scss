@@ -51,10 +51,11 @@
   border-color: $black-30;
   background-color: $white-100;
   font-size: $f-sm;
-  resize: vertical;
+  resize: none;
 
   &.textarea {
     height: 100px;
+    resize: vertical;
   }
 
   &.error {
