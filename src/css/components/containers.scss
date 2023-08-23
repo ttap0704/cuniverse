@@ -326,9 +326,11 @@
       & > .info-box {
         width: 100%;
         display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
 
         & > div {
-          width: 50%;
+          width: calc(50% - 0.25rem);
           h4 {
             margin-bottom: 0.25rem;
             color: $black-50;

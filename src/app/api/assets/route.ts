@@ -27,6 +27,7 @@ export async function GET(request: NextRequest, response: NextResponse) {
     const abiRespoonse: { status: string; message: string; result: string } =
       await getAbi.json();
 
+    let royalty = 0;
     // ABI 조회가 성공이라면 로직 실행
     if (abiRespoonse.message == "OK") {
       const abi = JSON.parse(abiRespoonse.result);
@@ -115,6 +116,23 @@ export async function GET(request: NextRequest, response: NextResponse) {
         more.push(metadata);
       }
 
+      // 창작자 로열티 할당하기
+      try {
+        const royaltyInfo = contract.getFunction("royaltyInfo");
+
+        if (royaltyInfo) {
+          // For BigInt Parse Error
+          (BigInt.prototype as any).toJSON = function () {
+            return this.toString();
+          };
+
+          const royaltyRes = await royaltyInfo.staticCall(tokenId, 10000);
+          royalty = Number(royaltyRes[1]);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+
       pass = true;
       data = {
         ...metadata,
@@ -135,6 +153,7 @@ export async function GET(request: NextRequest, response: NextResponse) {
         },
         moreNFTs: more,
         sale,
+        royalty,
       };
     }
   }

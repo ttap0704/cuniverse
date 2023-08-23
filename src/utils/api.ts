@@ -105,7 +105,18 @@ async function fetchDeleteApi(url: string, options?: RequestInit) {
 
 // Account Update API
 export async function fetchUpdateAccount(body: { data: UpdateAccountRequest }) {
-  const res: boolean = await fetchPutApi(body.data, `/accounts/info`);
+  const res: boolean = await fetchPutApi(body.data, `/account/info`);
+  return res;
+}
+
+// Account Sales Update API
+export async function fetchUpdateAccountSales(body: {
+  data: UpdateAccountSalesRequest;
+}) {
+  const res: boolean = await fetchPutApi(
+    body.data,
+    `/account/collections/sales`
+  );
   return res;
 }
 
@@ -121,7 +132,7 @@ export async function fetchAccountImageUpload(body: {
 
 // Get Account Info API
 export async function fetchGetAccountInfo() {
-  const res: AccountInfoReponse | null = await fetchGetApi("/accounts", {
+  const res: AccountInfoReponse | null = await fetchGetApi("/account", {
     cache: "no-store",
     credentials: "include",
   });
@@ -195,13 +206,13 @@ export async function fetchUploadS3(body: object) {
 
 // 사용자 NFT Collection List
 export async function fetchGetAccountNFTs() {
-  const res: NFTMetadata[] | null = await fetchGetApi("/accounts/collections");
+  const res: NFTMetadata[] | null = await fetchGetApi("/account/collections");
   return res;
 }
 
 // 사용자 Contract List
 export async function fetchGetAccountContracts() {
-  const res: ContractDetail[] | null = await fetchGetApi("/accounts/contracts");
+  const res: ContractDetail[] | null = await fetchGetApi("/account/contracts");
   return res;
 }
 
@@ -218,7 +229,7 @@ export async function fetchGetNFTMetadata(address: string, tokenId: string) {
 export async function fetchCreateConllection(body: {
   data: CreateContractRequest;
 }) {
-  const res: boolean = await fetchPostApi(body.data, `/accounts/contracts`);
+  const res: boolean = await fetchPostApi(body.data, `/account/contracts`);
   return res;
 }
 
@@ -242,14 +253,14 @@ export async function fetchGetCollectionDetail(contractAddress: string) {
 export async function fetchUploadIPFS(data: FormData) {
   const res: string | null = await fetchPostFormdataApi(
     data,
-    "/accounts/minting/assets"
+    "/account/minting/assets"
   );
   return res;
 }
 
 // Get Contract Specific Metadata
 export async function fetchGetContractSpecificMetadata(searchParams: string) {
-  const res: { [key: string]: string } | null = await fetchGetApi(
+  const res: { [key: string]: any } | null = await fetchGetApi(
     `/utils/contract-metadata?${searchParams}`
   );
   return res;
@@ -261,7 +272,7 @@ export async function fetchGetEtherPrice() {
 }
 
 export async function fetchInsertSales(data: SalesDetail) {
-  const res: boolean = await fetchPostApi(data, `/accounts/collections/sale`);
+  const res: boolean = await fetchPostApi(data, `/account/collections/sales`);
   return res;
 }
 

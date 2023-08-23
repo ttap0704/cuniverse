@@ -12,15 +12,11 @@ interface ContainerNFTDetailIntroProps {
   deployer: { address: string; nickname: string };
   owner: { address: string; nickname: string };
   sale: { endTime: string; price: number } | null;
+  royalty: number;
 }
 
 function ContainerNFTDetailIntro(props: ContainerNFTDetailIntroProps) {
-  const image = props.image;
-  const name = props.name;
-  const contract = props.contract;
-  const owner = props.owner;
-  const deployer = props.deployer;
-  const sale = props.sale;
+  const { image, name, contract, owner, deployer, sale, royalty } = props;
 
   return (
     <div className="container-nft-detail-intro">
@@ -50,6 +46,10 @@ function ContainerNFTDetailIntro(props: ContainerNFTDetailIntroProps) {
                 ? owner.nickname
                 : getShortAddress(owner.address)}
             </Link>
+          </div>
+          <div>
+            <h4>창작자 수익</h4>
+            <span>{royalty}%</span>
           </div>
         </div>
         <Divider />

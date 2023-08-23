@@ -23,7 +23,11 @@ import {
   SUPER_ADMIN_ADDRESS,
 } from "../../../constants";
 import useAccountQuery from "@/queries/useAccountQuery";
-import { fetchInsertSales } from "@/utils/api";
+import {
+  fetchGetContractSpecificMetadata,
+  fetchInsertSales,
+} from "@/utils/api";
+import useAccountSalesCreateMutation from "@/queries/useAccountSalesCreateMutation";
 
 interface ModalSaleNFTProps {
   open: boolean;
@@ -36,6 +40,7 @@ function ModalSaleNFT(props: ModalSaleNFTProps) {
   const { image, name } = NFT;
   const { data: account } = useAccountQuery();
   const { data: etherPrice } = useEtherPriceQuery();
+  const { mutate: createSaleMutate } = useAccountSalesCreateMutation();
   const setModalAlert = useSetAtom(setModalAlertAtom);
 
   const [price, setPrice] = useState({
@@ -45,16 +50,32 @@ function ModalSaleNFT(props: ModalSaleNFTProps) {
   const [wonPrice, setWonPrice] = useState("0");
   const [period, setPeriod] = useState(new Date().getTime());
   const [saleFee, setSaleFee] = useState(2.5);
+  const [creatorFee, setCreatorFee] = useState(0);
   const [finalFee, setFinalFee] = useState("0");
   const [finalEarning, setFinalEarning] = useState("0");
+  const [finalCreatorEarning, setFinalCreatorEarning] = useState("0");
 
   useEffect(() => {
     if (!open) {
       setPrice({ text: 0, error: false });
       setWonPrice("0");
       setFinalEarning("0");
+      setFinalCreatorEarning("0");
+      setCreatorFee(0);
+    } else {
+      getCreatorFee();
     }
   }, [open]);
+
+  const getCreatorFee = async () => {
+    const data = await fetchGetContractSpecificMetadata(
+      `contract-address=${NFT.contractAddress}&needs=royaltyInfo&royaltyInfo-args=${NFT.tokenId},10000`
+    );
+
+    if (data && data["royaltyInfo"]) {
+      setCreatorFee(Number(data["royaltyInfo"][1]) / 100);
+    }
+  };
 
   const handlePrice = (text: StringOrNumber, error: boolean) => {
     const splitedText = `${text}`.split(".");
@@ -74,11 +95,14 @@ function ModalSaleNFT(props: ModalSaleNFTProps) {
     if (`${finalPriceText}`.length > 0) {
       const curPrice = new Decimal(finalPriceText);
       const totalFee = curPrice.mul(saleFee / 100);
+      const creatorEarning = curPrice.mul(creatorFee / 100);
 
       setFinalFee(totalFee.toString());
-      setFinalEarning(curPrice.minus(totalFee).toString());
+      setFinalCreatorEarning(creatorEarning.toString());
+      setFinalEarning(curPrice.minus(totalFee.plus(creatorEarning)).toString());
     } else {
       setFinalEarning("0");
+      setFinalCreatorEarning("0");
     }
   };
 
@@ -172,24 +196,38 @@ function ModalSaleNFT(props: ModalSaleNFTProps) {
           fee: finalFee,
           earning: finalEarning,
           price: `${price.text}`,
+          creatorEarning: finalCreatorEarning,
           endTime: period / 1000,
           r,
           s,
           v,
         };
 
-        const createRes = await fetchInsertSales(data);
-        if (createRes) {
-          console.log("성공");
-        } else {
-          console.log("실패");
-        }
+        await createSaleMutate(
+          { data },
+          {
+            onSuccess(createRes) {
+              if (createRes) {
+                setModalAlert({
+                  open: true,
+                  type: "success",
+                  text: "축하합니다!\nNFT 판매 등록에 성공하였습니다.",
+                });
+                onClose();
+              } else {
+                setModalAlert({
+                  open: true,
+                  type: "error",
+                  text: "NFT 판매 실패에 성공하였습니다.\n다시 시도해주세요.",
+                });
+              }
+            },
+          }
+        );
       } catch (err) {
         console.log(err);
       }
     }
-
-    // onClose();
   };
 
   return (
@@ -252,6 +290,10 @@ function ModalSaleNFT(props: ModalSaleNFTProps) {
           <div>
             <span>판매 수수료</span>
             <span>{saleFee}%</span>
+          </div>
+          <div>
+            <span>창작자 로열티</span>
+            <span>{creatorFee}%</span>
           </div>
           <div>
             <span>총 판매 수익(ETH)</span>

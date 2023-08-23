@@ -15,7 +15,6 @@ interface BoxNFTPreviewProps {
 }
 
 function BoxNFTPreview(props: BoxNFTPreviewProps) {
-  console.log("render BoxNFTPreview:");
   const { item: nft, contractAddress, contractName, sale, onSale } = props;
 
   const handleSale = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -44,11 +43,14 @@ function BoxNFTPreview(props: BoxNFTPreviewProps) {
           <span>
             {contractName ?? "Untitled Collection"} (#{nft.tokenId})
           </span>
+          {nft.price ? (
+            <span className="nft-price">{nft.price} ETH</span>
+          ) : null}
         </div>
       </Link>
       {sale ? (
         <Button className="button-nft-sale" onClick={handleSale}>
-          판매하기
+          {nft.price ? "판매중" : "판매하기"}
         </Button>
       ) : null}
     </div>
@@ -58,6 +60,7 @@ function BoxNFTPreview(props: BoxNFTPreviewProps) {
 export default memo(BoxNFTPreview, (prev, cur) => {
   return (
     prev.item.tokenId === cur.item.tokenId &&
-    prev.contractAddress === cur.contractAddress
+    prev.contractAddress === cur.contractAddress &&
+    prev.item.price === cur.item.price
   );
 });

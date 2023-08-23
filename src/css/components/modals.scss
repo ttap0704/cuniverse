@@ -44,6 +44,7 @@
     }
 
     span {
+      display: block;
       font-size: $f-sm;
       white-space: pre-wrap;
     }
@@ -92,6 +93,10 @@
 
       button {
         width: 100%;
+      }
+
+      .confirm-text {
+        font-size: $f-sm;
       }
     }
   }

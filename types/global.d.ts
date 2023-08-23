@@ -64,6 +64,13 @@ declare global {
     twitch?: string;
   }
 
+  // Account Info 수정 Request Body
+  interface UpdateAccountSalesRequest {
+    contractAddress: string;
+    tokenId: string;
+    canceled?: number;
+  }
+
   // Account 공통 Interface
   type AccountClient = Omit<AccountInfoReponse, "createdAt">;
   interface Account extends AccountClient {
@@ -91,6 +98,8 @@ declare global {
       address: string;
       name: string;
     };
+    price?: number;
+    royalty?: number;
   }
 
   // Collector 공통 Type
@@ -166,6 +175,7 @@ declare global {
     deployer: { nickname: string; address: string; contractId?: number };
     moreNFTs: NFTMetadata[];
     sale: { endTime: string; price: number } | null;
+    royalty: number;
   }
 
   // Contract Detail
@@ -205,7 +215,8 @@ declare global {
     | "profile"
     | "name"
     | "symbol"
-    | "description";
+    | "description"
+    | "royalty";
 
   // Contract 생성 Request Body
   interface CreateContractRequest {
@@ -217,6 +228,7 @@ declare global {
     contractAddress: string;
     accountId: number;
     created: number;
+    royalty: string;
   }
 
   // Contract 수정 Request Body
@@ -245,6 +257,7 @@ declare global {
     fee: string;
     earning: string;
     price: string;
+    creatorEarning: string;
     endTime: number;
     r: string;
     s: string;

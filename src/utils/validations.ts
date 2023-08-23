@@ -54,6 +54,20 @@ const validations: {
 
     return message;
   },
+  royalty: (text: StringOrNumber) => {
+    const curText = `${text}`.split(".");
+    let message = "";
+
+    if (Number(text) > 10) {
+      message = "최대 10%까지 설정 가능합니다.";
+    }
+
+    if (curText[1] && curText[1].length > 1) {
+      message = "소숫점은 최대 1자리까지 설정 가능합니다.";
+    }
+
+    return message;
+  },
 };
 
 export default validations;

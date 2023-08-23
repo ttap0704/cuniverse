@@ -16,7 +16,7 @@ export const S3_IMAGES_URL =
 
 // Need Connect Wallet Pages/API
 export const ACCOUNT_PAGES = ["account", "contracts", "minting"];
-export const ACCOUNT_API = ["/api/accounts/info"];
+export const ACCOUNT_API = ["/api/account/info"];
 
 // Default Account Images
 export const DEFAULT_BANNER =

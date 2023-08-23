@@ -19,7 +19,7 @@ const tabsItems: TabsMenuItem[] = [
   { id: 1, label: "Creations", path: "/account/creations" },
 ];
 
-// /accounts/* Layout
+// /account/* Layout
 function AccountLayout({ children }: { children: React.ReactNode }) {
   const { data: account } = useAccountQuery();
   const pathname = usePathname();

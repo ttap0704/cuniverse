@@ -29,6 +29,7 @@ const generateKeys: UpdateContractKeys[] = [
   "name",
   "symbol",
   "description",
+  "royalty",
 ];
 const generateKeysData: {
   [key in UpdateContractKeys]: {
@@ -38,10 +39,31 @@ const generateKeysData: {
   };
 } = {
   banner: { KR: "배너 사진", type: "file", required: false },
-  profile: { KR: "프로필 사진", type: "file", required: false },
-  name: { KR: "컬렉션 이름", type: "text", required: true },
-  symbol: { KR: "컬렉션 심볼", type: "text", required: true },
-  description: { KR: "컬렉션 소개", type: "textarea", required: true },
+  profile: {
+    KR: "프로필 사진",
+    type: "file",
+    required: false,
+  },
+  name: {
+    KR: "컬렉션 이름",
+    type: "text",
+    required: true,
+  },
+  symbol: {
+    KR: "컬렉션 심볼",
+    type: "text",
+    required: true,
+  },
+  description: {
+    KR: "컬렉션 소개",
+    type: "textarea",
+    required: true,
+  },
+  royalty: {
+    KR: "창작자 수익 (%)",
+    type: "number",
+    required: true,
+  },
 };
 
 const generatePlaceholder: { [key in UpdateContractKeys]: string } = {
@@ -50,6 +72,7 @@ const generatePlaceholder: { [key in UpdateContractKeys]: string } = {
   name: "컬렉션 이름을 입력해주세요.",
   symbol: "컬렉션 심볼을 입력해주세요. (ex. CU)",
   description: "컬렉션 설명을 입력해주세요.",
+  royalty: "창작자의 로열티 비율을 설정해주세요. (ex. 3.0%)",
 };
 
 const generateValidations: {
@@ -60,6 +83,7 @@ const generateValidations: {
   name: validations["collectionName"],
   symbol: validations["collectionSymbol"],
   description: () => "",
+  royalty: validations["royalty"],
 };
 
 function AccountSettings() {
@@ -94,13 +118,14 @@ function AccountSettings() {
   }, []);
 
   const updateAccountData = useRef<
-    { [key in UpdateContractKeys]: { value: string; error: boolean } }
+    { [key in UpdateContractKeys]: { value: StringOrNumber; error: boolean } }
   >({
     banner: { value: "", error: false },
     profile: { value: "", error: false },
     name: { value: "", error: false },
     symbol: { value: "", error: false },
     description: { value: "", error: false },
+    royalty: { value: "0", error: false },
   });
 
   // 페이지 진입 시 또는 가져오기 완료 시, Initial Form Data 생성
@@ -174,6 +199,7 @@ function AccountSettings() {
         contractAddress: "",
         accountId: account.id,
         created: generateMode == "generate-new" ? 1 : 0,
+        royalty: "0",
       };
 
       for (let i = 0; i < generateKeys.length; i++) {
@@ -236,7 +262,8 @@ function AccountSettings() {
           try {
             const contract = await factory.deploy(
               finalGenerateData.name,
-              finalGenerateData.symbol
+              finalGenerateData.symbol,
+              Number(finalGenerateData.royalty) * 100
             );
 
             await contract.waitForDeployment();
@@ -255,14 +282,23 @@ function AccountSettings() {
         }
       }
 
-      await fetchCreateConllection({ data: finalGenerateData });
-      setModalAlert({
-        open: true,
-        type: "success",
-        text: "컬렉션 배포에 성공하였습니다.",
-      });
+      const check = await fetchCreateConllection({ data: finalGenerateData });
+      if (check) {
+        setModalAlert({
+          open: true,
+          type: "success",
+          text: "컬렉션 배포에 성공하였습니다.",
+        });
+        router.push("/contracts");
+      } else {
+        setModalAlert({
+          open: true,
+          type: "error",
+          text: "컬렉션 배포에 실패하였습니다.\n다시 시도해주세요.",
+        });
+      }
+
       setIsDeploying(false);
-      router.push("/contracts");
     }
   };
 
@@ -316,6 +352,7 @@ function AccountSettings() {
                       .required
                   }
                   readOnly={data.readOnly}
+                  placeholder={data.placeholder}
                 />
               );
             })}

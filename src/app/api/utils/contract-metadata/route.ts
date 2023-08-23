@@ -37,11 +37,26 @@ export async function GET(request: NextRequest, response: NextResponse) {
       pass = true;
       data = {};
       const needsArr = needs.split(",");
+
+      // For BigInt Parse Error
+      (BigInt.prototype as any).toJSON = function () {
+        return this.toString();
+      };
+
       for (let i = 0; i < needsArr.length; i++) {
         const functionKey = needsArr[i];
-        const searchFunction = await contract.getFunction(functionKey);
+        const args = searchParams.get(`${functionKey}-args`);
+
+        let argsArr: any = [];
+
+        if (args) {
+          argsArr = args.split(",");
+        }
+
+        const searchFunction = (contract as any)[functionKey];
+
         if (searchFunction !== undefined) {
-          const value: string = await searchFunction.staticCall();
+          const value: any = await searchFunction.staticCall(...argsArr);
           data[functionKey] = value;
         }
       }

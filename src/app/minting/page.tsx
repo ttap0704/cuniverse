@@ -6,11 +6,7 @@ import ContainerForm from "@/components/containers/ContainerForm";
 import InputWithLabel from "@/components/inputs/InputWithLabel";
 import useAccountQuery from "@/queries/useAccountQuery";
 import { setModalAlertAtom } from "@/store/modalAlert";
-import {
-  fetchGetAccountContracts,
-  fetchGetContractSpecificMetadata,
-  fetchUploadIPFS,
-} from "@/utils/api";
+import { fetchGetAccountContracts, fetchUploadIPFS } from "@/utils/api";
 import validations from "@/utils/validations";
 import { useSetAtom } from "jotai";
 import { use, useEffect, useRef, useState } from "react";

@@ -69,13 +69,22 @@
     .preview-info {
       height: 25%;
       padding: 0 1rem;
-      gap: 0.5rem;
+      gap: 0.25rem;
       flex-direction: column;
+      position: relative;
       @include d-flex-justify-center;
 
       & > span {
         font-size: $f-s;
         font-weight: $semibold;
+      }
+
+      .nft-price {
+        position: absolute;
+        font-size: $f-xs;
+        font-weight: $normal;
+        bottom: 0.1rem;
+        color: $black-60;
       }
     }
   }

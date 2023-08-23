@@ -33,6 +33,7 @@ function ContainerNFTDetail(props: NFTDetail) {
         owner={data.owners}
         name={data.name ?? data.tokenId}
         sale={data.sale}
+        royalty={data.royalty / 100}
       />
       {data.description ? (
         <BoxWithTitle title="소개" style={{ marginBottom: "2rem" }}>

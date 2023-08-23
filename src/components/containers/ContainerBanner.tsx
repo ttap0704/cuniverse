@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import InputImage from "../inputs/InputImage";
 import React, { memo } from "react";
 import ButtonImageUpload from "../buttons/ButtonImageUpload";
