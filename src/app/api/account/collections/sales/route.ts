@@ -30,8 +30,6 @@ export async function POST(request: NextRequest) {
         sqlList.map(() => "?").join(", ") +
         ");";
 
-      console.log("오니??? 여기는 sales");
-
       const insertRes = await db.query({
         sql,
         values,
@@ -69,7 +67,9 @@ export async function PUT(request: NextRequest) {
       for (const [key, val] of Object.entries(updatedata)) {
         if (["contractAddress", "tokenId"].includes(key)) continue;
         sqlList.push(` ${key} = ?`);
-        values.push(val);
+        if (["canceledAt", "completedAt"].includes(key))
+          values.push(new Date(Number(val)));
+        else values.push(val);
       }
 
       sql +=

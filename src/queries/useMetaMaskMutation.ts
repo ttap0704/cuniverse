@@ -3,7 +3,7 @@ import { QUERY_KEY as accountQueryKey } from "./useAccountQuery";
 import { setCookieInClient } from "@/utils/tools";
 import { NETWORK_SEPOLIA, SIGN_TEXT } from "../../constants";
 import ethersBrowserProvider from "@/utils/ethersBrowserProvider";
-import { toBeHex } from "ethers";
+import { hashMessage, toBeHex } from "ethers";
 
 const fetcher = () => {
   return new Promise(async (resolve) => {
@@ -34,11 +34,6 @@ const fetcher = () => {
         const signText =
           SIGN_TEXT + new Date(loginTime).toLocaleString("euc-kr");
         const token = await account.signMessage(signText);
-
-        const r = token.slice(0, 66);
-        const s = "0x" + token.slice(66, 130);
-        const v = parseInt(token.slice(130, 132), 16);
-        console.log({ r, s, v });
 
         const cookieExpires = new Date(
           new Date().getTime() + 1000 * 60 * 60 * 24

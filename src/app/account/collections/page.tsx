@@ -61,7 +61,7 @@ function AccountCollections() {
         data: {
           contractAddress: saleNFTItem.contractAddress,
           tokenId: saleNFTItem.tokenId,
-          canceled: 1,
+          canceledAt: new Date().getTime(),
         },
       },
       {

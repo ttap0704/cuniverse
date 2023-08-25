@@ -25,7 +25,7 @@ const useAccountSalesUpdateMutation = () => {
               NFT.contract?.address == data.contractAddress &&
               NFT.tokenId == data.tokenId
             ) {
-              if (data.canceled) NFT.price = undefined;
+              if (data.canceledAt) NFT.price = undefined;
             }
             return NFT;
           });

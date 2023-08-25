@@ -53,11 +53,15 @@ export async function GET(request: NextRequest, response: NextResponse) {
           argsArr = args.split(",");
         }
 
-        const searchFunction = (contract as any)[functionKey];
+        try {
+          const searchFunction = contract.getFunction(functionKey);
 
-        if (searchFunction !== undefined) {
-          const value: any = await searchFunction.staticCall(...argsArr);
-          data[functionKey] = value;
+          if (searchFunction !== undefined) {
+            const value: any = await searchFunction.staticCall(...argsArr);
+            data[functionKey] = value;
+          }
+        } catch (err) {
+          // console.log(err);
         }
       }
     }

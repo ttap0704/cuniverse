@@ -3,6 +3,8 @@ import { DEFAULT_PROFILE } from "../../../constants";
 import BoxWithTitle from "../boxes/BoxWithTitle";
 import ContainerSeeMore from "./ContainerSeeMore";
 import BoxNFTPreview from "../boxes/BoxNFTPreview";
+import { getShortAddress } from "@/utils/tools";
+import { ZeroAddress } from "ethers";
 
 // NFT Detail 정보 표기
 
@@ -64,6 +66,33 @@ function ContainerNFTDetail(props: NFTDetail) {
           </div>
         </BoxWithTitle>
       ) : null}
+
+      <BoxWithTitle
+        title="이벤트 로그"
+        style={{ marginBottom: "2rem" }}
+        className="nft-logs"
+      >
+        <div>
+          <div className="log-row table-header">
+            <div className="row-title"></div>
+            <div>FROM</div>
+            <div>TO</div>
+          </div>
+          {data.logs.length > 0
+            ? data.logs.map((item) => {
+                return (
+                  <div className="log-row">
+                    <div className="row-title">
+                      {item.from == ZeroAddress ? "Mint" : "Transfer"}
+                    </div>
+                    <div>{getShortAddress(item.from)}</div>
+                    <div>{getShortAddress(item.to)}</div>
+                  </div>
+                );
+              })
+            : "no items"}
+        </div>
+      </BoxWithTitle>
 
       {data.moreNFTs.length > 0 ? (
         <BoxWithTitle title="MORE" style={{ marginBottom: "2rem" }}>

@@ -12,15 +12,19 @@ export async function GET(request: NextRequest, response: NextResponse) {
 
   // Address, Token Id 조회
   const address = searchParams.get("address");
-  const tokenId = BigInt(Number(searchParams.get("tokenId")));
+  let tokenId: null | BigInt | string = searchParams.get("token-id");
+
   let pass = false,
     message = "",
     data: NFTDetail | null = null;
 
   // Address와 Token Id 모두 있다면 로직 실행
-  if (address && tokenId >= 0) {
+  if (address && tokenId) {
+    tokenId = BigInt(tokenId);
+
     // Etherscan API 통해
     // Smart Contract ABI 조회
+
     const getAbi = await fetch(
       `https://api-sepolia.etherscan.io/api?module=contract&action=getabi&address=${address}&apikey=${process.env.ETHERSCAN_API_KEY}`
     );
@@ -73,29 +77,47 @@ export async function GET(request: NextRequest, response: NextResponse) {
       });
 
       // 현재 해당 NFT가 판매중인지 체크
-      const saleResponse: { endTime: string; price: number }[] = await db.query(
-        {
-          sql: "SELECT price, endTime FROM sales WHERE contractAddress = ? AND tokenId = ?;",
-          values: [address, tokenId],
-        }
-      );
+      const saleResponse: SalesDetail[] = await db.query({
+        sql: "SELECT * FROM sales WHERE contractAddress = ? AND tokenId = ? AND canceledAt IS NULL AND completedAt IS NULL;",
+        values: [address, tokenId],
+      });
       const sale = saleResponse[0] ?? null;
 
-      // "Transfer" 이벤트 로그 가져오기
-      const filter = contract.filters.Transfer(ZERO_ADDRESS, null, null);
+      // "Transfer" 사용자간 로그 가져오기
+      const logs: { from: string; to: string }[] = [];
+      const transferFilter = contract.filters.Transfer(null, null, tokenId);
+      const transferEvents = await contract.queryFilter(transferFilter);
+      for (let i = transferEvents.length - 1; i >= 0; i--) {
+        const curLog = transferEvents[i];
+        const log = contract.interface.parseLog({
+          data: curLog.data,
+          topics: curLog.topics as string[],
+        });
+
+        if (!log) continue;
+        console.log(log);
+        logs.push({
+          from: log.args[0],
+          to: log.args[1],
+        });
+      }
+
+      // "Transfer" mint 이벤트 로그 가져오기
+      const mintFilter = contract.filters.Transfer(ZERO_ADDRESS, null, null);
       const latestBlock = await ethersServerProvider.getBlock("latest");
       const latestBlockNumber = Number(latestBlock?.number) - 1;
-      const transferEvents = await contract.queryFilter(
-        filter,
+      const mintEvents = await contract.queryFilter(
+        mintFilter,
         Math.max(latestBlockNumber - 500000, 0),
         latestBlockNumber
       );
       const more: NFTMetadata[] = [];
-      for (let i = transferEvents.length - 1; i >= 0; i--) {
+
+      for (let i = mintEvents.length - 1; i >= 0; i--) {
         // 추천 NFT는 10개 까지
         if (more.length >= 10) break;
 
-        const curLog = transferEvents[i];
+        const curLog = mintEvents[i];
         const log = contract.interface.parseLog({
           data: curLog.data,
           topics: curLog.topics as string[],
@@ -104,16 +126,28 @@ export async function GET(request: NextRequest, response: NextResponse) {
         // from == '0x0000000000000000000000000000000000000000' 일 때가 Mint이기 때문에
         // 해당 address만 필터링
         if (!log) continue;
-        let metadataUrl: string = ipfsToHttps(
-          await contract.getFunction("tokenURI").staticCall(log.args[2])
-        );
 
-        const metadataResponse = await fetch(`${metadataUrl}`);
-        const metadata: NFTMetadata = {
-          ...(await metadataResponse.json()),
-          tokenId: BigInt(log.args[2]).toString(),
-        };
-        more.push(metadata);
+        try {
+          const abortController = new AbortController();
+          const timeout = setTimeout(() => abortController.abort(), 1000);
+
+          let metadataUrl: string = ipfsToHttps(
+            await contract.getFunction("tokenURI").staticCall(log.args[2])
+          );
+
+          const metadataResponse = await fetch(`${metadataUrl}`, {
+            signal: abortController.signal,
+          });
+          clearTimeout(timeout);
+
+          const metadata: NFTMetadata = {
+            ...(await metadataResponse.json()),
+            tokenId: BigInt(log.args[2]).toString(),
+          };
+          more.push(metadata);
+        } catch (err) {
+          // console.log(err);
+        }
       }
 
       // 창작자 로열티 할당하기
@@ -121,11 +155,6 @@ export async function GET(request: NextRequest, response: NextResponse) {
         const royaltyInfo = contract.getFunction("royaltyInfo");
 
         if (royaltyInfo) {
-          // For BigInt Parse Error
-          (BigInt.prototype as any).toJSON = function () {
-            return this.toString();
-          };
-
           const royaltyRes = await royaltyInfo.staticCall(tokenId, 10000);
           royalty = Number(royaltyRes[1]);
         }
@@ -154,6 +183,7 @@ export async function GET(request: NextRequest, response: NextResponse) {
         moreNFTs: more,
         sale,
         royalty,
+        logs,
       };
     }
   }

@@ -12,9 +12,10 @@ import Decimal from "decimal.js";
 import { useSetAtom } from "jotai";
 import { setModalAlertAtom } from "@/store/modalAlert";
 import ethersBrowserProvider from "@/utils/ethersBrowserProvider";
-import { Contract } from "ethers";
+import { Contract, hashMessage, solidityPackedKeccak256 } from "ethers";
 import NFTJson from "@/contracts/NFT.json";
 import {
+  CUNIVERSE_HUB_ADDRESS,
   NFT_SALE_SIGN_TEXT1,
   NFT_SALE_SIGN_TEXT2,
   NFT_SALE_SIGN_TEXT3,
@@ -48,19 +49,20 @@ function ModalSaleNFT(props: ModalSaleNFTProps) {
     error: false,
   });
   const [wonPrice, setWonPrice] = useState("0");
-  const [period, setPeriod] = useState(new Date().getTime());
+  const [startTime, setStartTime] = useState(new Date().getTime());
+  const [endTime, setEndTime] = useState(new Date().getTime());
   const [saleFee, setSaleFee] = useState(2.5);
   const [creatorFee, setCreatorFee] = useState(0);
-  const [finalFee, setFinalFee] = useState("0");
+  // const [finalFee, setFinalFee] = useState("0");
   const [finalEarning, setFinalEarning] = useState("0");
-  const [finalCreatorEarning, setFinalCreatorEarning] = useState("0");
+  // const [finalCreatorEarning, setFinalCreatorEarning] = useState("0");
 
   useEffect(() => {
     if (!open) {
       setPrice({ text: 0, error: false });
       setWonPrice("0");
       setFinalEarning("0");
-      setFinalCreatorEarning("0");
+      // setFinalCreatorEarning("0");
       setCreatorFee(0);
     } else {
       getCreatorFee();
@@ -97,17 +99,18 @@ function ModalSaleNFT(props: ModalSaleNFTProps) {
       const totalFee = curPrice.mul(saleFee / 100);
       const creatorEarning = curPrice.mul(creatorFee / 100);
 
-      setFinalFee(totalFee.toString());
-      setFinalCreatorEarning(creatorEarning.toString());
+      // setFinalFee(totalFee.toString());
+      // setFinalCreatorEarning(creatorEarning.toString());
       setFinalEarning(curPrice.minus(totalFee.plus(creatorEarning)).toString());
     } else {
       setFinalEarning("0");
-      setFinalCreatorEarning("0");
+      // setFinalCreatorEarning("0");
     }
   };
 
-  const handlePeriod = (date: number) => {
-    setPeriod(date);
+  const handlePeriod = (date: number, type: string) => {
+    if (type == "start") setStartTime(date);
+    else setEndTime(date);
   };
 
   const createNFTSale = async () => {
@@ -120,18 +123,28 @@ function ModalSaleNFT(props: ModalSaleNFTProps) {
       return;
     }
 
-    if (period == 0) {
+    const finalStartTime = Math.floor(startTime / 1000);
+    const finalEndTime = Math.floor(endTime / 1000);
+
+    if (finalStartTime == 0 || finalEndTime == 0) {
       setModalAlert({
         open: true,
         type: "error",
         text: "정확한 판매 기간을 입력해주세요.",
       });
       return;
-    } else if (period < new Date().getTime()) {
+    } else if (finalEndTime < new Date().getTime() / 1000) {
       setModalAlert({
         open: true,
         type: "error",
-        text: "판매 기간을 현재시간 이후의 시간으로 설정해주세요.",
+        text: "판매 종료시간을 현재시간 이후의 시간으로 설정해주세요.",
+      });
+      return;
+    } else if (finalEndTime <= finalStartTime) {
+      setModalAlert({
+        open: true,
+        type: "error",
+        text: "판매 종료시간은 판매 시작시간보다 빠르거나 같을 수 없습니다.",
       });
       return;
     }
@@ -145,25 +158,27 @@ function ModalSaleNFT(props: ModalSaleNFTProps) {
         // 플랫폼이 해당 컬렉션의 전송권한이 부여되어있는지 확인
         const check: boolean = await (contract.isApprovedForAll as any)(
           account?.address,
-          SUPER_ADMIN_ADDRESS
+          CUNIVERSE_HUB_ADDRESS
         );
 
         approval = check;
       } catch (err) {
         console.log("isApprovedForAllError:", err);
+        return;
       }
 
       if (!approval) {
         try {
           // 해당 컬렉션의 전송권한 부여
           const setApprovalForAllTx = await (contract.setApprovalForAll as any)(
-            SUPER_ADMIN_ADDRESS,
+            CUNIVERSE_HUB_ADDRESS,
             true
           );
 
           await setApprovalForAllTx.wait();
         } catch (err) {
           console.log("setApprovalForAllError:", err);
+          return;
         }
       }
 
@@ -183,24 +198,29 @@ function ModalSaleNFT(props: ModalSaleNFTProps) {
           NFT_SALE_SIGN_TEXT5 +
           signer.address;
 
-        const token = await signer.signMessage(signText);
+        const hash = await solidityPackedKeccak256(
+          ["address", "address", "uint256", "uint256", "uint256", "uint256"],
+          [
+            account.address,
+            NFT.contractAddress,
+            NFT.tokenId,
+            BigInt(price.text * 10 ** 18),
+            finalStartTime,
+            finalEndTime,
+          ]
+        );
 
-        const r = token.slice(0, 66);
-        const s = "0x" + token.slice(66, 130);
-        const v = parseInt(token.slice(130, 132), 16);
+        const signature = await signer.signMessage(signText);
 
-        const data: SalesDetail = {
+        const data: CreateSalesDetailRequest = {
           accountId: account.id,
           contractAddress: NFT.contractAddress,
           tokenId: NFT.tokenId,
-          fee: finalFee,
-          earning: finalEarning,
           price: `${price.text}`,
-          creatorEarning: finalCreatorEarning,
-          endTime: period / 1000,
-          r,
-          s,
-          v,
+          startTime: finalStartTime,
+          endTime: finalEndTime,
+          hash,
+          signature,
         };
 
         await createSaleMutate(
@@ -275,10 +295,16 @@ function ModalSaleNFT(props: ModalSaleNFTProps) {
             validation={validations["NFTPrice"]}
           />
           <InputDateTimeWithLabel
-            labelText="기간"
+            labelText="판매 시작시간"
             date={new Date().toISOString().slice(0, 16)}
-            id="nft-period"
-            onChange={handlePeriod}
+            id="nft-start-time"
+            onChange={(date: number) => handlePeriod(date, "start")}
+          />
+          <InputDateTimeWithLabel
+            labelText="판매 종료시간"
+            date={new Date().toISOString().slice(0, 16)}
+            id="nft-end-time"
+            onChange={(date: number) => handlePeriod(date, "end")}
           />
         </div>
         <Divider />
@@ -296,7 +322,7 @@ function ModalSaleNFT(props: ModalSaleNFTProps) {
             <span>{creatorFee}%</span>
           </div>
           <div>
-            <span>총 판매 수익(ETH)</span>
+            <span>총 예상 수익(ETH)</span>
             <span className="final-earning">{finalEarning.toString()} ETH</span>
           </div>
         </div>

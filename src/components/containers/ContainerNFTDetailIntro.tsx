@@ -1,9 +1,9 @@
-import Image from "next/image";
 import BoxWhite from "../boxes/BoxWhite";
 import Divider from "../common/Divider";
 import { getShortAddress } from "@/utils/tools";
 import Link from "next/link";
 import ImageCuniverse from "../common/ImageCuniverse";
+import ButtonNFTBuy from "../buttons/ButtonNFTBuy";
 
 interface ContainerNFTDetailIntroProps {
   image: string;
@@ -11,7 +11,7 @@ interface ContainerNFTDetailIntroProps {
   contract: { address: string; title: string };
   deployer: { address: string; nickname: string };
   owner: { address: string; nickname: string };
-  sale: { endTime: string; price: number } | null;
+  sale: SalesDetail | null;
   royalty: number;
 }
 
@@ -60,7 +60,11 @@ function ContainerNFTDetailIntro(props: ContainerNFTDetailIntroProps) {
               {sale ? sale.price + " ETH" : "판매중인 상품이 아닙니다."}
             </span>
           </div>
-          <button disabled={sale ? false : true}>BUY</button>
+          <ButtonNFTBuy
+            disabled={sale ? false : true}
+            sale={sale}
+            owner={owner.address}
+          />
         </div>
         <Divider />
       </BoxWhite>

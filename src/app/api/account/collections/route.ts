@@ -20,7 +20,7 @@ export async function GET() {
         sql: `SELECT contractAddress, tokenId, price
       FROM sales sa
       INNER JOIN accounts ac ON ac.id = sa.accountId
-      WHERE ac.address = ? AND sa.canceled = 0;`,
+      WHERE ac.address = ? AND sa.canceledAt IS NULL AND sa.completedAt IS NULL;`,
         values: [address],
       });
 

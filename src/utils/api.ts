@@ -219,7 +219,7 @@ export async function fetchGetAccountContracts() {
 // NFT Metadata API
 export async function fetchGetNFTMetadata(address: string, tokenId: string) {
   const res: NFTDetail | null = await fetchGetApi(
-    `/assets?address=${address}&tokenId=${tokenId}`,
+    `/assets?address=${address}&token-id=${tokenId}`,
     { cache: "no-store" }
   );
   return res;

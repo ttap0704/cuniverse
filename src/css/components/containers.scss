@@ -369,16 +369,6 @@
             align-items: flex-end;
           }
         }
-
-        button {
-          width: 100%;
-          height: 3rem;
-          border-radius: 1rem;
-          background-color: $light-pink;
-          border: 1px solid $light-pink;
-          color: $white-100;
-          font-size: $f-m;
-        }
       }
     }
   }
@@ -414,6 +404,40 @@
         .value {
           display: flex;
           justify-content: space-between;
+        }
+      }
+    }
+  }
+
+  .nft-logs {
+    & > div {
+      width: 100%;
+      min-height: 10rem;
+      background-color: rgba(18, 18, 18, 0.04);
+      padding: 1rem;
+      border-radius: 1rem;
+      overflow-y: auto;
+
+      & > .log-row {
+        display: flex;
+        width: 100%;
+
+        & > div {
+          width: 40%;
+          font-size: $f-sm;
+
+          @include d-flex-center;
+
+          &.row-title {
+            width: 20%;
+          }
+        }
+
+        &.table-header {
+          font-size: $f-m;
+          & > div {
+            font-weight: $semibold;
+          }
         }
       }
     }

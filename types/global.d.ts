@@ -68,7 +68,8 @@ declare global {
   interface UpdateAccountSalesRequest {
     contractAddress: string;
     tokenId: string;
-    canceled?: number;
+    canceledAt?: number;
+    completedAt?: number;
   }
 
   // Account 공통 Interface
@@ -116,6 +117,7 @@ declare global {
     ref?: React.Ref;
     id?: string;
     testid?: string;
+    disabled?: boolean;
   }
 
   // Dropdown Menu Items Interface
@@ -174,8 +176,9 @@ declare global {
     owners: { nickname: string; address: string };
     deployer: { nickname: string; address: string; contractId?: number };
     moreNFTs: NFTMetadata[];
-    sale: { endTime: string; price: number } | null;
+    sale: SalesDetail | null;
     royalty: number;
+    logs: { from: string; to: string }[];
   }
 
   // Contract Detail
@@ -254,13 +257,18 @@ declare global {
     accountId: number;
     contractAddress: string;
     tokenId: string;
-    fee: string;
-    earning: string;
     price: string;
-    creatorEarning: string;
+    startTime: number;
     endTime: number;
-    r: string;
-    s: string;
-    v: number;
+    hash: string;
+    signature: string;
+    canceledAt: string;
+    completedAt: string;
   }
+
+  type CreateSalesDetailRequest = Omit<
+    SalesDetail,
+    "canceledAt",
+    "completedAt"
+  >;
 }
