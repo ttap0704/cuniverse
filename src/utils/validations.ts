@@ -13,7 +13,7 @@ const validations: {
     const reg = new RegExp(
       /^(http(s):\/\/.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/
     );
-    if (!reg.test(text)) return "올바른 주소를 입력해주세요.";
+    if (!reg.test(`${text}`)) return "올바른 주소를 입력해주세요.";
     return "";
   },
   nickname: (text: StringOrNumber) => {

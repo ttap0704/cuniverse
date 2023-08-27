@@ -215,7 +215,7 @@ function AccountSettings() {
           return;
         }
 
-        if (val.value.length === 0 && generateKeysData[key].required) {
+        if (`${val.value}`.length === 0 && generateKeysData[key].required) {
           setModalAlert({
             open: true,
             type: "error",
@@ -224,8 +224,8 @@ function AccountSettings() {
           return;
         }
 
-        if (val.value.length != 0) {
-          finalGenerateData[key] = val.value;
+        if (`${val.value}`.length != 0) {
+          finalGenerateData[key] = `${val.value}`;
         }
       }
 
@@ -317,7 +317,7 @@ function AccountSettings() {
               id="collection-generate-address"
               value=""
               onChange={(text: StringOrNumber, error: boolean) =>
-                setContractAddress({ value: text, error })
+                setContractAddress({ value: `${text}`, error })
               }
               type="text"
               dataKey="contract-address"

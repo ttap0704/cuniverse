@@ -5,6 +5,7 @@ import ContainerSeeMore from "./ContainerSeeMore";
 import BoxNFTPreview from "../boxes/BoxNFTPreview";
 import { getShortAddress } from "@/utils/tools";
 import { ZeroAddress } from "ethers";
+import Table from "../table/Table";
 
 // NFT Detail 정보 표기
 
@@ -72,8 +73,13 @@ function ContainerNFTDetail(props: NFTDetail) {
         style={{ marginBottom: "2rem" }}
         className="nft-logs"
       >
-        <div>
-          <div className="log-row table-header">
+        <Table
+          keys={["empty", "from", "to"]}
+          items={{}}
+          titles={{ empty: "", from: "From", to: "To" }}
+          width={{ empty: 0.2, from: 0.4, to: 0.4 }}
+        />
+        {/* <div className="log-row table-header">
             <div className="row-title"></div>
             <div>FROM</div>
             <div>TO</div>
@@ -90,8 +96,7 @@ function ContainerNFTDetail(props: NFTDetail) {
                   </div>
                 );
               })
-            : "no items"}
-        </div>
+            : "no items"} */}
       </BoxWithTitle>
 
       {data.moreNFTs.length > 0 ? (

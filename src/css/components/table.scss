@@ -1,0 +1,22 @@
+.table {
+  width: 100%;
+  min-height: 10rem;
+  max-height: 15rem;
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(18, 18, 18, 0.04);
+  border-radius: 1rem;
+
+  .table-row {
+    height: 3rem;
+    display: flex;
+
+    &:not(:last-of-type) {
+      border-bottom: 1px solid $black-10;
+    }
+
+    .table-contents {
+      @include d-flex-center;
+    }
+  }
+}

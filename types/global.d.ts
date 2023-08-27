@@ -4,6 +4,9 @@ import { Account } from "aws-sdk";
 import React from "react";
 
 declare global {
+  // 문자열 또는 숫자
+  type StringOrNumber = string | number;
+
   // window ethureum 타입
   interface Window {
     ethereum?: MetaMaskInpageProvider;
@@ -167,9 +170,6 @@ declare global {
     direct?: boolean; // 입력 시, 바로 이벤트 전달
   }
 
-  // 문자열 또는 숫자
-  type StringOrNumber = StringOrNumber;
-
   // NFT Detail
   interface NFTDetail extends NFTMetadata {
     contract: { name: string; address: string };
@@ -271,4 +271,22 @@ declare global {
     "canceledAt",
     "completedAt"
   >;
+
+  // Table types
+  type TableItemMode = "link" | "text";
+  type TableContentsWidth = { [key: string]: number };
+  type TableHeaderProps = { [key: string]: string };
+  type TableBodyProps = {
+    [key: string]: {
+      mode: TableItemMode;
+      value: StringOrNumber;
+    };
+  };
+
+  interface TableProps {
+    keys: string[];
+    width: TableContentsWidth;
+    titles: TableHeaderProps;
+    items: TableBodyProps;
+  }
 }
