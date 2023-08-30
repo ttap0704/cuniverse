@@ -1,21 +1,23 @@
 "use client";
 
 import useAccountQuery from "@/queries/useAccountQuery";
-import BoxWhite from "../boxes/BoxWhite";
 import LoadingSpinner from "../common/LoadingSpinner";
 import useAccountContractsQuery from "@/queries/useAccountContractsQuery";
-import Button from "../buttons/Button";
 import BoxNFTCollection from "../boxes/BoxNFTCollection";
 
-function ContainerNFTCollections() {
-  const { data: account, isLoading: accountLoading } = useAccountQuery();
-  const { data: contracts, isLoading: contractsLoading } =
-    useAccountContractsQuery(account?.id);
+interface ContainerNFTCollectionsProps {
+  className?: string;
+  contracts?: ContractDetail[] | null;
+  isLoading: boolean;
+}
 
-  return accountLoading || contractsLoading ? (
+function ContainerNFTCollections(props: ContainerNFTCollectionsProps) {
+  const { className, isLoading, contracts } = props;
+
+  return isLoading ? (
     <LoadingSpinner color="black" />
   ) : (
-    <div className="container-nft-collections">
+    <div className={`container-nft-collections ${className ? className : ""}`}>
       {!contracts ? (
         <>No Items</>
       ) : (

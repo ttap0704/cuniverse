@@ -82,7 +82,6 @@ export async function PUT(request: NextRequest) {
         updatedata.accountId
       );
 
-      console.log({ sql, values });
       // 최종으로 Sales 수정
       const updateRes = await db.query({
         sql,

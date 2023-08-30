@@ -460,4 +460,14 @@
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
+
+  &.fixed {
+    flex-wrap: nowrap;
+    width: auto;
+    & > .box-nft-collection {
+      display: inline-block;
+      width: 24rem;
+      height: calc(24rem * 0.75) !important;
+    }
+  }
 }

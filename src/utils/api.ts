@@ -216,6 +216,12 @@ export async function fetchGetAccountContracts() {
   return res;
 }
 
+// 사용자 Contract List
+export async function fetchGetCollectorsContracts(address: string) {
+  const res: ContractDetail[] | null = await fetchGetApi(`/collectors/contracts?address=${address}`);
+  return res;
+}
+
 // NFT Metadata API
 export async function fetchGetNFTMetadata(address: string, tokenId: string) {
   const res: NFTDetail | null = await fetchGetApi(
