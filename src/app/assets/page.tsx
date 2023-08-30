@@ -24,4 +24,6 @@ function AssetsIndex({
   }
 }
 
+export const dynamic = "force-dynamic";
+
 export default AssetsIndex;

@@ -6,6 +6,7 @@ import { BsBalloon } from "react-icons/bs";
 export const NETWORK_URI = "http://localhost:7545";
 export const NETWORK_MAINNET = BigInt(1);
 export const NETWORK_SEPOLIA = BigInt(11155111);
+export const NETWORK_GOERLI = BigInt(5);
 
 // API SERVER
 export const SERVER_NAME = "http://localhost:3000";
@@ -71,4 +72,4 @@ export const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
 // Cuniver Hub(NFT Transfer)를 담당하는 지갑 주소
 export const SUPER_ADMIN_ADDRESS = "0x9E43e12263DAF3E9AaCDf968E0C0dB65A61354Fe";
 export const CUNIVERSE_HUB_ADDRESS =
-  "0x0a81022e2dbFa47BF070891Dd86f7cC7514D082a";
+  "0x41aae050DdCDf5894099B9d56d863a201Dc09807";

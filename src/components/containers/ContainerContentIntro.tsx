@@ -20,19 +20,13 @@ import ImageCuniverse from "../common/ImageCuniverse";
 // 사용자 소개 Component
 
 interface ContainerContentIntroProps {
-  address?: string;
+  account?: Account | null;
+  isLoading: boolean;
+  self: boolean;
 }
 
 function ContainerContentIntro(props: ContainerContentIntroProps) {
-  const address = props.address;
-  const { data: tmpCollector, isLoading: collectorLoading } = useCollectorQuery(
-    address ?? ""
-  );
-  const { data: tmpAccount, isLoading: accountLoading } = useAccountQuery();
-
-  // 사용할 Query 예외처리
-  const account = address ? tmpCollector : tmpAccount;
-  const isLoading = address ? collectorLoading : accountLoading;
+  const { account, isLoading, self } = props;
 
   const [links, setLinks] = useState<PlatformLinkWithHref[]>([]);
 
@@ -61,7 +55,7 @@ function ContainerContentIntro(props: ContainerContentIntroProps) {
           title={account?.nickname ? account.nickname : "Unnamed"}
         />
         {/* 사용자 본인이라면 settings 페이지 이동 가능하도록 설정 */}
-        {address ? null : (
+        {!self ? null : (
           <IconLink
             href="/account/settings"
             icon={<FaGear />}

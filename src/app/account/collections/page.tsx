@@ -56,33 +56,36 @@ function AccountCollections() {
   };
 
   const cancelSale = async () => {
-    await updateNFTSales(
-      {
-        data: {
-          contractAddress: saleNFTItem.contractAddress,
-          tokenId: saleNFTItem.tokenId,
-          canceledAt: new Date().getTime(),
+    if (account) {
+      await updateNFTSales(
+        {
+          data: {
+            accountId: account.id,
+            contractAddress: saleNFTItem.contractAddress,
+            tokenId: saleNFTItem.tokenId,
+            canceledAt: new Date().getTime(),
+          },
         },
-      },
-      {
-        onSuccess(res) {
-          if (res) {
-            setModalAlert({
-              type: "success",
-              text: "NFT 판매가 취소되었습니다.",
-              open: true,
-            });
-            setCancelModalOpen(false);
-          } else {
-            setModalAlert({
-              type: "error",
-              text: "NFT 취소 처리가 실패하였습니다.\n다시 시도해주세요.",
-              open: true,
-            });
-          }
-        },
-      }
-    );
+        {
+          onSuccess(res) {
+            if (res) {
+              setModalAlert({
+                type: "success",
+                text: "NFT 판매가 취소되었습니다.",
+                open: true,
+              });
+              setCancelModalOpen(false);
+            } else {
+              setModalAlert({
+                type: "error",
+                text: "NFT 취소 처리가 실패하였습니다.\n다시 시도해주세요.",
+                open: true,
+              });
+            }
+          },
+        }
+      );
+    }
   };
 
   // NFT 리스트 로딩처리

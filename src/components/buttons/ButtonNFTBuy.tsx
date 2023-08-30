@@ -4,7 +4,12 @@ import useAccountQuery from "@/queries/useAccountQuery";
 import Button from "./Button";
 import CuniverseHub from "@/contracts/CuniverseHub.json";
 import ethersBrowserProvider from "@/utils/ethersBrowserProvider";
-import { Contract, TransactionRequest, ethers } from "ethers";
+import {
+  Contract,
+  TransactionRequest,
+  encodeBytes32String,
+  ethers,
+} from "ethers";
 import { CUNIVERSE_HUB_ADDRESS } from "../../../constants";
 import { useState } from "react";
 import LoadingWaterDrop from "../common/LoadingWaterDrop";
@@ -45,19 +50,22 @@ function ButtonNFTBuy(props: ButtonNFTBuyProps) {
       // 구매 계약 실행
       try {
         const transferTx = await contract.proceedOrder(
-          sale.hash,
           owner,
           sale.contractAddress,
-          sale.tokenId,
-          ethers.parseEther(`${sale.price}`),
+          `${sale.tokenId}`,
+          ethers.parseEther(`${sale.price}`).toString(),
           sale.startTime,
           sale.endTime,
-          { value: ethers.parseEther(`${sale.price}`) }
+          sale.v,
+          sale.r,
+          sale.s,
+          { value: ethers.parseEther(`${sale.price}`).toString() }
         );
         await transferTx.wait();
 
         const updateRes = await fetchUpdateAccountSales({
           data: {
+            accountId: sale.accountId,
             contractAddress: sale.contractAddress,
             tokenId: sale.tokenId,
             completedAt: new Date().getTime(),
@@ -79,6 +87,7 @@ function ButtonNFTBuy(props: ButtonNFTBuyProps) {
           });
         }
       } catch (err) {
+        console.log({ err });
         setModalAlert({
           type: "error",
           text: "NFT 구매에 실패하였습니다.\n다시 시도해주세요.",

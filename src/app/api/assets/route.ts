@@ -84,7 +84,7 @@ export async function GET(request: NextRequest, response: NextResponse) {
       const sale = saleResponse[0] ?? null;
 
       // "Transfer" 사용자간 로그 가져오기
-      const logs: { from: string; to: string }[] = [];
+      const logs: NFTTransferLog[] = [];
       const transferFilter = contract.filters.Transfer(null, null, tokenId);
       const transferEvents = await contract.queryFilter(transferFilter);
       for (let i = transferEvents.length - 1; i >= 0; i--) {
@@ -95,10 +95,11 @@ export async function GET(request: NextRequest, response: NextResponse) {
         });
 
         if (!log) continue;
-        console.log(log);
         logs.push({
           from: log.args[0],
           to: log.args[1],
+          hash: curLog.transactionHash,
+          name: log.name,
         });
       }
 

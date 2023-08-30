@@ -21,7 +21,7 @@ const tabsItems: TabsMenuItem[] = [
 
 // /account/* Layout
 function AccountLayout({ children }: { children: React.ReactNode }) {
-  const { data: account } = useAccountQuery();
+  const { data: account, isLoading } = useAccountQuery();
   const pathname = usePathname();
 
   // settings 페이지에서는 Layout 필요 없으므로 예외처리
@@ -40,7 +40,11 @@ function AccountLayout({ children }: { children: React.ReactNode }) {
         }
         edit={true}
       />
-      <ContainerContentIntro />
+      <ContainerContentIntro
+        account={account}
+        isLoading={isLoading}
+        self={true}
+      />
       <Tabs items={tabsItems} />
       {children}
     </>

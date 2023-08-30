@@ -13,6 +13,9 @@ function CollectorsCollections({ address }: { address: string }) {
   const { data: nfts, isLoading: nftsLoading } = useCollectorNFTsQuery(
     account?.address ?? undefined
   );
+  const { data: collector, isLoading: collectorLoading } = useCollectorQuery(
+    address ?? ""
+  );
 
   if (accountLoading || nftsLoading) {
     return <LoadingSpinner />;

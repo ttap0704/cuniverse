@@ -17,6 +17,19 @@ interface ContainerNFTDetailIntroProps {
 
 function ContainerNFTDetailIntro(props: ContainerNFTDetailIntroProps) {
   const { image, name, contract, owner, deployer, sale, royalty } = props;
+  const now = new Date().getTime();
+  const isSale =
+    sale && sale.startTime * 1000 <= now && sale.endTime * 1000 >= now;
+
+  let time: string | null = null;
+  let timeText = "";
+  if (isSale) {
+    time = new Date(sale.endTime * 1000).toLocaleString("euc-kr");
+    timeText = "판매 종료";
+  } else if (sale && sale.startTime * 1000 > now) {
+    time = new Date(sale.startTime * 1000).toLocaleString("euc-kr");
+    timeText = "판매 시작";
+  }
 
   return (
     <div className="container-nft-detail-intro">
@@ -54,14 +67,21 @@ function ContainerNFTDetailIntro(props: ContainerNFTDetailIntroProps) {
         </div>
         <Divider />
         <div className="sale-box">
+          {time ? (
+            <div>
+              <span>{timeText}</span>
+              <span>{time}</span>
+            </div>
+          ) : null}
           <div>
             <span>판매 금액</span>
             <span>
-              {sale ? sale.price + " ETH" : "판매중인 상품이 아닙니다."}
+              {isSale ? sale.price + " ETH" : "판매중인 상품이 아닙니다."}
             </span>
           </div>
+
           <ButtonNFTBuy
-            disabled={sale ? false : true}
+            disabled={isSale ? false : true}
             sale={sale}
             owner={owner.address}
           />

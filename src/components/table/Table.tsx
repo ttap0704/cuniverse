@@ -1,4 +1,5 @@
-import TableHeader from "./TableHeader";
+import TableBodyContents from "./TableBodyContents";
+import TableHeaderContents from "./TableHeaderContents";
 import TableRow from "./TableRow";
 
 function Table(props: TableProps) {
@@ -9,11 +10,25 @@ function Table(props: TableProps) {
       <TableRow>
         {keys.map((key) => {
           return (
-            <TableHeader title={titles[key]} key={`table-header-${key}`} />
+            <TableHeaderContents
+              title={titles[key]}
+              width={width[key]}
+              key={`table-header-${key}`}
+            />
           );
         })}
       </TableRow>
-      <TableRow>2</TableRow>
+      <div className="table-body">
+        {items.map((item, itemIdx) => {
+          return (
+            <TableRow key={`table-body-row-${itemIdx}`}>
+              {keys.map((key) => {
+                return <TableBodyContents {...item[key]} width={width[key]} />;
+              })}
+            </TableRow>
+          );
+        })}
+      </div>
     </div>
   );
 }

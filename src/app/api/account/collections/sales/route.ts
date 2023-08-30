@@ -65,7 +65,8 @@ export async function PUT(request: NextRequest) {
 
       // Query 설정 및 Update Value Array 추가
       for (const [key, val] of Object.entries(updatedata)) {
-        if (["contractAddress", "tokenId"].includes(key)) continue;
+        if (["contractAddress", "tokenId", "accountId"].includes(key)) continue;
+
         sqlList.push(` ${key} = ?`);
         if (["canceledAt", "completedAt"].includes(key))
           values.push(new Date(Number(val)));
@@ -74,10 +75,14 @@ export async function PUT(request: NextRequest) {
 
       sql +=
         sqlList.join(",") +
-        ` WHERE contractAddress = ? AND tokenId = ? AND accountId = (
-        SELECT id FROM accounts WHERE address = ?
-      )`;
-      values.push(updatedata.contractAddress, updatedata.tokenId, address);
+        ` WHERE contractAddress = ? AND tokenId = ? AND accountId = ?`;
+      values.push(
+        updatedata.contractAddress,
+        updatedata.tokenId,
+        updatedata.accountId
+      );
+
+      console.log({ sql, values });
       // 최종으로 Sales 수정
       const updateRes = await db.query({
         sql,

@@ -69,8 +69,9 @@ declare global {
 
   // Account Info 수정 Request Body
   interface UpdateAccountSalesRequest {
-    contractAddress: string;
+    accountId: number;
     tokenId: string;
+    contractAddress: string;
     canceledAt?: number;
     completedAt?: number;
   }
@@ -171,6 +172,12 @@ declare global {
   }
 
   // NFT Detail
+  type NFTTransferLog = {
+    from: string;
+    to: string;
+    hash: string;
+    name: string;
+  };
   interface NFTDetail extends NFTMetadata {
     contract: { name: string; address: string };
     owners: { nickname: string; address: string };
@@ -178,7 +185,7 @@ declare global {
     moreNFTs: NFTMetadata[];
     sale: SalesDetail | null;
     royalty: number;
-    logs: { from: string; to: string }[];
+    logs: NFTTransferLog[];
   }
 
   // Contract Detail
@@ -260,7 +267,9 @@ declare global {
     price: string;
     startTime: number;
     endTime: number;
-    hash: string;
+    v: number;
+    r: string;
+    s: string;
     signature: string;
     canceledAt: string;
     completedAt: string;
@@ -273,13 +282,14 @@ declare global {
   >;
 
   // Table types
-  type TableItemMode = "link" | "text";
+  type TableItemMode = "link" | "text" | "copy";
   type TableContentsWidth = { [key: string]: number };
   type TableHeaderProps = { [key: string]: string };
   type TableBodyProps = {
     [key: string]: {
       mode: TableItemMode;
       value: StringOrNumber;
+      copyText?: string;
     };
   };
 
@@ -287,6 +297,6 @@ declare global {
     keys: string[];
     width: TableContentsWidth;
     titles: TableHeaderProps;
-    items: TableBodyProps;
+    items: TableBodyProps[];
   }
 }

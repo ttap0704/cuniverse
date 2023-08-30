@@ -16,6 +16,7 @@ import { Contract, hashMessage, solidityPackedKeccak256 } from "ethers";
 import NFTJson from "@/contracts/NFT.json";
 import {
   CUNIVERSE_HUB_ADDRESS,
+  NETWORK_SEPOLIA,
   NFT_SALE_SIGN_TEXT1,
   NFT_SALE_SIGN_TEXT2,
   NFT_SALE_SIGN_TEXT3,
@@ -183,34 +184,58 @@ function ModalSaleNFT(props: ModalSaleNFTProps) {
       }
 
       try {
-        // NFT 판매에 관한 Sign
-        const signText =
-          NFT_SALE_SIGN_TEXT1 +
-          NFT_SALE_SIGN_TEXT2 +
-          price.text +
-          " ETH\n" +
-          NFT_SALE_SIGN_TEXT3 +
-          NFT.contractAddress +
-          "\n" +
-          NFT_SALE_SIGN_TEXT4 +
-          NFT.tokenId +
-          "\n" +
-          NFT_SALE_SIGN_TEXT5 +
-          signer.address;
+        const domain = {
+          name: "Cuniverse",
+          version: "1.0",
+          chainId: NETWORK_SEPOLIA.toString(),
+          verifyingContract: CUNIVERSE_HUB_ADDRESS,
+        };
 
-        const hash = await solidityPackedKeccak256(
-          ["address", "address", "uint256", "uint256", "uint256", "uint256"],
-          [
-            account.address,
-            NFT.contractAddress,
-            NFT.tokenId,
-            BigInt(price.text * 10 ** 18),
-            finalStartTime,
-            finalEndTime,
-          ]
-        );
+        const value = {
+          owner: account.address,
+          contractAddress: NFT.contractAddress,
+          tokenId: NFT.tokenId,
+          price: BigInt(price.text * 10 ** 18).toString(),
+          startTime: finalStartTime,
+          endTime: finalEndTime,
+        };
 
-        const signature = await signer.signMessage(signText);
+        const types = {
+          EIP712Domain: [
+            { name: "name", type: "string" },
+            { name: "version", type: "string" },
+            { name: "chainId", type: "uint256" },
+            { name: "verifyingContract", type: "address" },
+          ],
+          Order: [
+            { name: "owner", type: "address" },
+            { name: "contractAddress", type: "address" },
+            { name: "tokenId", type: "uint256" },
+            { name: "price", type: "uint256" },
+            { name: "startTime", type: "uint256" },
+            { name: "endTime", type: "uint256" },
+          ],
+        };
+
+        // const signature = await signer.signTypedData(domain, types, value);
+
+        const typedData = JSON.stringify({
+          types,
+          primaryType: "Order",
+          domain,
+          message: value,
+        });
+
+        // EIP-712 sign
+        const params = [account.address, typedData];
+        const signature: any = await window.ethereum.request({
+          method: "eth_signTypedData_v4",
+          params,
+        });
+
+        const r = signature.slice(0, 66);
+        const s = "0x" + signature.slice(66, 130);
+        const v = parseInt(signature.slice(130, 132), 16);
 
         const data: CreateSalesDetailRequest = {
           accountId: account.id,
@@ -219,8 +244,10 @@ function ModalSaleNFT(props: ModalSaleNFTProps) {
           price: `${price.text}`,
           startTime: finalStartTime,
           endTime: finalEndTime,
-          hash,
           signature,
+          v,
+          r,
+          s,
         };
 
         await createSaleMutate(

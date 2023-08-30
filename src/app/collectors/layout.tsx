@@ -24,7 +24,7 @@ function CollectorsLayout({ children }: { children: React.ReactNode }) {
   // Query String으로 address 필수
   const searchParams = useSearchParams();
   const address = searchParams.get("address");
-  const { data: account } = useCollectorQuery(address ?? "");
+  const { data: account, isLoading } = useCollectorQuery(address ?? "");
   if (!address) return <WrongApproach />;
 
   return (
@@ -39,7 +39,11 @@ function CollectorsLayout({ children }: { children: React.ReactNode }) {
         }
         edit={false}
       />
-      <ContainerContentIntro address={address} />
+      <ContainerContentIntro
+        account={account as Account}
+        isLoading={isLoading}
+        self={false}
+      />
       <Tabs items={tabsItems} />
       {children}
     </>

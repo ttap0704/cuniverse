@@ -1,10 +1,9 @@
 import ContainerNFTDetailIntro from "./ContainerNFTDetailIntro";
-import { DEFAULT_PROFILE } from "../../../constants";
+import { DEFAULT_PROFILE, ZERO_ADDRESS } from "../../../constants";
 import BoxWithTitle from "../boxes/BoxWithTitle";
 import ContainerSeeMore from "./ContainerSeeMore";
 import BoxNFTPreview from "../boxes/BoxNFTPreview";
 import { getShortAddress } from "@/utils/tools";
-import { ZeroAddress } from "ethers";
 import Table from "../table/Table";
 
 // NFT Detail 정보 표기
@@ -13,6 +12,30 @@ function ContainerNFTDetail(props: NFTDetail) {
   const data = props;
 
   const contractDescription = data.description || "";
+
+  const tableItems: TableBodyProps[] = data.logs.map((log) => {
+    return {
+      name: {
+        mode: "text",
+        value: log.from == ZERO_ADDRESS ? "Mint" : "Transfer",
+      },
+      hash: {
+        mode: "copy",
+        value: getShortAddress(log.hash),
+        copyText: log.hash,
+      },
+      from: {
+        mode: "copy",
+        value: getShortAddress(log.from),
+        copyText: log.from,
+      },
+      to: {
+        mode: "copy",
+        value: getShortAddress(log.to),
+        copyText: log.to,
+      },
+    };
+  });
 
   return (
     <div id="container-nft-detail">
@@ -74,10 +97,10 @@ function ContainerNFTDetail(props: NFTDetail) {
         className="nft-logs"
       >
         <Table
-          keys={["empty", "from", "to"]}
-          items={{}}
-          titles={{ empty: "", from: "From", to: "To" }}
-          width={{ empty: 0.2, from: 0.4, to: 0.4 }}
+          keys={["name", "hash", "from", "to"]}
+          items={tableItems}
+          titles={{ name: "", hash: "이벤트", from: "From", to: "To" }}
+          width={{ name: 0.16, hash: 0.28, from: 0.28, to: 0.28 }}
         />
         {/* <div className="log-row table-header">
             <div className="row-title"></div>
