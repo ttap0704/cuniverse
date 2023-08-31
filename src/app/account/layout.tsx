@@ -14,7 +14,7 @@ const tabsItems: TabsMenuItem[] = [
     id: 0,
     label: "Collections",
     path: "/account/collections",
-    includePath: "/account",
+    includePath: ["/account"],
   },
   { id: 1, label: "Creations", path: "/account/creations" },
 ];

@@ -218,7 +218,9 @@ export async function fetchGetAccountContracts() {
 
 // 사용자 Contract List
 export async function fetchGetCollectorsContracts(address: string) {
-  const res: ContractDetail[] | null = await fetchGetApi(`/collectors/contracts?address=${address}`);
+  const res: ContractDetail[] | null = await fetchGetApi(
+    `/collectors/contracts?address=${address}`
+  );
   return res;
 }
 
@@ -279,6 +281,25 @@ export async function fetchGetEtherPrice() {
 
 export async function fetchInsertSales(data: SalesDetail) {
   const res: boolean = await fetchPostApi(data, `/account/collections/sales`);
+  return res;
+}
+
+export async function fetchGetBanners() {
+  const res: Banner[] = await fetchGetApi(`/banners`, { cache: "no-store" });
+  return res;
+}
+
+export async function fetchGetSalesList() {
+  const res: NFTMetadata[] = await fetchGetApi(`/assets/sales`, {
+    cache: "no-store",
+  });
+  return res;
+}
+
+export async function fetchGetContractsList() {
+  const res: ContractDetail[] = await fetchGetApi(`/contracts`, {
+    cache: "no-store",
+  });
   return res;
 }
 

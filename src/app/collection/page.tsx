@@ -8,7 +8,6 @@ import ContainerCollectionIntro from "@/components/containers/ContainerCollectio
 import BoxNotice from "@/components/boxes/BoxNotice";
 import ContainerNFTContents from "@/components/containers/ContainerNFTContents";
 import BoxNFTPreview from "@/components/boxes/BoxNFTPreview";
-import { OwnedNftsResponse } from "alchemy-sdk";
 import Tabs from "@/components/common/Tabs";
 
 const tabsItems: TabsMenuItem[] = [

@@ -12,10 +12,18 @@ interface BoxNFTPreviewProps {
   contractName: string;
   sale?: boolean;
   onSale?: () => void;
+  fixed?: boolean;
 }
 
 function BoxNFTPreview(props: BoxNFTPreviewProps) {
-  const { item: nft, contractAddress, contractName, sale, onSale } = props;
+  const {
+    item: nft,
+    contractAddress,
+    contractName,
+    sale,
+    onSale,
+    fixed,
+  } = props;
 
   const handleSale = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
@@ -24,7 +32,7 @@ function BoxNFTPreview(props: BoxNFTPreviewProps) {
   };
 
   return (
-    <div className="box-nft-preview">
+    <div className={`box-nft-preview ${fixed ? "fixed" : ""}`}>
       <Link
         href={`/assets?contract=${contractAddress}&token-id=${nft.tokenId}`}
       >

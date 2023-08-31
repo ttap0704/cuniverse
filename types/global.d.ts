@@ -136,7 +136,7 @@ declare global {
     id: number;
     label: string;
     path: string;
-    includePath?: string;
+    includePath?: string[];
   }
 
   // 유저/스마트 컨트랙트 소개 플랫폼
@@ -270,6 +270,9 @@ declare global {
     v: number;
     r: string;
     s: string;
+    image: string;
+    title: string;
+    name: string;
     signature: string;
     canceledAt: string;
     completedAt: string;
@@ -298,5 +301,14 @@ declare global {
     width: TableContentsWidth;
     titles: TableHeaderProps;
     items: TableBodyProps[];
+  }
+
+  interface Banner {
+    id: number;
+    image: string;
+    background: string;
+    link: string;
+    startTime: string;
+    endTime: string;
   }
 }

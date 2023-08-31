@@ -29,12 +29,13 @@ function CollectorsLayout({ children }: { children: React.ReactNode }) {
       id: 0,
       label: "Collections",
       path: `/collectors/collections?address=${address}`,
-      includePath: "/collectors",
+      includePath: ["/collectors", "/collectors/collections"],
     },
     {
       id: 1,
       label: "Creations",
       path: `/collectors/creations?address=${address}`,
+      includePath: ["/collectors/creations"],
     },
   ];
 

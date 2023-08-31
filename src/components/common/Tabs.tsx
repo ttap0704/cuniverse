@@ -22,7 +22,7 @@ function Tabs(props: TabsProps) {
             <button
               onClick={() => router.push(item.path)}
               className={
-                item.includePath == pathname || item.path == pathname
+                item.includePath?.includes(pathname) || item.path == pathname
                   ? "selected"
                   : ""
               }

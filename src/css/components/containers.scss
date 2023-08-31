@@ -471,3 +471,54 @@
     }
   }
 }
+
+.container-home-banner {
+  width: 100%;
+  height: calc((100vw - 64px) * 0.416);
+  max-height: 450px;
+  border-radius: 2rem;
+  overflow: hidden;
+  flex-wrap: nowrap;
+  position: relative;
+
+  .slider-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3rem;
+    height: 3rem;
+    background-color: $black-10;
+    border-radius: 50%;
+    border: none;
+
+    @include d-flex-center;
+
+    & > svg {
+      width: 2rem;
+      height: 2rem;
+      color: $white-100;
+    }
+
+    &.left {
+      left: 1rem;
+    }
+
+    &.right {
+      right: 1rem;
+    }
+  }
+
+  & > a {
+    width: calc(100vw - 64px);
+    height: 100%;
+    float: left;
+    @include d-flex-center;
+
+    & > div {
+      width: 100%;
+      max-width: 1080px;
+      height: 100%;
+      position: relative;
+    }
+  }
+}

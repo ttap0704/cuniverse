@@ -29,7 +29,7 @@ const validations: {
     return "";
   },
   collectionName: (text: StringOrNumber) => {
-    const reg = new RegExp(/^[A-Za-z가-힣]{1}[A-Za-z가-힣\s]{5,25}$/);
+    const reg = new RegExp(/^[A-Za-z가-힣]{1}[A-Za-z가-힣0-9\s]{5,25}$/);
     if (!reg.test(`${text}`))
       return "컬렉션 이름은 한글, 영어 소/대문자, 숫자로 설정해주세요. (5~25자)";
     return "";
