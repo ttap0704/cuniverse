@@ -21,6 +21,7 @@ const nextConfig = {
   swcMinify: true,
   reactStrictMode: true,
   productionBrowserSourceMaps: true,
+  staticPageGenerationTimeout: 1000,
   webpack: (config, { dev }) => {
     // config.infrastructureLogging = {
     //   debug: /PackFileCache|PackFileCacheStrategy/,
