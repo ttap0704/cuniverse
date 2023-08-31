@@ -26,9 +26,10 @@ function Home() {
       <BoxWhite
         style={{ overflowX: "auto", justifyContent: "flex-start", gap: "1rem" }}
       >
-        {NFTs.map((item) => {
+        {NFTs.map((item, itemIdx) => {
           return (
             <BoxNFTPreview
+              key={`account_nft_item_${itemIdx}`}
               item={item}
               contractAddress={item.contract ? item.contract.address : ""}
               contractName={item.title ? item.title : ""}
