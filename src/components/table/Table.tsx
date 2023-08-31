@@ -23,7 +23,13 @@ function Table(props: TableProps) {
           return (
             <TableRow key={`table-body-row-${itemIdx}`}>
               {keys.map((key) => {
-                return <TableBodyContents {...item[key]} width={width[key]} />;
+                return (
+                  <TableBodyContents
+                    key={`table-body-row-${itemIdx}-${key}`}
+                    {...item[key]}
+                    width={width[key]}
+                  />
+                );
               })}
             </TableRow>
           );
