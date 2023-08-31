@@ -32,8 +32,10 @@ function InputWithLabel(props: InputWithLabelProps) {
       reader.onload = () => {
         if (file.type.includes("video")) setFileType("video");
         else setFileType("image");
-        onChange(reader.result, false);
-        setImagePath(reader.result as string);
+        if (typeof reader.result == "string") {
+          onChange(reader.result, false);
+          setImagePath(reader.result as string);
+        }
       };
     }
   };
@@ -45,16 +47,16 @@ function InputWithLabel(props: InputWithLabelProps) {
         <div className={`file-input-wrapper ${id}-wrapper`}>
           <ButtonImageUpload targetId={id} />
           <InputImage id={id} onChange={handleFile} />
-          {imagePath.length !== 0 ? (
+          {`${imagePath}`.length !== 0 ? (
             fileType == "image" ? (
               <ImageCuniverse
-                src={imagePath}
+                src={`${imagePath}`}
                 alt="uploaded-image"
                 objectFit="cover"
                 fill={true}
               />
             ) : (
-              <video src={imagePath} loop={true} />
+              <video src={`${imagePath}`} loop={true} />
             )
           ) : (
             <HiOutlinePhoto />
