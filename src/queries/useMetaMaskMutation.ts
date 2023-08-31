@@ -3,7 +3,7 @@ import { QUERY_KEY as accountQueryKey } from "./useAccountQuery";
 import { setCookieInClient } from "@/utils/tools";
 import { NETWORK_SEPOLIA, SIGN_TEXT } from "../../constants";
 import ethersBrowserProvider from "@/utils/ethersBrowserProvider";
-import { toBeHex } from "ethers";
+import { hashMessage, toBeHex } from "ethers";
 
 const fetcher = () => {
   return new Promise(async (resolve) => {
@@ -56,12 +56,12 @@ const fetcher = () => {
 };
 
 const useMetaMaskMutation = () => {
-  const query_client = useQueryClient();
+  const queryClient = useQueryClient();
 
   return useMutation(fetcher, {
     onSuccess: async (res) => {
       if (res) {
-        query_client.invalidateQueries([accountQueryKey]);
+        queryClient.invalidateQueries([accountQueryKey]);
       }
     },
   });

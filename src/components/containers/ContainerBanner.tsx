@@ -1,11 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import InputImage from "../inputs/InputImage";
 import React, { memo } from "react";
 import ButtonImageUpload from "../buttons/ButtonImageUpload";
 import LoadingWaterDrop from "../common/LoadingWaterDrop";
 import useAccountImageUploadMutation from "@/queries/useAccountImageUploadMutation";
+import ImageCuniverse from "../common/ImageCuniverse";
 
 // Collectors(Accounts)/Collections 페이지의 소개 배너 Component
 
@@ -28,7 +28,7 @@ function ContainerBanner(props: ContainerBannerProps) {
 
   return (
     <div className="container-banner">
-      <Image src={defaultUri} alt="test" loading="lazy" fill={true} />
+      <ImageCuniverse src={defaultUri} alt="test" loading="lazy" fill={true} />
       {isLoading ? (
         <LoadingWaterDrop />
       ) : edit ? (

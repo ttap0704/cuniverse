@@ -5,11 +5,18 @@ import BoxWhite from "@/components/boxes/BoxWhite";
 import Button from "@/components/buttons/Button";
 import ContainerNFTCollections from "@/components/containers/ContainerNFTCollections";
 import ModalConfirmGenerateContract from "@/components/modals/ModalConfirmGenerateContract";
+import useAccountContractsQuery from "@/queries/useAccountContractsQuery";
+import useAccountQuery from "@/queries/useAccountQuery";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 function CollectionsIndex() {
   const router = useRouter();
+
+  const { data: account, isLoading: accountLoading } = useAccountQuery();
+  const { data: contracts, isLoading: contractsLoading } =
+    useAccountContractsQuery(account?.id);
+
   const [modalOpen, setModalOpen] = useState(false);
   const openConfirmModal = () => {
     setModalOpen(true);
@@ -21,7 +28,7 @@ function CollectionsIndex() {
 
   const moveGeneratePage = (mode: string) => {
     closeConfirmModal();
-    router.push(`/collections/generate?mode=${mode}`);
+    router.push(`/contracts/generate?mode=${mode}`);
   };
 
   return (
@@ -39,7 +46,10 @@ function CollectionsIndex() {
       >
         <Button onClick={openConfirmModal}>컬렉션 생성</Button>
         <br />
-        <ContainerNFTCollections />
+        <ContainerNFTCollections
+          isLoading={accountLoading || contractsLoading}
+          contracts={contracts}
+        />
       </BoxWhite>
       <ModalConfirmGenerateContract
         open={modalOpen}

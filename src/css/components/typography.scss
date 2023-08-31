@@ -1,5 +1,9 @@
 .typography-content-title {
   color: $white-100;
+
+  &.home {
+    margin-bottom: 0.5rem;
+  }
 }
 
 .typography-content-description {
@@ -17,4 +21,16 @@
 .typography-copy {
   font-size: $f-sm;
   cursor: pointer;
+}
+
+.typography-input-label {
+  display: inline-block;
+  font-size: $f-sm;
+  font-weight: $semibold;
+  margin-bottom: 0.25rem;
+
+  & > span {
+    color: $red;
+    margin-left: 0.25rem;
+  }
 }

@@ -7,18 +7,6 @@
 .input-width-label {
   width: 100%;
 
-  label {
-    display: inline-block;
-    font-size: $f-sm;
-    font-weight: $semibold;
-    margin-bottom: 0.25rem;
-
-    & > span {
-      color: $red;
-      margin-left: 0.25rem;
-    }
-  }
-
   .file-input-wrapper {
     position: relative;
     overflow: hidden;
@@ -28,6 +16,10 @@
     & > svg {
       width: 2rem;
       height: 2rem;
+    }
+
+    video {
+      width: 100%;
     }
 
     &.collection-generate-banner-wrapper {
@@ -41,6 +33,12 @@
       height: 10rem;
       border-radius: 50%;
     }
+
+    &.NFT-minting-image-wrapper {
+      width: 15rem;
+      height: 15rem;
+      border-radius: 2rem;
+    }
   }
 }
 
@@ -53,10 +51,11 @@
   border-color: $black-30;
   background-color: $white-100;
   font-size: $f-sm;
-  resize: vertical;
+  resize: none;
 
   &.textarea {
     height: 100px;
+    resize: vertical;
   }
 
   &.error {
@@ -69,6 +68,11 @@
 
   &:read-only {
     background-color: $black-10;
+
+    &.dropdown {
+      background-color: $white-100;
+      cursor: pointer;
+    }
   }
 }
 

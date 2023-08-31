@@ -1,7 +1,7 @@
 import AccountCollections from "./collections/page";
 
 function AccountIndex() {
-  // /accounts == /accounts/collections
+  // /account == /account/collections
   return <AccountCollections />;
 }
 

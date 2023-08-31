@@ -1,7 +1,7 @@
 "use client";
 
 import { useAtomValue, useSetAtom } from "jotai";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { clearModalAlertAtom, modalAlertAtom } from "@/store/modalAlert";
 import { FaCheck, FaExclamation } from "react-icons/fa";
 
@@ -9,10 +9,14 @@ import { FaCheck, FaExclamation } from "react-icons/fa";
 // 전역 데이터는 modalAlertAtom 확인
 
 function ModalAlert() {
-  const [contents, setContents] = useState("");
-  const [alertType, setAlertType] = useState("");
   const { open, type, text } = useAtomValue(modalAlertAtom);
   const clearModalAlert = useSetAtom(clearModalAlertAtom);
+
+  const [contents, setContents] = useState("");
+  const [alertType, setAlertType] = useState("");
+  // const alertMessages = useRef<{ type: "error" | "success"; text: string }[]>(
+  //   []
+  // );
 
   useEffect(() => {
     if (open) {
@@ -24,7 +28,10 @@ function ModalAlert() {
   }, [open]);
 
   useEffect(() => {
-    if (open) setContents(text), setAlertType(type);
+    if (open) {
+      setContents(text);
+      setAlertType(type);
+    }
   }, [text]);
 
   const closeModalAlert = () => {

@@ -6,12 +6,12 @@ const fetcher = (data: { data: UpdateAccountRequest }) =>
   fetchUpdateAccount(data);
 
 const useAccountUpdateMutation = () => {
-  const query_client = useQueryClient();
+  const queryClient = useQueryClient();
 
   return useMutation(fetcher, {
     onSuccess: async (res) => {
       if (res) {
-        query_client.invalidateQueries([accountQueryKey]);
+        queryClient.invalidateQueries([accountQueryKey]);
       }
     },
   });

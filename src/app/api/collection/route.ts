@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import db from "../db";
-import { NftContractNftsResponse } from "alchemy-sdk";
-import alchemy from "@/utils/alchemy";
-import { S3_IMAGES_URL } from "../../../../constants";
+import { S3_IMAGES_URL, ZERO_ADDRESS } from "../../../../constants";
 import ethersServerProvider from "@/utils/ethersServerProvider";
-import { Contract, Interface } from "ethers";
+import { Contract } from "ethers";
+import { ipfsToHttps } from "@/utils/tools";
 
 type ContractQueryResponse = Omit<CollectionDetail, "NFTs">;
 
@@ -31,7 +30,7 @@ export async function GET(request: NextRequest, response: NextResponse) {
     if (contract.length == 1) {
       // Smart Contract ABI 조회
       const getAbi = await fetch(
-        `https://api-sepolia.etherscan.io/api?module=contract&action=getabi&address=${address}&apikey=${process.env.NEXT_PUBLIC_ETHERSCAN_API_KEY}`
+        `https://api-sepolia.etherscan.io/api?module=contract&action=getabi&address=${address}&apikey=${process.env.ETHERSCAN_API_KEY}`
       );
       const abiRespoonse: { status: string; message: string; result: string } =
         await getAbi.json();
@@ -77,17 +76,34 @@ export async function GET(request: NextRequest, response: NextResponse) {
           });
         }
 
-        const ownersResponse = await alchemy.nft.getOwnersForContract(address, {
-          withTokenBalances: false,
-        });
+        // "Transfer" 이벤트 로그 가져오기
+        const mintedFilter = baseContract.filters.Transfer(
+          ZERO_ADDRESS,
+          null,
+          null
+        );
+        const transferEvents = await baseContract.queryFilter(mintedFilter);
+        const nfts: NFTMetadata[] = [];
+        for (let i = transferEvents.length - 1; i >= 0; i--) {
+          // ** paging 추가 필요 ** //
+          const curLog = transferEvents[i];
+          const log = baseContract.interface.parseLog({
+            data: curLog.data,
+            topics: curLog.topics as string[],
+          });
 
-        // 해당 컬렉션 NFTs 가져오기
-        const nftsResponse = await alchemy.nft.getNftsForContract(address, {
-          pageSize: 10,
-        });
-        const nfts: NftContractNftsResponse["nfts"] = nftsResponse.nfts;
+          if (!log) continue;
+          let metadataUrl: string = ipfsToHttps(
+            await baseContract.getFunction("tokenURI").staticCall(log.args[2])
+          );
 
-        console.log(nfts);
+          const metadataResponse = await fetch(`${metadataUrl}`);
+          const metadata: NFTMetadata = {
+            ...(await metadataResponse.json()),
+            tokenId: BigInt(log.args[2]).toString(),
+          };
+          nfts.push(metadata);
+        }
 
         pass = true;
         data = {
@@ -101,7 +117,6 @@ export async function GET(request: NextRequest, response: NextResponse) {
           latestBlockNumber,
           totalSupply,
           nfts,
-          owners: ownersResponse.owners.length,
         };
       }
     }

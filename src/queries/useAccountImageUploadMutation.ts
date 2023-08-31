@@ -6,12 +6,12 @@ const fetcher = (data: { image: File; key: string }) =>
   fetchAccountImageUpload(data);
 
 const useAccountImageUploadMutation = () => {
-  const query_client = useQueryClient();
+  const queryClient = useQueryClient();
 
   return useMutation(fetcher, {
     onSuccess: async (res) => {
       if (res) {
-        query_client.invalidateQueries([accountQueryKey]);
+        queryClient.invalidateQueries([accountQueryKey]);
       }
     },
   });

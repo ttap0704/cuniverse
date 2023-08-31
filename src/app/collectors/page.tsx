@@ -6,7 +6,7 @@ function CollectorsIndex({
   searchParams: { address: string };
 }) {
   // /collectors == /collectors/collections
-  return <CollectorsCollections address={searchParams.address} />;
+  return <CollectorsCollections searchParams={searchParams} />;
 }
 
 export default CollectorsIndex;

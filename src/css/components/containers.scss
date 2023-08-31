@@ -118,6 +118,15 @@
       margin-right: 0.25rem;
     }
 
+    &.with-title {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      font-size: $f-s;
+      color: $white-80;
+      margin-bottom: 2rem;
+    }
+
     .address-sort {
       color: $white-90;
     }
@@ -136,7 +145,7 @@
 
   .count-wrapper {
     gap: 2rem;
-    margin-bottom: 2rem;
+    margin: 1rem 0;
     @include d-flex-center;
     & > div {
       display: flex;
@@ -204,7 +213,7 @@
   & > div {
     width: 100%;
     max-width: 400px;
-    gap: 1.5rem;
+    gap: 2rem;
     flex-direction: column;
     margin: 0 auto;
     @include d-flex-center;
@@ -218,6 +227,17 @@
   border-radius: 2rem;
   overflow: hidden;
   padding: 0 2rem;
+
+  & > .nft-notice {
+    padding: 0.5rem 0;
+    font-size: $f-s;
+    display: flex;
+    gap: 0.25rem;
+
+    .red {
+      color: $red;
+    }
+  }
 
   .button-see-more {
     color: $black-80;
@@ -306,9 +326,11 @@
       & > .info-box {
         width: 100%;
         display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
 
         & > div {
-          width: 50%;
+          width: calc(50% - 0.25rem);
           h4 {
             margin-bottom: 0.25rem;
             color: $black-50;
@@ -346,16 +368,6 @@
             flex-direction: row;
             align-items: flex-end;
           }
-        }
-
-        button {
-          width: 100%;
-          height: 3rem;
-          border-radius: 1rem;
-          background-color: $light-pink;
-          border: 1px solid $light-pink;
-          color: $white-100;
-          font-size: $f-m;
         }
       }
     }
@@ -397,6 +409,10 @@
     }
   }
 
+  .nft-logs {
+    overflow-x: auto;
+  }
+
   .more-nfts {
     width: 100%;
     background-color: rgba(18, 18, 18, 0.04);
@@ -409,8 +425,30 @@
       display: flex;
       gap: 1rem;
       .box-nft-preview {
-        width: 300px;
-        height: calc(300px * 1.25);
+        @include deviceXS {
+          width: 200px;
+          height: calc(200px * 1.25);
+        }
+
+        @include deviceS {
+          width: 210px;
+          height: calc(210px * 1.25);
+        }
+
+        @include deviceM {
+          width: 230px;
+          height: calc(230px * 1.25);
+        }
+
+        @include deviceL {
+          width: 250px;
+          height: calc(250px * 1.25);
+        }
+
+        @include deviceXL {
+          width: 275px;
+          height: calc(275px * 1.25);
+        }
       }
     }
   }
@@ -422,4 +460,65 @@
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
+
+  &.fixed {
+    flex-wrap: nowrap;
+    width: auto;
+    & > .box-nft-collection {
+      display: inline-block;
+      width: 24rem;
+      height: calc(24rem * 0.75) !important;
+    }
+  }
+}
+
+.container-home-banner {
+  width: 100%;
+  height: calc((100vw - 64px) * 0.416);
+  max-height: 450px;
+  border-radius: 2rem;
+  overflow: hidden;
+  flex-wrap: nowrap;
+  position: relative;
+
+  .slider-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3rem;
+    height: 3rem;
+    background-color: $black-10;
+    border-radius: 50%;
+    border: none;
+
+    @include d-flex-center;
+
+    & > svg {
+      width: 2rem;
+      height: 2rem;
+      color: $white-100;
+    }
+
+    &.left {
+      left: 1rem;
+    }
+
+    &.right {
+      right: 1rem;
+    }
+  }
+
+  & > a {
+    width: calc(100vw - 64px);
+    height: 100%;
+    float: left;
+    @include d-flex-center;
+
+    & > div {
+      width: 100%;
+      max-width: 1080px;
+      height: 100%;
+      position: relative;
+    }
+  }
 }

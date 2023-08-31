@@ -6,6 +6,7 @@ import ButtonImageUpload from "../buttons/ButtonImageUpload";
 import InputImage from "../inputs/InputImage";
 import useAccountImageUploadMutation from "@/queries/useAccountImageUploadMutation";
 import LoadingWaterDrop from "../common/LoadingWaterDrop";
+import ImageCuniverse from "../common/ImageCuniverse";
 
 // 사용자 Profile Image Component
 
@@ -30,7 +31,7 @@ function ContainerProfileImage(props: ContainerProfileImageProps) {
     <div id="container-profile-image">
       <div>
         <div>
-          <Image src={defaultUri} alt="test" fill={true} />
+          <ImageCuniverse src={defaultUri} alt="test" fill={true} />
           {isLoading ? (
             <LoadingWaterDrop />
           ) : edit ? (

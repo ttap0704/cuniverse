@@ -14,24 +14,19 @@ import { PLATFORM_LINKS } from "../../../constants";
 import { FaGear } from "react-icons/fa6";
 import LoadingSpinner from "../common/LoadingSpinner";
 import useCollectorQuery from "@/queries/useCollectorQuery";
+import ImageCuniverse from "../common/ImageCuniverse";
 
 // Collectors(Accounts) 페이지에서 사용되는
 // 사용자 소개 Component
 
 interface ContainerContentIntroProps {
-  address?: string;
+  account?: Account | null;
+  isLoading: boolean;
+  self: boolean;
 }
 
 function ContainerContentIntro(props: ContainerContentIntroProps) {
-  const address = props.address;
-  const { data: tmpCollector, isLoading: collectorLoading } = useCollectorQuery(
-    address ?? ""
-  );
-  const { data: tmpAccount, isLoading: accountLoading } = useAccountQuery();
-
-  // 사용할 Query 예외처리
-  const account = address ? tmpCollector : tmpAccount;
-  const isLoading = address ? collectorLoading : accountLoading;
+  const { account, isLoading, self } = props;
 
   const [links, setLinks] = useState<PlatformLinkWithHref[]>([]);
 
@@ -60,7 +55,7 @@ function ContainerContentIntro(props: ContainerContentIntroProps) {
           title={account?.nickname ? account.nickname : "Unnamed"}
         />
         {/* 사용자 본인이라면 settings 페이지 이동 가능하도록 설정 */}
-        {address ? null : (
+        {!self ? null : (
           <IconLink
             href="/account/settings"
             icon={<FaGear />}
@@ -71,7 +66,12 @@ function ContainerContentIntro(props: ContainerContentIntroProps) {
       </div>
       <div className="address-wrapper">
         {/* Wallet Address */}
-        <Image src={etherSvg} alt="ethereum-logo" width={16} height={16} />
+        <ImageCuniverse
+          src={etherSvg}
+          alt="ethereum-logo"
+          width={16}
+          height={16}
+        />
         <TypographyCopy
           text={account?.address ? getShortAddress(account.address) : ""}
           copyText={account?.address ?? ""}

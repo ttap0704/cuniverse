@@ -10,11 +10,15 @@ import { useRouter } from "next/navigation";
 import { FiSmile } from "react-icons/fi";
 import useAccountLogoutMutation from "@/queries/useAccountLogoutMutation";
 import useAccountQuery from "@/queries/useAccountQuery";
+import ImageCuniverse from "./ImageCuniverse";
+import LogoLarge from "@/images/logo-large.png";
+import LogoSmall from "@/images/logo-small.png";
 
 // 개인정보란 클릭 시, 생성되는 Dropdown Menu Items
 const headerDropdownMenu: DropdownMenuItem[] = [
   { id: 0, label: "프로필" },
   { id: 1, label: "내 컬렉션" },
+  { id: 3, label: "NFT 생성" },
   { id: 2, label: "로그아웃" },
 ];
 const headerDropdownMenuNotAccount: DropdownMenuItem[] = [];
@@ -22,7 +26,8 @@ const headerDropdownMenuNotAccount: DropdownMenuItem[] = [];
 // 이동 페이지 정의
 const redirectPages: { [key: number]: string } = {
   0: "/account",
-  1: "/collections",
+  1: "/contracts",
+  3: "/minting",
 };
 
 function Header() {
@@ -44,7 +49,22 @@ function Header() {
     <>
       <nav id="header" data-testid="header" className="contents-container">
         <div id="header-logo">
-          <Link href="/" data-testid="header-anchor"></Link>
+          <Link href="/" data-testid="header-anchor" className="large">
+            <ImageCuniverse
+              src={LogoLarge}
+              alt="cuniverse-logo"
+              fill={true}
+              objectFit="cover"
+            />
+          </Link>
+          <Link href="/" data-testid="header-anchor" className="small">
+            <ImageCuniverse
+              src={LogoSmall}
+              alt="cuniverse-logo"
+              fill={true}
+              objectFit="cover"
+            />
+          </Link>
         </div>
         <div id="header-contents">
           <ButtonConnectWallet />

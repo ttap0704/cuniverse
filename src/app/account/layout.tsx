@@ -14,18 +14,19 @@ const tabsItems: TabsMenuItem[] = [
     id: 0,
     label: "Collections",
     path: "/account/collections",
-    includePath: "/account",
+    includePath: ["/account"],
   },
   { id: 1, label: "Creations", path: "/account/creations" },
 ];
 
-// /accounts/* Layout
+// /account/* Layout
 function AccountLayout({ children }: { children: React.ReactNode }) {
-  const { data: account } = useAccountQuery();
+  const { data: account, isLoading } = useAccountQuery();
   const pathname = usePathname();
 
   // settings 페이지에서는 Layout 필요 없으므로 예외처리
-  if (["/account/settings"].includes(pathname)) return <>{children}</>;
+  if (["/account/settings", "/account/sale"].includes(pathname))
+    return <>{children}</>;
 
   return (
     <>
@@ -39,7 +40,11 @@ function AccountLayout({ children }: { children: React.ReactNode }) {
         }
         edit={true}
       />
-      <ContainerContentIntro />
+      <ContainerContentIntro
+        account={account}
+        isLoading={isLoading}
+        self={true}
+      />
       <Tabs items={tabsItems} />
       {children}
     </>

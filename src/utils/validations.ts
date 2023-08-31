@@ -13,7 +13,7 @@ const validations: {
     const reg = new RegExp(
       /^(http(s):\/\/.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/
     );
-    if (!reg.test(text)) return "올바른 주소를 입력해주세요.";
+    if (!reg.test(`${text}`)) return "올바른 주소를 입력해주세요.";
     return "";
   },
   nickname: (text: StringOrNumber) => {
@@ -22,8 +22,14 @@ const validations: {
       return "닉네임은 영어 소/대문자, 숫자, _로 설정해주세요. (5~25자)";
     return "";
   },
+  NFTName: (text: StringOrNumber) => {
+    const reg = new RegExp(/^[A-Za-z가-힣]{1}[A-Za-z가-힣\s]{5,15}$/);
+    if (!reg.test(`${text}`))
+      return "NFT 이름은 한글, 영어 소/대문자, 숫자로 설정해주세요. (5~15자)";
+    return "";
+  },
   collectionName: (text: StringOrNumber) => {
-    const reg = new RegExp(/^[A-Za-z가-힣]{1}[A-Za-z가-힣\s]{5,25}$/);
+    const reg = new RegExp(/^[A-Za-z가-힣]{1}[A-Za-z가-힣0-9\s]{5,25}$/);
     if (!reg.test(`${text}`))
       return "컬렉션 이름은 한글, 영어 소/대문자, 숫자로 설정해주세요. (5~25자)";
     return "";
@@ -33,6 +39,34 @@ const validations: {
     if (!reg.test(`${text}`))
       return "컬렉션 심볼은 영어 대문자로 설정해주세요. (1~25자)";
     return "";
+  },
+  NFTPrice: (text: StringOrNumber) => {
+    const curText = `${text}`.split(".");
+    let message = "";
+
+    if (Number(text) > 100000000000000) {
+      message = "최대 100,000,000,000,000 ETH까지 설정 가능합니다.";
+    }
+
+    if (curText[1] && curText[1].length > 15) {
+      message = "소숫점은 최대 15자리까지 설정 가능합니다.";
+    }
+
+    return message;
+  },
+  royalty: (text: StringOrNumber) => {
+    const curText = `${text}`.split(".");
+    let message = "";
+
+    if (Number(text) > 10) {
+      message = "최대 10%까지 설정 가능합니다.";
+    }
+
+    if (curText[1] && curText[1].length > 1) {
+      message = "소숫점은 최대 1자리까지 설정 가능합니다.";
+    }
+
+    return message;
   },
 };
 

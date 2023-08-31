@@ -1,8 +1,8 @@
 import { S3_IMAGES_URL, SERVER_NAME } from "../../constants";
 import { OwnedNftsResponse } from "alchemy-sdk";
 import { uploadImageToS3 } from "./tools";
-import ethersServerProvider from "./ethersServerProvider";
 import { formatEther } from "ethers";
+import ethersBrowserProvider from "./ethersBrowserProvider";
 
 export const alertMessage = new Proxy<{
   type: "error" | "success";
@@ -50,6 +50,26 @@ async function fetchPostApi(body: object, url: string, options?: RequestInit) {
   return data.data;
 }
 
+async function fetchPostFormdataApi(
+  body: FormData,
+  url: string,
+  options?: RequestInit
+) {
+  const res = await fetch(`${SERVER_NAME}/api${url}`, {
+    method: "POST",
+    body,
+    ...options,
+  });
+
+  const data: APIResponse = await res.json();
+  if (data.message) {
+    alertMessage.type = data.pass ? "success" : "error";
+    alertMessage.message = data.message;
+  }
+
+  return data.data;
+}
+
 async function fetchPutApi(body: object, url: string, options?: RequestInit) {
   const res = await fetch(`${SERVER_NAME}/api${url}`, {
     method: "PUT",
@@ -85,7 +105,18 @@ async function fetchDeleteApi(url: string, options?: RequestInit) {
 
 // Account Update API
 export async function fetchUpdateAccount(body: { data: UpdateAccountRequest }) {
-  const res: boolean = await fetchPutApi(body.data, `/accounts/info`);
+  const res: boolean = await fetchPutApi(body.data, `/account/info`);
+  return res;
+}
+
+// Account Sales Update API
+export async function fetchUpdateAccountSales(body: {
+  data: UpdateAccountSalesRequest;
+}) {
+  const res: boolean = await fetchPutApi(
+    body.data,
+    `/account/collections/sales`
+  );
   return res;
 }
 
@@ -101,15 +132,17 @@ export async function fetchAccountImageUpload(body: {
 
 // Get Account Info API
 export async function fetchGetAccountInfo() {
-  const res: AccountInfoReponse | null = await fetchGetApi("/accounts", {
+  const res: AccountInfoReponse | null = await fetchGetApi("/account", {
     cache: "no-store",
     credentials: "include",
   });
   let finalResponse: Account | null = null;
 
   // 유저가 있다면 Query Key ['account'] 최종 업데이트
-  if (res && window.ethereum) {
-    const balance = await ethersServerProvider.getBalance(res.address);
+  if (res && window.ethereum && ethersBrowserProvider.provider) {
+    const balance = await ethersBrowserProvider.provider.getBalance(
+      res.address
+    );
     const wei = formatEther(balance);
 
     finalResponse = {
@@ -159,7 +192,7 @@ export async function fetchGetCollectorInfo(address: string) {
 
 // 사용자 NFT Collection List
 export async function fetchGetCollectorNFTs(address: string) {
-  const res: OwnedNftsResponse | null = await fetchGetApi(
+  const res: NFTMetadata[] | null = await fetchGetApi(
     `/collectors/collections?address=${address}`
   );
   return res;
@@ -173,22 +206,28 @@ export async function fetchUploadS3(body: object) {
 
 // 사용자 NFT Collection List
 export async function fetchGetAccountNFTs() {
-  const res: OwnedNftsResponse | null = await fetchGetApi(
-    "/accounts/collections"
-  );
+  const res: NFTMetadata[] | null = await fetchGetApi("/account/collections");
   return res;
 }
 
 // 사용자 Contract List
 export async function fetchGetAccountContracts() {
-  const res: ContractDetail[] | null = await fetchGetApi("/accounts/contracts");
+  const res: ContractDetail[] | null = await fetchGetApi("/account/contracts");
+  return res;
+}
+
+// 사용자 Contract List
+export async function fetchGetCollectorsContracts(address: string) {
+  const res: ContractDetail[] | null = await fetchGetApi(
+    `/collectors/contracts?address=${address}`
+  );
   return res;
 }
 
 // NFT Metadata API
 export async function fetchGetNFTMetadata(address: string, tokenId: string) {
   const res: NFTDetail | null = await fetchGetApi(
-    `/assets?address=${address}&tokenId=${tokenId}`,
+    `/assets?address=${address}&token-id=${tokenId}`,
     { cache: "no-store" }
   );
   return res;
@@ -198,7 +237,7 @@ export async function fetchGetNFTMetadata(address: string, tokenId: string) {
 export async function fetchCreateConllection(body: {
   data: CreateContractRequest;
 }) {
-  const res: boolean = await fetchPostApi(body.data, `/accounts/contracts`);
+  const res: boolean = await fetchPostApi(body.data, `/account/contracts`);
   return res;
 }
 
@@ -215,6 +254,52 @@ export async function fetchGetCollectionDetail(contractAddress: string) {
   const res: CollectionDetail | null = await fetchGetApi(
     `/collection?address=${contractAddress}`
   );
+  return res;
+}
+
+// Upload IPFS
+export async function fetchUploadIPFS(data: FormData) {
+  const res: string | null = await fetchPostFormdataApi(
+    data,
+    "/account/minting/assets"
+  );
+  return res;
+}
+
+// Get Contract Specific Metadata
+export async function fetchGetContractSpecificMetadata(searchParams: string) {
+  const res: { [key: string]: any } | null = await fetchGetApi(
+    `/utils/contract-metadata?${searchParams}`
+  );
+  return res;
+}
+
+export async function fetchGetEtherPrice() {
+  const res: number = await fetchGetApi(`/utils/ether-price`);
+  return res;
+}
+
+export async function fetchInsertSales(data: SalesDetail) {
+  const res: boolean = await fetchPostApi(data, `/account/collections/sales`);
+  return res;
+}
+
+export async function fetchGetBanners() {
+  const res: Banner[] = await fetchGetApi(`/banners`, { cache: "no-store" });
+  return res;
+}
+
+export async function fetchGetSalesList() {
+  const res: NFTMetadata[] = await fetchGetApi(`/assets/sales`, {
+    cache: "no-store",
+  });
+  return res;
+}
+
+export async function fetchGetContractsList() {
+  const res: ContractDetail[] = await fetchGetApi(`/contracts`, {
+    cache: "no-store",
+  });
   return res;
 }
 

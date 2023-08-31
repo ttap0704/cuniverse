@@ -1,9 +1,10 @@
-import Image from "next/image";
 import ButtonImageUpload from "../buttons/ButtonImageUpload";
 import Input from "./Input";
 import InputImage from "./InputImage";
 import { HiOutlinePhoto } from "react-icons/hi2";
 import { useEffect, useState } from "react";
+import TypographyInputLabel from "../typography/TypographyInputLabel";
+import ImageCuniverse from "../common/ImageCuniverse";
 
 // 정보 수정 / 추가에 사용되는 Input Component
 
@@ -21,6 +22,7 @@ function InputWithLabel(props: InputWithLabelProps) {
   const required = props.required;
 
   const [imagePath, setImagePath] = useState(value);
+  const [fileType, setFileType] = useState("");
 
   const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -28,6 +30,8 @@ function InputWithLabel(props: InputWithLabelProps) {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {
+        if (file.type.includes("video")) setFileType("video");
+        else setFileType("image");
         onChange(reader.result, false);
         setImagePath(reader.result as string);
       };
@@ -36,21 +40,22 @@ function InputWithLabel(props: InputWithLabelProps) {
 
   return (
     <div className="input-width-label">
-      <label htmlFor={id}>
-        {labelText}
-        {required ? <span>*</span> : null}
-      </label>
+      <TypographyInputLabel id={id} labelText={labelText} required={required} />
       {type == "file" ? (
         <div className={`file-input-wrapper ${id}-wrapper`}>
           <ButtonImageUpload targetId={id} />
           <InputImage id={id} onChange={handleFile} />
           {imagePath.length !== 0 ? (
-            <Image
-              src={imagePath}
-              alt="uploaded-image"
-              objectFit="cover"
-              fill={true}
-            />
+            fileType == "image" ? (
+              <ImageCuniverse
+                src={imagePath}
+                alt="uploaded-image"
+                objectFit="cover"
+                fill={true}
+              />
+            ) : (
+              <video src={imagePath} loop={true} />
+            )
           ) : (
             <HiOutlinePhoto />
           )}

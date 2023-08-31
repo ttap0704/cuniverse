@@ -7,11 +7,11 @@ import WrongApproach from "@/components/common/WrongApproach";
 function AssetsIndex({
   searchParams,
 }: {
-  searchParams: { contract: string; tokenId: string };
+  searchParams: { contract: string; ["token-id"]: string };
 }) {
   // Query String으로 address, tokenId 필요
   const address = searchParams["contract"];
-  const tokenId = searchParams["tokenId"];
+  const tokenId = searchParams["token-id"];
 
   const data = use(fetchGetNFTMetadata(address, tokenId));
 
@@ -23,5 +23,7 @@ function AssetsIndex({
     return <ContainerNFTDetail {...data}></ContainerNFTDetail>;
   }
 }
+
+export const dynamic = "force-dynamic";
 
 export default AssetsIndex;

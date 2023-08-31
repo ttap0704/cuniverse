@@ -4,6 +4,9 @@ import { Account } from "aws-sdk";
 import React from "react";
 
 declare global {
+  // 문자열 또는 숫자
+  type StringOrNumber = string | number;
+
   // window ethureum 타입
   interface Window {
     ethereum?: MetaMaskInpageProvider;
@@ -64,6 +67,15 @@ declare global {
     twitch?: string;
   }
 
+  // Account Info 수정 Request Body
+  interface UpdateAccountSalesRequest {
+    accountId: number;
+    tokenId: string;
+    contractAddress: string;
+    canceledAt?: number;
+    completedAt?: number;
+  }
+
   // Account 공통 Interface
   type AccountClient = Omit<AccountInfoReponse, "createdAt">;
   interface Account extends AccountClient {
@@ -87,6 +99,12 @@ declare global {
       value: string;
       display_type?: string;
     }[];
+    contract?: {
+      address: string;
+      name: string;
+    };
+    price?: number;
+    royalty?: number;
   }
 
   // Collector 공통 Type
@@ -96,13 +114,14 @@ declare global {
   // Button 공통 Interface
   interface InterfaceButton {
     children: React.ReactNode;
-    onClick: () => void;
+    onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
     onMouseEnter?: () => void;
     onMouseLeave?: () => void;
     className?: string;
     ref?: React.Ref;
     id?: string;
     testid?: string;
+    disabled?: boolean;
   }
 
   // Dropdown Menu Items Interface
@@ -117,7 +136,7 @@ declare global {
     id: number;
     label: string;
     path: string;
-    includePath?: string;
+    includePath?: string[];
   }
 
   // 유저/스마트 컨트랙트 소개 플랫폼
@@ -136,7 +155,7 @@ declare global {
     href: string;
   }
 
-  type InputTypes = "text" | "number" | "textarea" | "file";
+  type InputTypes = "text" | "number" | "textarea" | "file" | "dropdown";
   // Input 공통 Interface
   interface InputProps {
     id: string;
@@ -147,18 +166,26 @@ declare global {
     validation?: (text: StringOrNumber) => string;
     errorMessage?: string;
     readOnly?: boolean;
+    placeholder?: string;
+    items?: DropdownMenuItem[];
+    direct?: boolean; // 입력 시, 바로 이벤트 전달
   }
 
-  // 문자열 또는 숫자
-  type StringOrNumber = StringOrNumber;
-
   // NFT Detail
+  type NFTTransferLog = {
+    from: string;
+    to: string;
+    hash: string;
+    name: string;
+  };
   interface NFTDetail extends NFTMetadata {
     contract: { name: string; address: string };
     owners: { nickname: string; address: string };
-    deployer: { nickname: string; address: string };
+    deployer: { nickname: string; address: string; contractId?: number };
     moreNFTs: NFTMetadata[];
-    sale: { endTime: string; price: number } | null;
+    sale: SalesDetail | null;
+    royalty: number;
+    logs: NFTTransferLog[];
   }
 
   // Contract Detail
@@ -174,14 +201,14 @@ declare global {
     latestBlockNumber?: number;
     totalSupply: number;
     createdAt: string;
+    created: number;
   }
 
   // Collection Detail
   interface CollectionDetail extends ContractDetail {
     deployerNickname: string;
     deployerAddress: string;
-    nfts: NftContractNftsResponse["nfts"];
-    owners: number;
+    nfts: NFTMetadata[];
   }
 
   // Radio Button 공통 Interface
@@ -198,7 +225,8 @@ declare global {
     | "profile"
     | "name"
     | "symbol"
-    | "description";
+    | "description"
+    | "royalty";
 
   // Contract 생성 Request Body
   interface CreateContractRequest {
@@ -209,6 +237,8 @@ declare global {
     description: string;
     contractAddress: string;
     accountId: number;
+    created: number;
+    royalty: string;
   }
 
   // Contract 수정 Request Body
@@ -218,5 +248,67 @@ declare global {
     name?: string;
     symbol?: string;
     description?: string;
+  }
+
+  // NFT 판매 모달 Item Type
+  interface ModalSaleNFTItem {
+    image: string;
+    name: string;
+    contractName: string;
+    contractAddress: string;
+    tokenId: string;
+  }
+
+  // Sales Detail
+  interface SalesDetail {
+    accountId: number;
+    contractAddress: string;
+    tokenId: string;
+    price: string;
+    startTime: number;
+    endTime: number;
+    v: number;
+    r: string;
+    s: string;
+    image: string;
+    title: string;
+    name: string;
+    signature: string;
+    canceledAt: string;
+    completedAt: string;
+  }
+
+  type CreateSalesDetailRequest = Omit<
+    SalesDetail,
+    "canceledAt",
+    "completedAt"
+  >;
+
+  // Table types
+  type TableItemMode = "link" | "text" | "copy";
+  type TableContentsWidth = { [key: string]: number };
+  type TableHeaderProps = { [key: string]: string };
+  type TableBodyProps = {
+    [key: string]: {
+      mode: TableItemMode;
+      value: StringOrNumber;
+      copyText?: string;
+    };
+  };
+
+  interface TableProps {
+    keys: string[];
+    width: TableContentsWidth;
+    titles: TableHeaderProps;
+    items: TableBodyProps[];
+  }
+
+  interface Banner {
+    id: number;
+    image: string;
+    background: string;
+    link: string;
+    startTime: string;
+    endTime: string;
   }
 }

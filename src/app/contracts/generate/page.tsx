@@ -6,7 +6,11 @@ import ContainerForm from "@/components/containers/ContainerForm";
 import InputWithLabel from "@/components/inputs/InputWithLabel";
 import useAccountQuery from "@/queries/useAccountQuery";
 import { setModalAlertAtom } from "@/store/modalAlert";
-import { fetchCheckOwnContract, fetchCreateConllection } from "@/utils/api";
+import {
+  fetchCheckOwnContract,
+  fetchCreateConllection,
+  fetchUploadIPFS,
+} from "@/utils/api";
 import { base64ToFile, uploadImageToS3 } from "@/utils/tools";
 import validations from "@/utils/validations";
 import { useSetAtom } from "jotai";
@@ -17,6 +21,7 @@ import NFT from "@/contracts/NFT.json";
 import LoadingWaterDrop from "@/components/common/LoadingWaterDrop";
 import { useRouter, useSearchParams } from "next/navigation";
 import WrongApproach from "@/components/common/WrongApproach";
+import TypographyFormTitle from "@/components/typography/TypographyFormTitle";
 
 const generateKeys: UpdateContractKeys[] = [
   "banner",
@@ -24,6 +29,7 @@ const generateKeys: UpdateContractKeys[] = [
   "name",
   "symbol",
   "description",
+  "royalty",
 ];
 const generateKeysData: {
   [key in UpdateContractKeys]: {
@@ -33,10 +39,40 @@ const generateKeysData: {
   };
 } = {
   banner: { KR: "배너 사진", type: "file", required: false },
-  profile: { KR: "프로필 사진", type: "file", required: false },
-  name: { KR: "컬렉션 이름", type: "text", required: true },
-  symbol: { KR: "컬렉션 심볼", type: "text", required: true },
-  description: { KR: "컬렉션 소개", type: "textarea", required: true },
+  profile: {
+    KR: "프로필 사진",
+    type: "file",
+    required: false,
+  },
+  name: {
+    KR: "컬렉션 이름",
+    type: "text",
+    required: true,
+  },
+  symbol: {
+    KR: "컬렉션 심볼",
+    type: "text",
+    required: true,
+  },
+  description: {
+    KR: "컬렉션 소개",
+    type: "textarea",
+    required: true,
+  },
+  royalty: {
+    KR: "창작자 수익 (%)",
+    type: "number",
+    required: true,
+  },
+};
+
+const generatePlaceholder: { [key in UpdateContractKeys]: string } = {
+  banner: "",
+  profile: "",
+  name: "컬렉션 이름을 입력해주세요.",
+  symbol: "컬렉션 심볼을 입력해주세요. (ex. CU)",
+  description: "컬렉션 설명을 입력해주세요.",
+  royalty: "창작자의 로열티 비율을 설정해주세요. (ex. 3.0%)",
 };
 
 const generateValidations: {
@@ -47,6 +83,7 @@ const generateValidations: {
   name: validations["collectionName"],
   symbol: validations["collectionSymbol"],
   description: () => "",
+  royalty: validations["royalty"],
 };
 
 function AccountSettings() {
@@ -66,6 +103,9 @@ function AccountSettings() {
     error: false,
   });
 
+  const title =
+    generateMode == "generate-new" ? "컬렉션 생성하기" : "컬렉션 가져오기";
+
   useEffect(() => {
     setIsSetting(true);
     const mode = searchParams.get("mode");
@@ -78,42 +118,45 @@ function AccountSettings() {
   }, []);
 
   const updateAccountData = useRef<
-    { [key in UpdateContractKeys]: { value: string; error: boolean } }
+    { [key in UpdateContractKeys]: { value: StringOrNumber; error: boolean } }
   >({
     banner: { value: "", error: false },
     profile: { value: "", error: false },
     name: { value: "", error: false },
     symbol: { value: "", error: false },
     description: { value: "", error: false },
+    royalty: { value: "0", error: false },
   });
 
   // 페이지 진입 시 또는 가져오기 완료 시, Initial Form Data 생성
   const setFormData = (name?: string, symbol?: string) => {
     const tmpForm: InputProps[] = [];
     for (let i = 0; i < generateKeys.length; i++) {
+      const key = generateKeys[i];
       let value = "";
-      if (generateKeys[i] == "name" && name) value = name;
-      else if (generateKeys[i] == "symbol" && symbol) value = symbol;
+      if (key == "name" && name) value = name;
+      else if (key == "symbol" && symbol) value = symbol;
 
       tmpForm.push({
-        id: `collection-generate-${generateKeys[i]}`,
+        id: `collection-generate-${key}`,
         value,
-        type: generateKeysData[generateKeys[i]].type,
+        type: generateKeysData[key].type,
         onChange: (text: StringOrNumber, error: boolean) => {
           const tmpUpdateData: {
             [key in UpdateContractKeys]: { value: string; error: boolean };
           } = JSON.parse(JSON.stringify(updateAccountData.current));
-          tmpUpdateData[generateKeys[i]].value = `${text}`;
-          tmpUpdateData[generateKeys[i]].error = error;
+          tmpUpdateData[key].value = `${text}`;
+          tmpUpdateData[key].error = error;
           updateAccountData.current = { ...tmpUpdateData };
         },
-        dataKey: generateKeys[i],
-        validation: generateValidations[generateKeys[i]],
+        dataKey: key,
+        validation: generateValidations[key],
         readOnly: value.length > 0 ? true : false,
+        placeholder: generatePlaceholder[key],
       });
 
       if (value.length > 0) {
-        updateAccountData.current[generateKeys[i]].value = value;
+        updateAccountData.current[key].value = value;
       }
     }
     setForm([...tmpForm]);
@@ -146,6 +189,7 @@ function AccountSettings() {
 
   const createContract = async () => {
     if (account) {
+      setIsDeploying(true);
       const finalGenerateData: CreateContractRequest = {
         name: "",
         symbol: "",
@@ -154,6 +198,8 @@ function AccountSettings() {
         profile: "",
         contractAddress: "",
         accountId: account.id,
+        created: generateMode == "generate-new" ? 1 : 0,
+        royalty: "0",
       };
 
       for (let i = 0; i < generateKeys.length; i++) {
@@ -169,7 +215,7 @@ function AccountSettings() {
           return;
         }
 
-        if (val.value.length === 0 && generateKeysData[key].required) {
+        if (`${val.value}`.length === 0 && generateKeysData[key].required) {
           setModalAlert({
             open: true,
             type: "error",
@@ -178,8 +224,8 @@ function AccountSettings() {
           return;
         }
 
-        if (val.value.length != 0) {
-          finalGenerateData[key] = val.value;
+        if (`${val.value}`.length != 0) {
+          finalGenerateData[key] = `${val.value}`;
         }
       }
 
@@ -205,7 +251,6 @@ function AccountSettings() {
       // Update 내용 여부에 따라
       // Update 또는 Modal 생성
       if (ethersBrowserProvider.provider) {
-        setIsDeploying(true);
         if (!validAddress) {
           const signer = await ethersBrowserProvider.provider.getSigner();
           const factory = new ethers.ContractFactory(
@@ -217,7 +262,8 @@ function AccountSettings() {
           try {
             const contract = await factory.deploy(
               finalGenerateData.name,
-              finalGenerateData.symbol
+              finalGenerateData.symbol,
+              Number(finalGenerateData.royalty) * 100
             );
 
             await contract.waitForDeployment();
@@ -228,20 +274,31 @@ function AccountSettings() {
               type: "error",
               text: "컬렉션 배포에 실패하였습니다.",
             });
+            setIsDeploying(false);
+            return;
           }
         } else {
           finalGenerateData["contractAddress"] = contractAddress.value;
         }
       }
 
-      await fetchCreateConllection({ data: finalGenerateData });
-      setModalAlert({
-        open: true,
-        type: "success",
-        text: "컬렉션 배포에 성공하였습니다.",
-      });
+      const check = await fetchCreateConllection({ data: finalGenerateData });
+      if (check) {
+        setModalAlert({
+          open: true,
+          type: "success",
+          text: "컬렉션 배포에 성공하였습니다.",
+        });
+        router.push("/contracts");
+      } else {
+        setModalAlert({
+          open: true,
+          type: "error",
+          text: "컬렉션 배포에 실패하였습니다.\n다시 시도해주세요.",
+        });
+      }
+
       setIsDeploying(false);
-      router.push("/collections");
     }
   };
 
@@ -253,13 +310,14 @@ function AccountSettings() {
       if (generateMode == "generate-old" && !validAddress) {
         return (
           <ContainerForm>
+            <TypographyFormTitle title={title} />
             {isChecking ? <LoadingWaterDrop /> : null}
             <InputWithLabel
               labelText="스마트 콘트랙트 주소"
               id="collection-generate-address"
               value=""
               onChange={(text: StringOrNumber, error: boolean) =>
-                setContractAddress({ value: text, error })
+                setContractAddress({ value: `${text}`, error })
               }
               type="text"
               dataKey="contract-address"
@@ -274,6 +332,7 @@ function AccountSettings() {
       } else {
         return (
           <ContainerForm>
+            <TypographyFormTitle title={title} />
             {isDeploying ? <LoadingWaterDrop /> : null}
             {form.map((data) => {
               return (
@@ -293,6 +352,7 @@ function AccountSettings() {
                       .required
                   }
                   readOnly={data.readOnly}
+                  placeholder={data.placeholder}
                 />
               );
             })}

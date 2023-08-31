@@ -33,7 +33,7 @@ export async function GET(request: NextRequest, response: NextResponse) {
     if (check[0].cnt == 0) {
       // Etherscan API 통해
       const getDeployer = await fetch(
-        `https://api-sepolia.etherscan.io/api?module=contract&action=getcontractcreation&contractaddresses=${contractAddress}&apikey=${process.env.NEXT_PUBLIC_ETHERSCAN_API_KEY}`
+        `https://api-sepolia.etherscan.io/api?module=contract&action=getcontractcreation&contractaddresses=${contractAddress}&apikey=${process.env.ETHERSCAN_API_KEY}`
       );
       const deployerReponse = await getDeployer.json();
       if (
@@ -41,7 +41,7 @@ export async function GET(request: NextRequest, response: NextResponse) {
         deployerReponse["result"][0]["contractCreator"] == address.toLowerCase()
       ) {
         const getAbi = await fetch(
-          `https://api-sepolia.etherscan.io/api?module=contract&action=getabi&address=${contractAddress}&apikey=${process.env.NEXT_PUBLIC_ETHERSCAN_API_KEY}`
+          `https://api-sepolia.etherscan.io/api?module=contract&action=getabi&address=${contractAddress}&apikey=${process.env.ETHERSCAN_API_KEY}`
         );
         const abiRespoonse: {
           status: string;

@@ -13,11 +13,11 @@ const fetcher = () => {
 };
 
 const useAccountLogoutMutation = () => {
-  const query_client = useQueryClient();
+  const queryClient = useQueryClient();
 
   return useMutation(fetcher, {
     onSuccess: async (res) => {
-      query_client.invalidateQueries([user_query_key]);
+      queryClient.invalidateQueries([user_query_key]);
     },
   });
 };

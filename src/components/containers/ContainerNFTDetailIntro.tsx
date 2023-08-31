@@ -1,8 +1,9 @@
-import Image from "next/image";
 import BoxWhite from "../boxes/BoxWhite";
 import Divider from "../common/Divider";
 import { getShortAddress } from "@/utils/tools";
 import Link from "next/link";
+import ImageCuniverse from "../common/ImageCuniverse";
+import ButtonNFTBuy from "../buttons/ButtonNFTBuy";
 
 interface ContainerNFTDetailIntroProps {
   image: string;
@@ -10,22 +11,30 @@ interface ContainerNFTDetailIntroProps {
   contract: { address: string; title: string };
   deployer: { address: string; nickname: string };
   owner: { address: string; nickname: string };
-  sale: { endTime: string; price: number } | null;
+  sale: SalesDetail | null;
+  royalty: number;
 }
 
 function ContainerNFTDetailIntro(props: ContainerNFTDetailIntroProps) {
-  const image = props.image;
-  const name = props.name;
-  const contract = props.contract;
-  const owner = props.owner;
-  const deployer = props.deployer;
-  const sale = props.sale;
+  const { image, name, contract, owner, deployer, sale, royalty } = props;
+  const now = new Date().getTime();
+  const isSale =
+    sale && sale.startTime * 1000 <= now && sale.endTime * 1000 >= now;
+
+  let time: string | null = null;
+  let timeText = "";
+  if (isSale) {
+    time = new Date(sale.endTime * 1000).toLocaleString("euc-kr");
+    timeText = "판매 종료";
+  } else if (sale && sale.startTime * 1000 > now) {
+    time = new Date(sale.startTime * 1000).toLocaleString("euc-kr");
+    timeText = "판매 시작";
+  }
 
   return (
     <div className="container-nft-detail-intro">
       <div className="nft-detail-image-wrapper">
-        {image}
-        <Image src={image} alt={name} fill={true} objectFit={"cover"} />
+        <ImageCuniverse src={image} alt={name} fill={true} objectFit="cover" />
       </div>
       <BoxWhite>
         <h2>
@@ -51,16 +60,31 @@ function ContainerNFTDetailIntro(props: ContainerNFTDetailIntroProps) {
                 : getShortAddress(owner.address)}
             </Link>
           </div>
+          <div>
+            <h4>창작자 수익</h4>
+            <span>{royalty}%</span>
+          </div>
         </div>
         <Divider />
         <div className="sale-box">
+          {time ? (
+            <div>
+              <span>{timeText}</span>
+              <span>{time}</span>
+            </div>
+          ) : null}
           <div>
             <span>판매 금액</span>
             <span>
-              {sale ? sale.price + " ETH" : "판매중인 상품이 아닙니다."}
+              {isSale ? sale.price + " ETH" : "판매중인 상품이 아닙니다."}
             </span>
           </div>
-          <button disabled={sale ? false : true}>BUY</button>
+
+          <ButtonNFTBuy
+            disabled={isSale ? false : true}
+            sale={sale}
+            owner={owner.address}
+          />
         </div>
         <Divider />
       </BoxWhite>

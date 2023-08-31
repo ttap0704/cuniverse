@@ -17,8 +17,6 @@ export async function uploadImageToS3(file: File) {
     .pop()
     ?.toLocaleLowerCase()}`;
 
-  console.log(file.name);
-
   // 수정 권한 받은 Url Return
   const url = await fetchUploadS3({
     name: `images/${newImageName}`,
@@ -87,4 +85,40 @@ export function base64ToFile(dataurl: string, filename: string) {
     });
     return file;
   } else return null;
+}
+
+// ipfs protocol -> https protocol
+export function ipfsToHttps(uri: string) {
+  let finalUri = uri;
+  if (finalUri.includes("ipfs://")) {
+    finalUri = finalUri.replace("ipfs://", "https://ipfs.io/ipfs/");
+  }
+
+  return finalUri;
+}
+
+// String 계산 (a > b)
+export function minusTwoText(a: string, b: string) {
+  let nextMinus = 0;
+  const textRes: number[] = [];
+
+  const aArr = a.split("");
+
+  let bArr = b.split("").reverse();
+  bArr = aArr
+    .map((num, idx) => {
+      if (bArr[idx]) return bArr[idx];
+      else return "0";
+    })
+    .reverse();
+
+  for (let i = aArr.length - 1; i >= 0; i--) {
+    let res = Number(aArr[i]) - Number(bArr[i]) - nextMinus;
+    if (res < 0) (res = 10 + res), (nextMinus = 1);
+    else nextMinus = 0;
+
+    textRes.unshift(res);
+  }
+
+  return textRes.join("");
 }
