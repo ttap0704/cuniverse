@@ -9,7 +9,10 @@ export const NETWORK_SEPOLIA = BigInt(11155111);
 export const NETWORK_GOERLI = BigInt(5);
 
 // API SERVER
-export const SERVER_NAME = "http://localhost:3000";
+export const SERVER_NAME =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:3000"
+    : "http://3.35.89.72";
 
 // AWS Info
 export const S3_IMAGES_URL =
