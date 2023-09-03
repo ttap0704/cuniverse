@@ -12,6 +12,8 @@ export async function middleware(request: NextRequest) {
   const path = request.url.replace(SERVER_NAME, "");
   requestHeaders.set("X-Url", path);
 
+  console.log("middleware path:", path);
+
   const token = request.cookies.get("web3-token")?.value;
   const walletAddress = request.cookies.get("wallet-address")?.value;
   const loginTime = request.cookies.get("login-time")?.value;
