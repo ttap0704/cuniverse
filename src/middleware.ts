@@ -22,6 +22,8 @@ export async function middleware(request: NextRequest) {
     },
   });
 
+  console.log("request.nextUrl.pathname:", request.nextUrl.pathname);
+
   let logout = false;
   if (!request.nextUrl.pathname.startsWith("/api")) {
     // web3-token과 address비교하여 값이 다르다면 로그인 유지에 필요한 cookies 만료처리
