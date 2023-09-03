@@ -16,14 +16,6 @@ export async function middleware(request: NextRequest) {
   const walletAddress = request.cookies.get("wallet-address")?.value;
   const loginTime = request.cookies.get("login-time")?.value;
 
-  console.log({
-    token,
-    walletAddress,
-    loginTime,
-    path,
-    pathname: request.nextUrl.pathname,
-  });
-
   let response: NextResponse = NextResponse.next({
     request: {
       headers: requestHeaders,
@@ -45,10 +37,7 @@ export async function middleware(request: NextRequest) {
         SIGN_TEXT + new Date(Number(loginTime)).toLocaleString("euc-kr"),
         token
       );
-      console.log({
-        "middleware signText":
-          SIGN_TEXT + new Date(Number(loginTime)).toLocaleString("euc-kr"),
-      });
+
       if (address != walletAddress) logout = true;
 
       console.log({ address });
@@ -61,8 +50,6 @@ export async function middleware(request: NextRequest) {
       logout = true;
     }
 
-    console.log(logout);
-
     if (logout) {
       // 로그인 유저 전용페이지에 접근할 때에는 Root Page로 Reirect
       const startPath = path.split("/")[1];
@@ -74,7 +61,6 @@ export async function middleware(request: NextRequest) {
       }
     }
   } else {
-    console.log("/api");
     // API는 Account 전용 경로만 검증
     if (ACCOUNT_API.includes(path)) {
       let logout = false;
@@ -83,7 +69,7 @@ export async function middleware(request: NextRequest) {
       } else if (token && walletAddress && loginTime) {
         // web3-token과 address비교하여 값이 다르다면 로그인 유지에 필요한 cookies 만료처리
         const address = await verifyMessage(
-          SIGN_TEXT + new Date(Number(loginTime)).toLocaleString(),
+          SIGN_TEXT + new Date(Number(loginTime)).toLocaleString("euc-kr"),
           token
         );
         if (address != walletAddress) logout = true;
