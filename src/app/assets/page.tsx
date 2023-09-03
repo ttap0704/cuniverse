@@ -3,6 +3,8 @@ import { use } from "react";
 import ContainerNFTDetail from "@/components/containers/ContainerNFTDetail";
 import WrongApproach from "@/components/common/WrongApproach";
 
+export const dynamic = "force-dynamic";
+
 // NFT 상세 페이지
 function AssetsIndex({
   searchParams,
@@ -23,7 +25,5 @@ function AssetsIndex({
     return <ContainerNFTDetail {...data}></ContainerNFTDetail>;
   }
 }
-
-export const dynamic = "force-dynamic";
 
 export default AssetsIndex;

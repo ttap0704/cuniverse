@@ -50,7 +50,7 @@ async function CollectionIndex({
       ></ContainerCollectionIntro>
       <Tabs items={tabsItems} />
       {!contractDetail.nfts || contractDetail.nfts.length == 0 ? (
-        <BoxNotice text="No Items" />
+        <BoxNotice text="생성된 NFT가 없습니다." />
       ) : (
         <ContainerNFTContents>
           {contractDetail.nfts.map((item, itemIdx) => {

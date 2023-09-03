@@ -95,7 +95,7 @@ function AccountCollections() {
 
   if (!nfts || nfts.length == 0) {
     // 아이템이 없을 때
-    return <BoxNotice text="No Items" />;
+    return <BoxNotice text="소유한 NFT가 없습니다." />;
   } else {
     // 아이템이 있을 때
     return (

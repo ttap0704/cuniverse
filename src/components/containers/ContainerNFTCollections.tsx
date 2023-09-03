@@ -20,7 +20,7 @@ function ContainerNFTCollections(props: ContainerNFTCollectionsProps) {
   ) : (
     <div className={`container-nft-collections ${className ? className : ""}`}>
       {!contracts || contracts.length == 0 ? (
-        <BoxNotice text="No Items" />
+        <BoxNotice text="등록된 컬렉션이 없습니다." />
       ) : (
         contracts.map((contract) => {
           return (
