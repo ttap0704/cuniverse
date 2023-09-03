@@ -3,6 +3,7 @@ import { cookies } from "next/dist/client/components/headers";
 import db from "../../db";
 import { Contract } from "ethers";
 import ethersServerProvider from "@/utils/ethersServerProvider";
+import NFTJson from "@/contracts/NFT.json";
 
 export async function GET(request: NextRequest, response: NextResponse) {
   // cookies 조회
@@ -40,34 +41,23 @@ export async function GET(request: NextRequest, response: NextResponse) {
         deployerReponse["result"] &&
         deployerReponse["result"][0]["contractCreator"] == address.toLowerCase()
       ) {
-        const getAbi = await fetch(
-          `https://api-sepolia.etherscan.io/api?module=contract&action=getabi&address=${contractAddress}&apikey=${process.env.ETHERSCAN_API_KEY}`
+        const abi = NFTJson.abi;
+
+        // Contract Intance 생성
+        const contract = new Contract(contractAddress, abi).connect(
+          ethersServerProvider
         );
-        const abiRespoonse: {
-          status: string;
-          message: string;
-          result: string;
-        } = await getAbi.json();
 
-        if (abiRespoonse.message == "OK") {
-          const abi = JSON.parse(abiRespoonse.result);
+        // Contract Name과 Symbol 조회
+        const name: string = await contract.getFunction("name").staticCall();
+        const symbol: string = await contract
+          .getFunction("symbol")
+          .staticCall();
 
-          // Contract Intance 생성
-          const contract = new Contract(contractAddress, abi).connect(
-            ethersServerProvider
-          );
-
-          // Contract Name과 Symbol 조회
-          const name: string = await contract.getFunction("name").staticCall();
-          const symbol: string = await contract
-            .getFunction("symbol")
-            .staticCall();
-
-          data = {
-            name,
-            symbol,
-          };
-        }
+        data = {
+          name,
+          symbol,
+        };
       }
     }
   }

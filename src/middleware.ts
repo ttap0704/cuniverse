@@ -42,8 +42,6 @@ export async function middleware(request: NextRequest) {
       );
 
       if (address != walletAddress) logout = true;
-
-      console.log({ address });
     } else if (
       !token &&
       !walletAddress &&
