@@ -9,10 +9,8 @@ import { verifyMessage } from "ethers";
 
 export async function middleware(request: NextRequest) {
   const requestHeaders = new Headers(request.headers);
-  const path = request.url.replace(SERVER_NAME, "");
+  const path = request.url.replace("http://localhost:3000", "");
   requestHeaders.set("X-Url", path);
-
-  console.log("middleware path:", path);
 
   const token = request.cookies.get("web3-token")?.value;
   const walletAddress = request.cookies.get("wallet-address")?.value;
