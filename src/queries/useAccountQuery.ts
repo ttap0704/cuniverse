@@ -8,6 +8,7 @@ const fetcher = () => fetchGetAccountInfo();
 const useAccountQuery = () => {
   return useQuery([QUERY_KEY], fetcher, {
     staleTime: 500000,
+    refetchOnMount: false,
   });
 };
 
