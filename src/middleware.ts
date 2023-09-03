@@ -16,17 +16,24 @@ export async function middleware(request: NextRequest) {
   const walletAddress = request.cookies.get("wallet-address")?.value;
   const loginTime = request.cookies.get("login-time")?.value;
 
+  console.log({
+    token,
+    walletAddress,
+    loginTime,
+    path,
+    pathname: request.nextUrl.pathname,
+  });
+
   let response: NextResponse = NextResponse.next({
     request: {
       headers: requestHeaders,
     },
   });
 
-  console.log("request.nextUrl.pathname:", request.nextUrl.pathname);
-
   let logout = false;
   if (!request.nextUrl.pathname.startsWith("/api")) {
     // web3-token과 address비교하여 값이 다르다면 로그인 유지에 필요한 cookies 만료처리
+
     if (
       (token && !walletAddress && !loginTime) ||
       (!token && walletAddress && !loginTime) ||
@@ -39,6 +46,8 @@ export async function middleware(request: NextRequest) {
         token
       );
       if (address != walletAddress) logout = true;
+
+      console.log({ address });
     } else if (
       !token &&
       !walletAddress &&
@@ -47,6 +56,8 @@ export async function middleware(request: NextRequest) {
     ) {
       logout = true;
     }
+
+    console.log(logout);
 
     if (logout) {
       // 로그인 유저 전용페이지에 접근할 때에는 Root Page로 Reirect
@@ -59,6 +70,7 @@ export async function middleware(request: NextRequest) {
       }
     }
   } else {
+    console.log("/api");
     // API는 Account 전용 경로만 검증
     if (ACCOUNT_API.includes(path)) {
       let logout = false;
