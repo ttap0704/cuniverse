@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Contract } from "ethers";
 import ethersServerProvider from "@/utils/ethersServerProvider";
+import NFTJson from "@/contracts/NFT.json";
 
 export async function GET(request: NextRequest, response: NextResponse) {
   // Search Params 조회
@@ -15,54 +16,41 @@ export async function GET(request: NextRequest, response: NextResponse) {
     data: { [key: string]: string } | null = null;
 
   if (contractAddress && needs) {
-    // Etherscan API 통해
+    const abi = NFTJson.abi;
 
-    const getAbi = await fetch(
-      `https://api-sepolia.etherscan.io/api?module=contract&action=getabi&address=${contractAddress}&apikey=${process.env.ETHERSCAN_API_KEY}`
+    // Contract Intance 생성
+    const contract = new Contract(contractAddress, abi).connect(
+      ethersServerProvider
     );
-    const abiRespoonse: {
-      status: string;
-      message: string;
-      result: string;
-    } = await getAbi.json();
 
-    if (abiRespoonse.message == "OK") {
-      const abi = JSON.parse(abiRespoonse.result);
+    pass = true;
+    data = {};
+    const needsArr = needs.split(",");
 
-      // Contract Intance 생성
-      const contract = new Contract(contractAddress, abi).connect(
-        ethersServerProvider
-      );
+    // For BigInt Parse Error
+    (BigInt.prototype as any).toJSON = function () {
+      return this.toString();
+    };
 
-      pass = true;
-      data = {};
-      const needsArr = needs.split(",");
+    for (let i = 0; i < needsArr.length; i++) {
+      const functionKey = needsArr[i];
+      const args = searchParams.get(`${functionKey}-args`);
 
-      // For BigInt Parse Error
-      (BigInt.prototype as any).toJSON = function () {
-        return this.toString();
-      };
+      let argsArr: any = [];
 
-      for (let i = 0; i < needsArr.length; i++) {
-        const functionKey = needsArr[i];
-        const args = searchParams.get(`${functionKey}-args`);
+      if (args) {
+        argsArr = args.split(",");
+      }
 
-        let argsArr: any = [];
+      try {
+        const searchFunction = contract.getFunction(functionKey);
 
-        if (args) {
-          argsArr = args.split(",");
+        if (searchFunction !== undefined) {
+          const value: any = await searchFunction.staticCall(...argsArr);
+          data[functionKey] = value;
         }
-
-        try {
-          const searchFunction = contract.getFunction(functionKey);
-
-          if (searchFunction !== undefined) {
-            const value: any = await searchFunction.staticCall(...argsArr);
-            data[functionKey] = value;
-          }
-        } catch (err) {
-          // console.log(err);
-        }
+      } catch (err) {
+        // console.log(err);
       }
     }
   }

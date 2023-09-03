@@ -1,5 +1,6 @@
 "use client";
 
+import BoxNotice from "@/components/boxes/BoxNotice";
 import BoxWhite from "@/components/boxes/BoxWhite";
 import ContainerNFTCollections from "@/components/containers/ContainerNFTCollections";
 import useAccountContractsQuery from "@/queries/useAccountContractsQuery";
@@ -11,14 +12,10 @@ function AccountCreations() {
     useAccountContractsQuery(account?.id);
 
   return (
-    <>
-      <BoxWhite>
-        <ContainerNFTCollections
-          isLoading={accountLoading || contractsLoading}
-          contracts={contracts}
-        />
-      </BoxWhite>
-    </>
+    <ContainerNFTCollections
+      isLoading={accountLoading || contractsLoading}
+      contracts={contracts}
+    />
   );
 }
 

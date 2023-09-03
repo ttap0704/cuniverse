@@ -112,7 +112,7 @@
 .box-notice {
   width: 100%;
   height: 15rem;
-  color: $white-60;
+  color: $black-40;
   font-size: $f-xl;
   font-weight: $semibold;
 
@@ -156,6 +156,7 @@
   border-radius: 1rem;
   overflow: hidden;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
+  background-color: $white-100;
 
   @include deviceXS {
     min-width: 100%;

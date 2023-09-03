@@ -4,6 +4,7 @@ import useAccountQuery from "@/queries/useAccountQuery";
 import LoadingSpinner from "../common/LoadingSpinner";
 import useAccountContractsQuery from "@/queries/useAccountContractsQuery";
 import BoxNFTCollection from "../boxes/BoxNFTCollection";
+import BoxNotice from "../boxes/BoxNotice";
 
 interface ContainerNFTCollectionsProps {
   className?: string;
@@ -18,8 +19,8 @@ function ContainerNFTCollections(props: ContainerNFTCollectionsProps) {
     <LoadingSpinner color="black" />
   ) : (
     <div className={`container-nft-collections ${className ? className : ""}`}>
-      {!contracts ? (
-        <>No Items</>
+      {!contracts || contracts.length == 0 ? (
+        <BoxNotice text="No Items" />
       ) : (
         contracts.map((contract) => {
           return (
