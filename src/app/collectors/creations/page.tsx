@@ -11,17 +11,7 @@ function CollectorsCreations({
 }) {
   const contracts = use(fetchGetCollectorsContracts(searchParams.address));
 
-  if (!contracts || contracts.length == 0) {
-    return <BoxNotice text="No Items" />;
-  } else {
-    return (
-      <>
-        <BoxWhite>
-          <ContainerNFTCollections isLoading={false} contracts={contracts} />
-        </BoxWhite>
-      </>
-    );
-  }
+  return <ContainerNFTCollections isLoading={false} contracts={contracts} />;
 }
 
 export default CollectorsCreations;

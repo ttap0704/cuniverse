@@ -12,7 +12,7 @@ function CollectorsCollections({
   const nfts = use(fetchGetCollectorNFTs(searchParams.address));
 
   if (!nfts || nfts.length == 0) {
-    return <BoxNotice text="No Items" />;
+    return <BoxNotice text="소유한 NFT가 없습니다." />;
   } else {
     return (
       <ContainerNFTContents>

@@ -102,24 +102,6 @@ function ContainerNFTDetail(props: NFTDetail) {
           titles={{ name: "", hash: "이벤트", from: "From", to: "To" }}
           width={{ name: 0.16, hash: 0.28, from: 0.28, to: 0.28 }}
         />
-        {/* <div className="log-row table-header">
-            <div className="row-title"></div>
-            <div>FROM</div>
-            <div>TO</div>
-          </div>
-          {data.logs.length > 0
-            ? data.logs.map((item) => {
-                return (
-                  <div className="log-row">
-                    <div className="row-title">
-                      {item.from == ZeroAddress ? "Mint" : "Transfer"}
-                    </div>
-                    <div>{getShortAddress(item.from)}</div>
-                    <div>{getShortAddress(item.to)}</div>
-                  </div>
-                );
-              })
-            : "no items"} */}
       </BoxWithTitle>
 
       {data.moreNFTs.length > 0 ? (

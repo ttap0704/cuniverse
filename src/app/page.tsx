@@ -1,5 +1,6 @@
 import BoxNFTCollection from "@/components/boxes/BoxNFTCollection";
 import BoxNFTPreview from "@/components/boxes/BoxNFTPreview";
+import BoxNotice from "@/components/boxes/BoxNotice";
 import BoxWhite from "@/components/boxes/BoxWhite";
 import ContainerHomeBanner from "@/components/containers/ContainerHomeBanner";
 import TypographyHomeContentsTitle from "@/components/typography/TypographyHomeContentsTitle";
@@ -26,16 +27,20 @@ function Home() {
       <BoxWhite
         style={{ overflowX: "auto", justifyContent: "flex-start", gap: "1rem" }}
       >
-        {NFTs.map((item, itemIdx) => {
-          return (
-            <BoxNFTPreview
-              key={`account_nft_item_${itemIdx}`}
-              item={item}
-              contractAddress={item.contract ? item.contract.address : ""}
-              contractName={item.title ? item.title : ""}
-            />
-          );
-        })}
+        {NFTs.length == 0 ? (
+          <BoxNotice text="판매중인 NFT가 없습니다." />
+        ) : (
+          NFTs.map((item, itemIdx) => {
+            return (
+              <BoxNFTPreview
+                key={`account_nft_item_${itemIdx}`}
+                item={item}
+                contractAddress={item.contract ? item.contract.address : ""}
+                contractName={item.title ? item.title : ""}
+              />
+            );
+          })
+        )}
       </BoxWhite>
       <br />
       <br />
