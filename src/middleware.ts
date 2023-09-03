@@ -34,7 +34,10 @@ export async function middleware(request: NextRequest) {
       logout = true;
     } else if (token && walletAddress && loginTime) {
       const address = await verifyMessage(
-        SIGN_TEXT + new Date(Number(loginTime)).toLocaleString("euc-kr"),
+        SIGN_TEXT +
+          new Date(Number(loginTime)).toLocaleString("ko-KR", {
+            timeZone: "Asia/Seoul",
+          }),
         token
       );
 
@@ -69,7 +72,10 @@ export async function middleware(request: NextRequest) {
       } else if (token && walletAddress && loginTime) {
         // web3-token과 address비교하여 값이 다르다면 로그인 유지에 필요한 cookies 만료처리
         const address = await verifyMessage(
-          SIGN_TEXT + new Date(Number(loginTime)).toLocaleString("euc-kr"),
+          SIGN_TEXT +
+            new Date(Number(loginTime)).toLocaleString("ko-KR", {
+              timeZone: "Asia/Seoul",
+            }),
           token
         );
         if (address != walletAddress) logout = true;

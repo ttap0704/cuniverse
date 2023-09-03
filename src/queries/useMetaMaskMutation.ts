@@ -32,9 +32,11 @@ const fetcher = () => {
         const account = await ethersBrowserProvider.provider.getSigner();
         const loginTime = new Date().getTime();
         const signText =
-          SIGN_TEXT + new Date(loginTime).toLocaleString("euc-kr");
+          SIGN_TEXT +
+          new Date(loginTime).toLocaleString("ko-KR", {
+            timeZone: "Asia/Seoul",
+          });
 
-        console.log({ signText });
         const token = await account.signMessage(signText);
 
         const cookieExpires = new Date(
