@@ -42,7 +42,7 @@ export async function middleware(request: NextRequest) {
       logout = true;
     } else if (token && walletAddress && loginTime) {
       const address = await verifyMessage(
-        SIGN_TEXT + new Date(Number(loginTime)).toLocaleString(),
+        SIGN_TEXT + new Date(Number(loginTime)).toLocaleString("euc-kr"),
         token
       );
       if (address != walletAddress) logout = true;
