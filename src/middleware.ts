@@ -45,6 +45,10 @@ export async function middleware(request: NextRequest) {
         SIGN_TEXT + new Date(Number(loginTime)).toLocaleString("euc-kr"),
         token
       );
+      console.log({
+        "middleware signText":
+          SIGN_TEXT + new Date(Number(loginTime)).toLocaleString("euc-kr"),
+      });
       if (address != walletAddress) logout = true;
 
       console.log({ address });

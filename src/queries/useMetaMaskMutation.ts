@@ -33,6 +33,8 @@ const fetcher = () => {
         const loginTime = new Date().getTime();
         const signText =
           SIGN_TEXT + new Date(loginTime).toLocaleString("euc-kr");
+
+        console.log({ signText });
         const token = await account.signMessage(signText);
 
         const cookieExpires = new Date(
