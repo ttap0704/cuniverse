@@ -81,15 +81,18 @@ export const CUNIVERSE_HUB_ADDRESS =
 // Default Metadata
 export const CUNIVERSE_METADATE_DESCRIPTION =
   "크리에이터를 위한 NFT 마켓플레이스입니다.";
+export const CUNIVERSE_METADATA_LOGO_URL =
+  "https://cuniverse-images.s3.ap-northeast-2.amazonaws.com/images/1693799593270.png";
 export const CUNIVERSE_METADATA: Metadata = {
   title: "Cuniverse",
   description: CUNIVERSE_METADATE_DESCRIPTION,
   openGraph: {
+    siteName: "Cuniverse",
     title: "Cuniverse",
     description: CUNIVERSE_METADATE_DESCRIPTION,
     images: [
       {
-        url: "https://cuniverse-images.s3.ap-northeast-2.amazonaws.com/images/1693799593270.png",
+        url: CUNIVERSE_METADATA_LOGO_URL,
         width: 800,
         height: 400,
       },
