@@ -308,6 +308,7 @@
       width: 420px;
       position: fixed;
       right: 2rem;
+      top: 5rem;
 
       @include deviceL {
         width: 370px;
@@ -441,28 +442,39 @@
       display: flex;
       gap: 1rem;
       .box-nft-preview {
+        @include device2XS {
+          width: 180px;
+          min-width: 180px;
+          height: calc(180px * 1.25);
+        }
+
         @include deviceXS {
           width: 200px;
+          min-width: 200px;
           height: calc(200px * 1.25);
         }
 
         @include deviceS {
           width: 210px;
+          min-width: 210px;
           height: calc(210px * 1.25);
         }
 
         @include deviceM {
           width: 230px;
+          min-width: 230px;
           height: calc(230px * 1.25);
         }
 
         @include deviceL {
           width: 250px;
+          min-width: 250px;
           height: calc(250px * 1.25);
         }
 
         @include deviceXL {
           width: 275px;
+          min-width: 275px;
           height: calc(275px * 1.25);
         }
       }
