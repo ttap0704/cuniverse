@@ -21,7 +21,6 @@ function BoxNFTCollection(props: BoxNFTCollectionProps) {
           <ImageCuniverse
             src={`${S3_IMAGES_URL}/images/${banner}`}
             alt={`${name}-banner`}
-            objectFit="cover"
             fill={true}
           />
         ) : (
@@ -34,7 +33,6 @@ function BoxNFTCollection(props: BoxNFTCollectionProps) {
             <ImageCuniverse
               src={`${S3_IMAGES_URL}/images/${profile}`}
               alt={`${name}-profile`}
-              objectFit="cover"
               fill={true}
             />
           ) : (

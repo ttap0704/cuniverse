@@ -55,7 +55,6 @@ function Header() {
                 src={LogoLarge}
                 alt="cuniverse-logo"
                 fill={true}
-                objectFit="cover"
               />
             </Link>
             <Link href="/" data-testid="header-anchor" className="small">
@@ -63,7 +62,6 @@ function Header() {
                 src={LogoSmall}
                 alt="cuniverse-logo"
                 fill={true}
-                objectFit="cover"
               />
             </Link>
           </div>

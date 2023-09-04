@@ -19,7 +19,7 @@ function ImageCuniverse(props: ImageCompoennt.ImageProps) {
       {...props}
       src={imageSrc}
       onError={(err) => setImageSrc(NoPickture)}
-      layout="fixed"
+      style={{ objectFit: "cover" }}
     />
   );
 }

@@ -45,7 +45,6 @@ function ContainerHomeBanner(props: ContainerHomeBannerProps) {
               src={S3_IMAGES_URL + "/images/" + currentBanner.image}
               alt="link-banner"
               fill={true}
-              objectFit={`cover`}
             />
           </div>
         </Link>
