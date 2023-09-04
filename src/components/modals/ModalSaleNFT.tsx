@@ -292,12 +292,7 @@ function ModalSaleNFT(props: ModalSaleNFTProps) {
       <div className="modal-sale-nft-contents">
         <div className="nft-intro">
           <div>
-            <ImageCuniverse
-              src={image}
-              alt={name}
-              fill={true}
-              objectFit="cover"
-            />
+            <ImageCuniverse src={image} alt={name} fill={true} />
           </div>
           <div>
             <h3>{NFT.name}</h3>

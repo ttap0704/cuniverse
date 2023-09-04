@@ -52,7 +52,6 @@ function InputWithLabel(props: InputWithLabelProps) {
               <ImageCuniverse
                 src={`${imagePath}`}
                 alt="uploaded-image"
-                objectFit="cover"
                 fill={true}
               />
             ) : (
