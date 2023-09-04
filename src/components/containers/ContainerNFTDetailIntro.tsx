@@ -50,7 +50,7 @@ function ContainerNFTDetailIntro(props: ContainerNFTDetailIntroProps) {
         <div className="info-box">
           <div>
             <h4>창작자</h4>
-            <Link href={`/collector?address=${deployer.address}`}>
+            <Link href={`/collectors?address=${deployer.address}`}>
               {deployer.nickname !== null
                 ? deployer.nickname
                 : getShortAddress(deployer.address)}

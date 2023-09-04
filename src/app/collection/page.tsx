@@ -2,13 +2,54 @@ import WrongApproach from "@/components/common/WrongApproach";
 import ContainerBanner from "@/components/containers/ContainerBanner";
 import ContainerProfileImage from "@/components/containers/ContainerProfileImage";
 import { fetchGetCollectionDetail } from "@/utils/api";
-import { headers } from "next/dist/client/components/headers";
-import { DEFAULT_BANNER, DEFAULT_PROFILE } from "../../../constants";
+import {
+  CUNIVERSE_METADATA,
+  CUNIVERSE_METADATA_LOGO_URL,
+  DEFAULT_BANNER,
+  DEFAULT_PROFILE,
+} from "../../../constants";
 import ContainerCollectionIntro from "@/components/containers/ContainerCollectionIntro";
 import BoxNotice from "@/components/boxes/BoxNotice";
 import ContainerNFTContents from "@/components/containers/ContainerNFTContents";
 import BoxNFTPreview from "@/components/boxes/BoxNFTPreview";
 import Tabs from "@/components/common/Tabs";
+import { Metadata } from "next";
+
+type CollectionPageProps = {
+  searchParams: { address: string };
+};
+
+export async function generateMetadata({
+  searchParams,
+}: CollectionPageProps): Promise<Metadata> {
+  const address = searchParams["address"];
+
+  if (!address) return CUNIVERSE_METADATA;
+
+  const data = await fetchGetCollectionDetail(address);
+
+  if (data) {
+    return {
+      title: data.name + " | Cuniverse",
+      description: data.description,
+      openGraph: {
+        title: data.name + " | Cuniverse",
+        description: data.description,
+        images: [
+          {
+            url: data.profile ?? CUNIVERSE_METADATA_LOGO_URL,
+            width: 800,
+            height: 400,
+          },
+        ],
+        locale: "ko_KR",
+        type: "website",
+      },
+    };
+  } else {
+    return CUNIVERSE_METADATA;
+  }
+}
 
 const tabsItems: TabsMenuItem[] = [
   {

@@ -17,6 +17,8 @@ export async function generateMetadata({
   const address = searchParams["contract"];
   const tokenId = searchParams["token-id"];
 
+  if (!address || !tokenId) return CUNIVERSE_METADATA;
+
   const data = await fetchGetNFTMetadata(address, tokenId);
 
   if (data) {
