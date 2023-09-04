@@ -86,7 +86,15 @@ export const CUNIVERSE_METADATA: Metadata = {
   description: CUNIVERSE_METADATE_DESCRIPTION,
   openGraph: {
     title: "Cuniverse",
-    images: [],
     description: CUNIVERSE_METADATE_DESCRIPTION,
+    images: [
+      {
+        url: "https://cuniverse-images.s3.ap-northeast-2.amazonaws.com/images/1693799593270.png",
+        width: 800,
+        height: 400,
+      },
+    ],
+    locale: "ko_KR",
+    type: "website",
   },
 };
