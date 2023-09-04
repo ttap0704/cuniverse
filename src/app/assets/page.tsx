@@ -2,15 +2,40 @@ import { fetchGetNFTMetadata } from "@/utils/api";
 import { use } from "react";
 import ContainerNFTDetail from "@/components/containers/ContainerNFTDetail";
 import WrongApproach from "@/components/common/WrongApproach";
+import { Metadata } from "next";
+import { CUNIVERSE_METADATA } from "../../../constants";
+
+type AssetsPageProps = {
+  searchParams: { contract: string; ["token-id"]: string };
+};
 
 export const dynamic = "force-dynamic";
 
-// NFT 상세 페이지
-function AssetsIndex({
+export async function generateMetadata({
   searchParams,
-}: {
-  searchParams: { contract: string; ["token-id"]: string };
-}) {
+}: AssetsPageProps): Promise<Metadata> {
+  const address = searchParams["contract"];
+  const tokenId = searchParams["token-id"];
+
+  const data = await fetchGetNFTMetadata(address, tokenId);
+
+  if (data) {
+    return {
+      title: data.contract.name + " | Cuniverse",
+      description: data.description,
+      openGraph: {
+        title: data.contract.name + " | Cuniverse",
+        images: [data.image ?? ""],
+        description: data.description,
+      },
+    };
+  } else {
+    return CUNIVERSE_METADATA;
+  }
+}
+
+// NFT 상세 페이지
+function AssetsIndex({ searchParams }: AssetsPageProps) {
   // Query String으로 address, tokenId 필요
   const address = searchParams["contract"];
   const tokenId = searchParams["token-id"];

@@ -1,6 +1,7 @@
 import { FaInstagram, FaTwitch, FaTwitter, FaYoutube } from "react-icons/fa";
 import { PiGlobe } from "react-icons/pi";
 import { BsBalloon } from "react-icons/bs";
+import { Metadata } from "next";
 
 // Block Chain Network
 export const NETWORK_URI = "http://localhost:7545";
@@ -76,3 +77,16 @@ export const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
 export const SUPER_ADMIN_ADDRESS = "0x9E43e12263DAF3E9AaCDf968E0C0dB65A61354Fe";
 export const CUNIVERSE_HUB_ADDRESS =
   "0x41aae050DdCDf5894099B9d56d863a201Dc09807";
+
+// Default Metadata
+export const CUNIVERSE_METADATE_DESCRIPTION =
+  "크리에이터를 위한 NFT 마켓플레이스입니다.";
+export const CUNIVERSE_METADATA: Metadata = {
+  title: "Cuniverse",
+  description: CUNIVERSE_METADATE_DESCRIPTION,
+  openGraph: {
+    title: "Cuniverse",
+    images: [],
+    description: CUNIVERSE_METADATE_DESCRIPTION,
+  },
+};
