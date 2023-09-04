@@ -20,7 +20,8 @@ export async function GET() {
         sql: `SELECT contractAddress, tokenId, price
       FROM sales sa
       INNER JOIN accounts ac ON ac.id = sa.accountId
-      WHERE ac.address = ? AND sa.canceledAt IS NULL AND sa.completedAt IS NULL;`,
+      WHERE ac.address = ? AND sa.canceledAt IS NULL AND sa.completedAt IS NULL
+      AND FROM_UNIXTIME(sa.startTime) <= NOW() AND FROM_UNIXTIME(sa.endTime) >= NOW();`,
         values: [address],
       });
 

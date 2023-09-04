@@ -1,11 +1,18 @@
+$break_xs: 356px;
 $break_s: 576px;
 $break_m: 768px;
 $break_l: 992px;
 $break_xl: 1200px;
 $break_2xl: 1500px;
 
+@mixin device2XS {
+  @media (max-width: $break_xs - 1) {
+    @content;
+  }
+}
+
 @mixin deviceXS {
-  @media (max-width: $break_s - 1) {
+  @media (min-width: $break_xs) and (max-width: $break_s - 1) {
     @content;
   }
 }
