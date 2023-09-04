@@ -1,4 +1,5 @@
 import { fetchUploadS3 } from "./api";
+import imageCompression from "browser-image-compression";
 
 // IPFS Image 파일 업로드
 // export async function uploadImageToIPFS(file: File) {
@@ -26,7 +27,7 @@ export async function uploadImageToS3(file: File) {
   // 실제 Url에 이미지 업로드
   const upload = await fetch(url, {
     method: "PUT",
-    body: file,
+    body: await compressImage(file),
     headers: { "Content-Type": file.type },
   });
 
@@ -66,7 +67,7 @@ export function checkMaxLength(length: StringOrNumber, text: string) {
 }
 
 // base64를 이미지 파일로 변환
-export function base64ToFile(dataurl: string, filename: string) {
+export async function base64ToFile(dataurl: string, filename: string) {
   const arr = dataurl.split(",");
   if (arr.length > 0) {
     const mime = arr[0].match(/:(.*?);/);
@@ -121,4 +122,14 @@ export function minusTwoText(a: string, b: string) {
   }
 
   return textRes.join("");
+}
+
+// 이미지 압축하기
+export async function compressImage(file: File) {
+  const options = {
+    maxSizeMB: 0.2,
+    maxWidthOrHeight: 1920,
+    useWebWorker: true,
+  };
+  return await imageCompression(file, options);
 }

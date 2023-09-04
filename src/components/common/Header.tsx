@@ -48,37 +48,40 @@ function Header() {
   return (
     <>
       <nav id="header" data-testid="header" className="contents-container">
-        <div id="header-logo">
-          <Link href="/" data-testid="header-anchor" className="large">
-            <ImageCuniverse
-              src={LogoLarge}
-              alt="cuniverse-logo"
-              fill={true}
-              objectFit="cover"
-            />
-          </Link>
-          <Link href="/" data-testid="header-anchor" className="small">
-            <ImageCuniverse
-              src={LogoSmall}
-              alt="cuniverse-logo"
-              fill={true}
-              objectFit="cover"
-            />
-          </Link>
-        </div>
-        <div id="header-contents">
-          <ButtonConnectWallet />
-          {account ? (
-            <ButtonHeader
-              onClick={() => setDropdown({ open: true, id: "header-menu" })}
-              testid="header-menu"
-              id="header-menu"
-            >
-              <FiSmile />
-            </ButtonHeader>
-          ) : null}
+        <div>
+          <div id="header-logo">
+            <Link href="/" data-testid="header-anchor" className="large">
+              <ImageCuniverse
+                src={LogoLarge}
+                alt="cuniverse-logo"
+                fill={true}
+                objectFit="cover"
+              />
+            </Link>
+            <Link href="/" data-testid="header-anchor" className="small">
+              <ImageCuniverse
+                src={LogoSmall}
+                alt="cuniverse-logo"
+                fill={true}
+                objectFit="cover"
+              />
+            </Link>
+          </div>
+          <div id="header-contents">
+            <ButtonConnectWallet />
+            {account ? (
+              <ButtonHeader
+                onClick={() => setDropdown({ open: true, id: "header-menu" })}
+                testid="header-menu"
+                id="header-menu"
+              >
+                <FiSmile />
+              </ButtonHeader>
+            ) : null}
+          </div>
         </div>
       </nav>
+
       <DropdownMenu
         items={account ? headerDropdownMenu : headerDropdownMenuNotAccount}
         onItemClicked={checkItem}

@@ -63,7 +63,10 @@ export async function GET(request: NextRequest, response: NextResponse) {
 
     // 현재 해당 NFT가 판매중인지 체크
     const saleResponse: SalesDetail[] = await db.query({
-      sql: "SELECT * FROM sales WHERE contractAddress = ? AND tokenId = ? AND canceledAt IS NULL AND completedAt IS NULL;",
+      sql: `SELECT * 
+      FROM sales 
+      WHERE contractAddress = ? AND tokenId = ? AND canceledAt IS NULL AND completedAt IS NULL 
+      AND FROM_UNIXTIME(startTime) <= NOW() AND FROM_UNIXTIME(endTime) >= NOW();`,
       values: [address, tokenId],
     });
     const sale = saleResponse[0] ?? null;

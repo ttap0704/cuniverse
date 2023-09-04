@@ -47,6 +47,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/testing-library__jest-dom", "npm:5.14.5"],\
             ["alchemy-sdk", "npm:2.9.2"],\
             ["aws-sdk", "npm:2.1421.0"],\
+            ["browser-image-compression", "npm:2.0.2"],\
             ["bufferutil", "npm:4.0.7"],\
             ["cypress", "npm:12.17.2"],\
             ["cypress-axe", "virtual:80ffb1d58ea35384396d91374a30820e6e05e47551245d7f2e0729f2d74fa80e31a49eb77a569f8128954fcb5b7dc01cc2b632a323261e0a835267ad8266f95c#npm:1.4.0"],\
@@ -5430,6 +5431,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["browser-image-compression", [\
+        ["npm:2.0.2", {\
+          "packageLocation": "./.yarn/cache/browser-image-compression-npm-2.0.2-21a831f9cb-16051f07b0.zip/node_modules/browser-image-compression/",\
+          "packageDependencies": [\
+            ["browser-image-compression", "npm:2.0.2"],\
+            ["uzip", "npm:0.20201231.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["browserslist", [\
         ["npm:4.21.9", {\
           "packageLocation": "./.yarn/cache/browserslist-npm-4.21.9-f6128308c1-80d3820584.zip/node_modules/browserslist/",\
@@ -6043,6 +6054,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/testing-library__jest-dom", "npm:5.14.5"],\
             ["alchemy-sdk", "npm:2.9.2"],\
             ["aws-sdk", "npm:2.1421.0"],\
+            ["browser-image-compression", "npm:2.0.2"],\
             ["bufferutil", "npm:4.0.7"],\
             ["cypress", "npm:12.17.2"],\
             ["cypress-axe", "virtual:80ffb1d58ea35384396d91374a30820e6e05e47551245d7f2e0729f2d74fa80e31a49eb77a569f8128954fcb5b7dc01cc2b632a323261e0a835267ad8266f95c#npm:1.4.0"],\
@@ -13194,6 +13206,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/uuid-npm-8.3.2-eca0baba53-5575a8a75c.zip/node_modules/uuid/",\
           "packageDependencies": [\
             ["uuid", "npm:8.3.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["uzip", [\
+        ["npm:0.20201231.0", {\
+          "packageLocation": "./.yarn/cache/uzip-npm-0.20201231.0-122f770c6a-34253f4c3d.zip/node_modules/uzip/",\
+          "packageDependencies": [\
+            ["uzip", "npm:0.20201231.0"]\
           ],\
           "linkType": "HARD"\
         }]\

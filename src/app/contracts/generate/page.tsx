@@ -233,7 +233,7 @@ function AccountSettings() {
 
       for (const key of imageKeys) {
         if ((finalGenerateData[key] as string).length != 0) {
-          const bannerFile = base64ToFile(
+          const bannerFile = await base64ToFile(
             finalGenerateData[key] as string,
             `tmp-${key}`
           );

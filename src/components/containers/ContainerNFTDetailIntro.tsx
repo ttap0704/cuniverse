@@ -24,10 +24,14 @@ function ContainerNFTDetailIntro(props: ContainerNFTDetailIntroProps) {
   let time: string | null = null;
   let timeText = "";
   if (isSale) {
-    time = new Date(sale.endTime * 1000).toLocaleString("euc-kr");
+    time = new Date(sale.endTime * 1000).toLocaleString("ko-KR", {
+      timeZone: "Asia/Seoul",
+    });
     timeText = "판매 종료";
   } else if (sale && sale.startTime * 1000 > now) {
-    time = new Date(sale.startTime * 1000).toLocaleString("euc-kr");
+    time = new Date(sale.startTime * 1000).toLocaleString("ko-KR", {
+      timeZone: "Asia/Seoul",
+    });
     timeText = "판매 시작";
   }
 

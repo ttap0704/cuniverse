@@ -4,12 +4,16 @@ import Image from "next/image";
 import Link from "next/link";
 import ImageCuniverse from "../common/ImageCuniverse";
 
-function BoxNFTCollection(props: ContractDetail) {
-  const { name, profile, banner, contractAddress } = props;
+interface BoxNFTCollectionProps extends ContractDetail {
+  className?: string;
+}
+
+function BoxNFTCollection(props: BoxNFTCollectionProps) {
+  const { name, profile, banner, contractAddress, className } = props;
 
   return (
     <Link
-      className="box-nft-collection"
+      className={`box-nft-collection ${className ?? ""}`}
       href={`/collection?address=${contractAddress}`}
     >
       <div className="collection-banner">

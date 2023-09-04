@@ -2,11 +2,17 @@
   width: 100vw;
   position: relative;
   overflow-y: hidden;
-  margin-left: -32px;
+  margin-left: -2rem;
   margin-top: -1rem;
+
+  @include device2XS {
+    height: 140px;
+    margin-left: -10px;
+  }
 
   @include deviceXS {
     height: 180px;
+    margin-left: -10px;
   }
 
   @include deviceS {
@@ -23,6 +29,10 @@
 
   @include deviceXL {
     height: 320px;
+  }
+
+  @media (min-width: 1500px) {
+    margin-left: calc((100vw - 100%) / -2);
   }
 
   & > img {
@@ -45,6 +55,12 @@
     left: 50%;
     transform: translateX(-50%);
     z-index: 5001;
+
+    @include device2XS {
+      width: 100px;
+      height: 100px;
+      top: -50px;
+    }
 
     @include deviceXS {
       width: 115px;
@@ -266,8 +282,8 @@
     }
 
     & > .nft-detail-image-wrapper {
-      width: calc((100vw - 64px) - (450px - 1rem));
-      height: calc((100vw - 64px) - (450px - 1rem));
+      width: calc((100vw - 4rem) - (450px - 1rem));
+      height: calc((100vw - 4rem) - (450px - 1rem));
       max-width: 600px;
       max-height: 600px;
       position: relative;
@@ -278,20 +294,20 @@
       @include deviceL {
         max-width: 472px;
         max-height: 472px;
-        width: calc((100vw - 64px) - (400px - 1rem));
-        height: calc((100vw - 64px) - (400px - 1rem));
+        width: calc((100vw - 4rem) - (400px - 1rem));
+        height: calc((100vw - 4rem) - (400px - 1rem));
       }
 
       @media (max-width: $break_l - 1) {
-        width: calc((100vw - 64px - 4rem));
-        height: calc((100vw - 64px - 4rem));
+        width: calc((100vw - 4rem - 4rem));
+        height: calc((100vw - 4rem - 4rem));
       }
     }
 
     & > .box-white {
       width: 420px;
       position: fixed;
-      right: 32px;
+      right: 2rem;
 
       @include deviceL {
         width: 370px;
@@ -474,8 +490,9 @@
 
 .container-home-banner {
   width: 100%;
-  height: calc((100vw - 64px) * 0.416);
+  height: calc((100vw - 4rem) * 0.416);
   max-height: 450px;
+  min-height: 200px;
   border-radius: 2rem;
   overflow: hidden;
   flex-wrap: nowrap;
@@ -509,16 +526,26 @@
   }
 
   & > a {
-    width: calc(100vw - 64px);
+    width: 100%;
     height: 100%;
-    float: left;
+    margin: 0 auto;
+
     @include d-flex-center;
+
+    @include device2XS {
+      width: calc(100vw - 20px);
+    }
+
+    @include deviceXS {
+      width: calc(100vw - 20px);
+    }
 
     & > div {
       width: 100%;
       max-width: 1080px;
       height: 100%;
       position: relative;
+      margin: 0 auto;
     }
   }
 }

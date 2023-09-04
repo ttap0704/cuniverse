@@ -37,6 +37,7 @@ function Home() {
                 item={item}
                 contractAddress={item.contract ? item.contract.address : ""}
                 contractName={item.title ? item.title : ""}
+                className="list"
               />
             );
           })
@@ -50,7 +51,11 @@ function Home() {
       >
         {contracts.map((contract) => {
           return (
-            <BoxNFTCollection key={`contract-${contract.id}`} {...contract} />
+            <BoxNFTCollection
+              key={`contract-${contract.id}`}
+              {...contract}
+              className="list"
+            />
           );
         })}
       </BoxWhite>

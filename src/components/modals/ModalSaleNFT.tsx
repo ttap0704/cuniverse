@@ -90,7 +90,7 @@ function ModalSaleNFT(props: ModalSaleNFTProps) {
     if (etherPrice) {
       setWonPrice(
         Number((Number(finalPriceText) * etherPrice).toFixed(0)).toLocaleString(
-          "euc-kr"
+          "ko-KR"
         )
       );
     }

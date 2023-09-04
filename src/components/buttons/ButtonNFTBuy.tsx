@@ -96,6 +96,14 @@ function ButtonNFTBuy(props: ButtonNFTBuyProps) {
       }
 
       setIsBuying(false);
+    } else {
+      if (!account) {
+        setModalAlert({
+          type: "error",
+          text: "로그인 후에 구매해주세요.",
+          open: true,
+        });
+      }
     }
   };
 

@@ -6,49 +6,78 @@
   position: fixed;
   height: 4rem;
   width: 100vw;
-  align-items: center;
   color: $white-100;
   background-color: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(10px);
   z-index: 6666;
-  @include d-flex-justify-between;
 
-  #header-logo {
-    width: 12rem;
-    height: 3rem;
-
-    a {
-      width: 100%;
-      height: 100%;
-      display: block;
-      position: relative;
-
-      &.large {
-        display: block;
-      }
-      &.small {
-        display: none;
-      }
-    }
-
-    @include deviceXS {
-      width: 7rem;
-      a {
-        &.large {
-          display: none;
-        }
-        &.small {
-          display: block;
-        }
-      }
-    }
+  @include device2XS {
+    padding: 0 10px;
   }
 
-  #header-contents {
-    height: 3rem;
-    gap: 0.5rem;
-    @include d-flex-align-center;
-    @include justify-end;
+  @include deviceXS {
+    padding: 0 10px;
+  }
+
+  & > div {
+    padding: 0 2rem;
+    max-width: 1500px;
+    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+
+    @include d-flex-justify-between;
+
+    #header-logo {
+      width: 12rem;
+      height: 3rem;
+
+      a {
+        width: 100%;
+        height: 100%;
+        display: block;
+        position: relative;
+
+        &.large {
+          display: block;
+        }
+        &.small {
+          display: none;
+        }
+      }
+
+      @include device2XS {
+        width: 5rem;
+        a {
+          &.large {
+            display: none;
+          }
+          &.small {
+            display: block;
+          }
+        }
+      }
+
+      @include deviceXS {
+        width: 7rem;
+        a {
+          &.large {
+            display: none;
+          }
+          &.small {
+            display: block;
+          }
+        }
+      }
+    }
+
+    #header-contents {
+      height: 3rem;
+      gap: 0.5rem;
+      @include d-flex-align-center;
+      @include justify-end;
+    }
   }
 }
 

@@ -84,14 +84,20 @@ input[type="number"] {
   background: linear-gradient(to bottom, $pink, $deep-purple, $deep-blue);
 }
 
-.contents-container {
-  padding: 0 32px;
-}
-
 #main-contents-container {
-  padding: 5rem 32px;
+  padding: 5rem 2rem;
   display: flex;
   flex-direction: column;
+  max-width: 1500px;
+  margin: 0 auto;
+
+  @include device2XS {
+    padding: 5rem 10px;
+  }
+
+  @include deviceXS {
+    padding: 5rem 10px;
+  }
 }
 
 button {

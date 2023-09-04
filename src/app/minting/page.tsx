@@ -197,7 +197,7 @@ function AccountSettings() {
             externalUrl: "",
             youtubeUrl: "",
           };
-          const NFTFile = base64ToFile(
+          const NFTFile = await base64ToFile(
             mintingData.current["image"].value,
             "tmp-file"
           );
