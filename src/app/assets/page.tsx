@@ -25,8 +25,16 @@ export async function generateMetadata({
       description: data.description,
       openGraph: {
         title: data.contract.name + " | Cuniverse",
-        images: [data.image ?? ""],
         description: data.description,
+        images: [
+          {
+            url: data.image ?? "",
+            width: 800,
+            height: 400,
+          },
+        ],
+        locale: "ko_KR",
+        type: "website",
       },
     };
   } else {
