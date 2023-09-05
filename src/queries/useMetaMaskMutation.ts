@@ -54,15 +54,9 @@ const fetcher = () => {
     } else {
       if (isMobileDevice()) {
         // 모바일 기기일때
-        // const dappUrl = window.location.href.split("//")[1].split("/")[0];
-        // const metamaskAppDeepLink = "https://metamask.app.link/dapp/" + dappUrl;
-
-        // alert(metamaskAppDeepLink);
-        // window.open(metamaskAppDeepLink, "_self");
-
-        // HTTPS만 지원하기 때문에 사용 불가
-        // 인증서 작업 이후 모바일 지원 가능
-        alert("현재 모바일 기기는 지원하지 않습니다.");
+        const dappUrl = window.location.href.split("//")[1].split("/")[0];
+        const metamaskAppDeepLink = "https://metamask.app.link/dapp/" + dappUrl;
+        window.open(metamaskAppDeepLink, "_self");
       } else {
         // 메타마스크가 없다면
         window.open("https://metamask.io/download/", "_blank");

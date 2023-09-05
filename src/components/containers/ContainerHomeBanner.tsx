@@ -4,7 +4,7 @@ import Link from "next/link";
 import ImageCuniverse from "../common/ImageCuniverse";
 import { S3_IMAGES_URL } from "../../../constants";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface ContainerHomeBannerProps {
   banners: Banner[];
@@ -13,42 +13,44 @@ interface ContainerHomeBannerProps {
 function ContainerHomeBanner(props: ContainerHomeBannerProps) {
   const { banners } = props;
 
-  const [bannerIdx, setBannerIdx] = useState(0);
-  const [currentBanner, setCurrentBanner] = useState<Banner | null>(null);
-
-  useEffect(() => {
-    if (banners[0]) setCurrentBanner(banners[0]);
-  }, [banners]);
+  const sliderEl = useRef<HTMLDivElement>(null);
 
   const handleBanner = (dir: string) => {
-    let curIdx = bannerIdx;
-    if (dir == "left") curIdx--;
-    else curIdx++;
+    if (!banners || !sliderEl.current) return;
 
-    if (curIdx < 0) curIdx = banners.length - 1;
-    else if (curIdx >= banners.length) curIdx = 0;
+    const children = sliderEl.current.children;
 
-    setBannerIdx(curIdx);
-    setCurrentBanner(banners[curIdx]);
+    if (dir == "left") {
+      sliderEl.current.append(children[children.length - 1]);
+    } else {
+      sliderEl.current.before(children[0]);
+    }
   };
 
   return (
     <div className="container-home-banner">
-      {currentBanner ? (
-        <Link
-          href={currentBanner.link}
-          key={`home-banner-${currentBanner.id}`}
-          style={{ backgroundColor: currentBanner.background }}
-        >
-          <div>
-            <ImageCuniverse
-              src={S3_IMAGES_URL + "/images/" + currentBanner.image}
-              alt="link-banner"
-              fill={true}
-            />
-          </div>
-        </Link>
-      ) : null}
+      <div style={{ width: banners.length + "00%" }} ref={sliderEl}>
+        {banners.map((banner) => {
+          return (
+            <Link
+              href={banner.link}
+              key={`home-banner-${banner.id}`}
+              style={{
+                backgroundColor: banner.background,
+                width: 100 / banners.length + "%",
+              }}
+            >
+              <div>
+                <ImageCuniverse
+                  src={S3_IMAGES_URL + "/images/" + banner.image}
+                  alt="link-banner"
+                  fill={true}
+                />
+              </div>
+            </Link>
+          );
+        })}
+      </div>
       {banners.length > 1 ? (
         <>
           <button

@@ -24,8 +24,6 @@ function DropdownMenu(props: DropdownMenuProps) {
     setDropdown({ open: false, id: "" });
   };
 
-  console.log({ items });
-
   return (
     <DropdownDefault targetId={targetId}>
       <ul data-testid="dropdown-menu-wrapper">

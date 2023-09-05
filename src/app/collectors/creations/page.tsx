@@ -1,5 +1,3 @@
-import BoxNotice from "@/components/boxes/BoxNotice";
-import BoxWhite from "@/components/boxes/BoxWhite";
 import ContainerNFTCollections from "@/components/containers/ContainerNFTCollections";
 import { fetchGetCollectorsContracts } from "@/utils/api";
 import { use } from "react";
