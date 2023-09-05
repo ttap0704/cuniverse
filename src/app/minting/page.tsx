@@ -16,8 +16,7 @@ import { base64ToFile } from "@/utils/tools";
 import TypographyFormTitle from "@/components/typography/TypographyFormTitle";
 import ethersBrowserProvider from "@/utils/ethersBrowserProvider";
 import NFT from "@/contracts/NFT.json";
-import { Contract, TransactionRequest, ethers } from "ethers";
-import Image from "next/image";
+import { Contract } from "ethers";
 
 // Create NFT Metadata
 interface CreateNFTMetadata {
@@ -128,6 +127,7 @@ function AccountSettings() {
   // Mint할 컨트랙트 리스트 불러오기
   const setContractDropdown = async () => {
     const contractRes = await fetchGetAccountContracts();
+    console.log({ contractRes });
     if (contractRes) {
       const tmpMenu: DropdownMenuItem[] = contractRes
         .filter((item) => item.created == 1)
@@ -138,6 +138,8 @@ function AccountSettings() {
           };
         });
       setContractDropdownItems([...tmpMenu]);
+
+      console.log({ tmpMenu });
 
       setFormData();
     } else {
