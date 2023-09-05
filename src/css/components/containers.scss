@@ -525,6 +525,7 @@
     justify-content: flex-start;
     position: absolute;
     transition: all 0.5s ease 0s;
+    left: 0;
 
     & > a {
       width: calc(100vw - 4rem);
