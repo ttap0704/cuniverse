@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { QUERY_KEY as accountQueryKey } from "./useAccountQuery";
-import { setCookieInClient } from "@/utils/tools";
+import { isMobileDevice, setCookieInClient } from "@/utils/tools";
 import { NETWORK_SEPOLIA, SIGN_TEXT } from "../../constants";
 import ethersBrowserProvider from "@/utils/ethersBrowserProvider";
 import { hashMessage, toBeHex } from "ethers";
@@ -52,9 +52,22 @@ const fetcher = () => {
         resolve(false);
       }
     } else {
-      // 메타마스크가 없다면
-      window.open("https://metamask.io/download/", "_blank");
-      resolve(false);
+      if (isMobileDevice()) {
+        // 모바일 기기일때
+        // const dappUrl = window.location.href.split("//")[1].split("/")[0];
+        // const metamaskAppDeepLink = "https://metamask.app.link/dapp/" + dappUrl;
+
+        // alert(metamaskAppDeepLink);
+        // window.open(metamaskAppDeepLink, "_self");
+
+        // HTTPS만 지원하기 때문에 사용 불가
+        // 인증서 작업 이후 모바일 지원 가능
+        alert("현재 모바일 기기는 지원하지 않습니다.");
+      } else {
+        // 메타마스크가 없다면
+        window.open("https://metamask.io/download/", "_blank");
+        resolve(false);
+      }
     }
   });
 };

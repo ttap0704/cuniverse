@@ -4,6 +4,8 @@ import ContainerNFTContents from "@/components/containers/ContainerNFTContents";
 import { fetchGetCollectorNFTs } from "@/utils/api";
 import { use } from "react";
 
+export const revalidate = 60;
+
 function CollectorsCollections({
   searchParams,
 }: {

@@ -133,3 +133,7 @@ export async function compressImage(file: File) {
   };
   return await imageCompression(file, options);
 }
+
+export function isMobileDevice() {
+  return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+}
