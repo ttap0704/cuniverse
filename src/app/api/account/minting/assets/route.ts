@@ -29,6 +29,7 @@ export async function POST(request: NextRequest) {
       const requestURI = "https://ipfs.infura.io:5001/api/v0/add";
 
       const response = await fetch(requestURI, requestOptions);
+      console.log({ "mint response": response });
       const responseJson = await response.json();
 
       if (responseJson["Hash"] && responseJson["Hash"].length > 0) {
