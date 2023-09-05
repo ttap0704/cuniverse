@@ -126,47 +126,38 @@ function AccountSettings() {
 
   // Mint할 컨트랙트 리스트 불러오기
   const setContractDropdown = async () => {
-    setModalAlert({
-      open: true,
-      type: "error",
-      text: "먼저 컬렉션을 등록해주세요.",
-    });
-    router.back();
-    return;
+    const contractRes = await fetchGetAccountContracts();
+    if (contractRes) {
+      const tmpMenu: DropdownMenuItem[] = contractRes
+        .filter((item) => item.created == 1)
+        .map((item) => {
+          return {
+            label: `${item.name} (${item.symbol})`,
+            id: item.contractAddress,
+          };
+        });
+      setContractDropdownItems([...tmpMenu]);
 
-    // const contractRes = await fetchGetAccountContracts();
-    // console.log({ contractRes });
-    // if (contractRes) {
-    //   const tmpMenu: DropdownMenuItem[] = contractRes
-    //     .filter((item) => item.created == 1)
-    //     .map((item) => {
-    //       return {
-    //         label: `${item.name} (${item.symbol})`,
-    //         id: item.contractAddress,
-    //       };
-    //     });
-    //   setContractDropdownItems([...tmpMenu]);
-
-    //   if (tmpMenu.length > 0) {
-    //     setFormData();
-    //   } else {
-    //     setModalAlert({
-    //       open: true,
-    //       type: "error",
-    //       text: "먼저 컬렉션을 등록해주세요.",
-    //     });
-    //     router.back();
-    //     return;
-    //   }
-    // } else {
-    //   setModalAlert({
-    //     open: true,
-    //     type: "error",
-    //     text: "먼저 컬렉션을 등록해주세요.",
-    //   });
-    //   router.back();
-    //   return;
-    // }
+      if (tmpMenu.length > 0) {
+        setFormData();
+      } else {
+        setModalAlert({
+          open: true,
+          type: "error",
+          text: "먼저 컬렉션을 등록해주세요.",
+        });
+        router.back();
+        return;
+      }
+    } else {
+      setModalAlert({
+        open: true,
+        type: "error",
+        text: "먼저 컬렉션을 등록해주세요.",
+      });
+      router.back();
+      return;
+    }
   };
 
   // 페이지 진입 시, Initial Form Data 생성
