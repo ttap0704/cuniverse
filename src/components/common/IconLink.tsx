@@ -1,7 +1,9 @@
+"use client";
+
 import { clearTooltipAtom, setTooltipAtom } from "@/store/tooltip";
 import { useSetAtom } from "jotai";
 import Link from "next/link";
-import { useRef } from "react";
+import { HTMLAttributes, useRef } from "react";
 
 // Icon과 함께 사용되는 Link Component
 
@@ -10,6 +12,7 @@ interface IconLinkProps {
   icon: React.ReactNode;
   tooltipText: string;
   target?: "_blank" | "_self";
+  style?: HTMLAttributes<HTMLDivElement>["style"];
 }
 
 function IconLink(props: IconLinkProps) {
@@ -17,6 +20,7 @@ function IconLink(props: IconLinkProps) {
   const icon = props.icon;
   const tooltipText = props.tooltipText;
   const target = props.target;
+  const style = props.style;
 
   // Tooltip에 사용되는 Atom
   const setTooltip = useSetAtom(setTooltipAtom);
@@ -30,6 +34,7 @@ function IconLink(props: IconLinkProps) {
       href={href}
       target={target ?? "_blank"}
       className="icon-link"
+      style={style}
       onMouseEnter={() =>
         setTooltip({
           open: true,

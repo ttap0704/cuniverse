@@ -29,7 +29,26 @@ function TypographyCopy(props: TypographyCopyProps) {
   const contentsRef = useRef<null | HTMLElement>(null);
 
   const copyToClipboard = () => {
-    window.navigator.clipboard.writeText(copyText);
+    if (window.navigator.clipboard) {
+      window.navigator.clipboard.writeText(copyText);
+    } else {
+      const textArea = document.createElement("textarea");
+      textArea.value = copyText;
+      textArea.style.position = "fixed";
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+
+      try {
+        const successful = document.execCommand("copy");
+        const msg = successful ? "successful" : "unsuccessful";
+        console.info(msg);
+      } catch (err) {
+        console.error("Was not possible to copy te text: ", err);
+      }
+
+      document.body.removeChild(textArea);
+    }
     setTooltipText({ text: "복사완료!" });
   };
 

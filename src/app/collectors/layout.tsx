@@ -25,11 +25,6 @@ export async function generateMetadata(): Promise<Metadata> {
     address = searchParams.get("address");
   }
 
-  console.log({
-    xUrl,
-    address,
-  });
-
   if (!address) return CUNIVERSE_METADATA;
 
   const account = await fetchGetCollectorInfo(address);
