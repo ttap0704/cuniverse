@@ -1,3 +1,5 @@
+"use client";
+
 import { useSetAtom } from "jotai";
 import { setDropdownAtom } from "@/store/dropdown";
 import DropdownDefault from "./DropdownDefault";
@@ -22,12 +24,14 @@ function DropdownMenu(props: DropdownMenuProps) {
     setDropdown({ open: false, id: "" });
   };
 
+  console.log({ items });
+
   return (
     <DropdownDefault targetId={targetId}>
       <ul data-testid="dropdown-menu-wrapper">
         {items.map((item) => {
           return (
-            <li key={`dropdown-item-${item.id}`}>
+            <li key={`dropdown-item-${item.id}`} style={{ width: "100%" }}>
               <ButtonDropdownMenuItem
                 data-testid={`dropdown-item-${item.id}`}
                 item={item}
