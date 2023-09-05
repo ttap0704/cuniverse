@@ -4,7 +4,7 @@ import { use } from "react";
 
 export const revalidate = 60;
 
-async function CollectorsCreations({
+function CollectorsCreations({
   searchParams,
 }: {
   searchParams: { address: string };
