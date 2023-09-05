@@ -11,14 +11,6 @@
   backdrop-filter: blur(10px);
   z-index: 6666;
 
-  @include device2XS {
-    padding: 0 10px;
-  }
-
-  @include deviceXS {
-    padding: 0 10px;
-  }
-
   & > div {
     padding: 0 2rem;
     max-width: 1500px;
@@ -28,6 +20,14 @@
     align-items: center;
 
     @include d-flex-justify-between;
+
+    @include device2XS {
+      padding: 0 10px;
+    }
+
+    @include deviceXS {
+      padding: 0 10px;
+    }
 
     #header-logo {
       width: 12rem;
@@ -48,7 +48,7 @@
       }
 
       @include device2XS {
-        width: 5rem;
+        width: 80px;
         a {
           &.large {
             display: none;
@@ -60,7 +60,7 @@
       }
 
       @include deviceXS {
-        width: 7rem;
+        width: 100px;
         a {
           &.large {
             display: none;

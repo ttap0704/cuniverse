@@ -527,6 +527,8 @@
     transition: all 0.5s ease 0s;
 
     & > a {
+      width: calc(100vw - 4rem);
+      max-width: calc(1500px - 4rem);
       height: 100%;
 
       @include d-flex-center;
