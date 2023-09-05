@@ -4,6 +4,8 @@ import ContainerNFTCollections from "@/components/containers/ContainerNFTCollect
 import { fetchGetCollectorsContracts } from "@/utils/api";
 import { use } from "react";
 
+export const revalidate = 60;
+
 function CollectorsCreations({
   searchParams,
 }: {

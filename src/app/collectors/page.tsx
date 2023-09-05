@@ -1,5 +1,7 @@
 import CollectorsCollections from "./collections/page";
 
+export const revalidate = 60;
+
 function CollectorsIndex({
   searchParams,
 }: {

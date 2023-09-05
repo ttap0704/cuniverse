@@ -15,6 +15,8 @@ import BoxNFTPreview from "@/components/boxes/BoxNFTPreview";
 import Tabs from "@/components/common/Tabs";
 import { Metadata } from "next";
 
+export const revalidate = 60;
+
 type CollectionPageProps = {
   searchParams: { address: string };
 };

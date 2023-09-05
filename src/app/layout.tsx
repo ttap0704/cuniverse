@@ -21,7 +21,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={notnSansKR.className}>
+    <html lang="ko" className={notnSansKR.className}>
       <body>
         <ProviderQueryClient>
           <Header />
