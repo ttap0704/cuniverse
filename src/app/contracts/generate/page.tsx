@@ -136,6 +136,7 @@ function AccountSettings() {
       let value = "";
       if (key == "name" && name) value = name;
       else if (key == "symbol" && symbol) value = symbol;
+      else if (key == "royalty") value = "0";
 
       tmpForm.push({
         id: `collection-generate-${key}`,
