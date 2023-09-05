@@ -39,16 +39,6 @@ function ContainerNFTDetail(props: NFTDetail) {
 
   return (
     <div id="container-nft-detail">
-      {!data.deployer.contractId ? (
-        <p className="nft-notice">
-          <span className="red">*</span>
-          <span>
-            플랫폼에 등록되지 않은 NFT입니다. (구매 및 컬렉션 조회{" "}
-            <span className="red">불가</span>)
-          </span>
-        </p>
-      ) : null}
-
       <ContainerNFTDetailIntro
         deployer={data.deployer}
         contract={{

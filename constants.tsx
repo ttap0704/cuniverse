@@ -13,7 +13,7 @@ export const NETWORK_GOERLI = BigInt(5);
 export const SERVER_NAME =
   process.env.NODE_ENV === "development"
     ? "http://localhost:3000"
-    : "http://3.35.89.72";
+    : "https://cu-niverse.com";
 
 // AWS Info
 export const S3_IMAGES_URL =
