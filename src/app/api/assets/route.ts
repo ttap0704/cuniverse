@@ -165,7 +165,7 @@ export async function GET(request: NextRequest, response: NextResponse) {
       },
       deployer: deployer[0] ?? {
         nickname: "알 수 없음",
-        address: "알 수 없음",
+        address: null,
       },
       moreNFTs: more,
       sale,

@@ -4,6 +4,7 @@ import { getShortAddress } from "@/utils/tools";
 import Link from "next/link";
 import ImageCuniverse from "../common/ImageCuniverse";
 import ButtonNFTBuy from "../buttons/ButtonNFTBuy";
+import IconLink from "../common/IconLink";
 
 interface ContainerNFTDetailIntroProps {
   image: string;
@@ -42,27 +43,55 @@ function ContainerNFTDetailIntro(props: ContainerNFTDetailIntroProps) {
       </div>
       <BoxWhite>
         <h2>
-          {contract.title.length > 0
-            ? contract.title
-            : getShortAddress(contract.address)}
+          <IconLink
+            target="_self"
+            style={{ padding: 0 }}
+            href={`/collection?address=${contract.address}`}
+            icon={
+              contract.title.length > 0
+                ? contract.title
+                : getShortAddress(contract.address)
+            }
+            tooltipText="컬렉션 페이지"
+          />
         </h2>
         <h1>{name}</h1>
         <div className="info-box">
           <div>
             <h4>창작자</h4>
-            <Link href={`/collectors?address=${deployer.address}`}>
-              {deployer.nickname !== null
-                ? deployer.nickname
-                : getShortAddress(deployer.address)}
-            </Link>
+            {deployer.address ? (
+              <IconLink
+                target="_self"
+                style={{ padding: 0 }}
+                href={`/collectors?address=${deployer.address}`}
+                icon={
+                  deployer.nickname !== null
+                    ? deployer.nickname
+                    : getShortAddress(deployer.address)
+                }
+                tooltipText="창작자 페이지"
+              />
+            ) : (
+              deployer.nickname
+            )}
           </div>
           <div>
             <h4>소유자</h4>
-            <Link href={`/collectors?address=${owner.address}`}>
-              {owner.nickname !== null
-                ? owner.nickname
-                : getShortAddress(owner.address)}
-            </Link>
+            {owner.address ? (
+              <IconLink
+                target="_self"
+                style={{ padding: 0 }}
+                href={`/collectors?address=${owner.address}`}
+                icon={
+                  owner.nickname !== null
+                    ? owner.nickname
+                    : getShortAddress(owner.address)
+                }
+                tooltipText="소유자 페이지"
+              />
+            ) : (
+              owner.nickname
+            )}
           </div>
           <div>
             <h4>창작자 수익</h4>
