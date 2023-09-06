@@ -12,6 +12,11 @@ export async function POST(request: NextRequest) {
     try {
       const projectId = process.env.INFURA_IPFS_KEY;
       const projectSecret = process.env.INFURA_IPFS_KEY_SECRET;
+
+      console.log({
+        projectId,
+        projectSecret,
+      });
       const auth = `Basic ${Buffer.from(
         `${projectId}:${projectSecret}`
       ).toString("base64")}`;
