@@ -28,7 +28,13 @@ function ContainerBanner(props: ContainerBannerProps) {
 
   return (
     <div className="container-banner">
-      <ImageCuniverse src={defaultUri} alt="test" loading="lazy" fill={true} />
+      <ImageCuniverse
+        src={defaultUri}
+        alt="test"
+        loading="lazy"
+        width={1500}
+        height={300}
+      />
       {isLoading ? (
         <LoadingWaterDrop />
       ) : edit ? (

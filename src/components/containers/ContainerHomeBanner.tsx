@@ -100,7 +100,8 @@ function ContainerHomeBanner(props: ContainerHomeBannerProps) {
                 <ImageCuniverse
                   src={S3_IMAGES_URL + "/images/" + banner.image}
                   alt="link-banner"
-                  fill={true}
+                  width={1080}
+                  height={450}
                 />
               </div>
             </Link>

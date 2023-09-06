@@ -31,7 +31,12 @@ function ContainerProfileImage(props: ContainerProfileImageProps) {
     <div id="container-profile-image">
       <div>
         <div>
-          <ImageCuniverse src={defaultUri} alt="test" fill={true} />
+          <ImageCuniverse
+            src={defaultUri}
+            alt="account-profile"
+            width={180}
+            height={180}
+          />
           {isLoading ? (
             <LoadingWaterDrop />
           ) : edit ? (

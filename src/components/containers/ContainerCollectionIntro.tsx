@@ -50,6 +50,7 @@ function ContainerCollectionIntro(props: ContainerCollectionIntroProps) {
           <span>콘트랙트</span>
           <div>
             <ImageCuniverse
+              fixed={true}
               src={etherSvg}
               alt="ethereum-logo"
               width={16}
@@ -66,6 +67,7 @@ function ContainerCollectionIntro(props: ContainerCollectionIntroProps) {
           <span>창작자</span>
           <div>
             <ImageCuniverse
+              fixed={true}
               src={etherSvg}
               alt="ethereum-logo"
               width={16}

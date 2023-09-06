@@ -52,7 +52,8 @@ function InputWithLabel(props: InputWithLabelProps) {
               <ImageCuniverse
                 src={`${imagePath}`}
                 alt="uploaded-image"
-                fill={true}
+                width={210}
+                height={210}
               />
             ) : (
               <video src={`${imagePath}`} loop={true} />

@@ -67,6 +67,7 @@ function ContainerContentIntro(props: ContainerContentIntroProps) {
       <div className="address-wrapper">
         {/* Wallet Address */}
         <ImageCuniverse
+          fixed={true}
           src={etherSvg}
           alt="ethereum-logo"
           width={16}

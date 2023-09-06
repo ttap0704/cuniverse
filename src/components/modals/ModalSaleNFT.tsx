@@ -14,16 +14,7 @@ import { setModalAlertAtom } from "@/store/modalAlert";
 import ethersBrowserProvider from "@/utils/ethersBrowserProvider";
 import { Contract, hashMessage, solidityPackedKeccak256 } from "ethers";
 import NFTJson from "@/contracts/NFT.json";
-import {
-  CUNIVERSE_HUB_ADDRESS,
-  NETWORK_SEPOLIA,
-  NFT_SALE_SIGN_TEXT1,
-  NFT_SALE_SIGN_TEXT2,
-  NFT_SALE_SIGN_TEXT3,
-  NFT_SALE_SIGN_TEXT4,
-  NFT_SALE_SIGN_TEXT5,
-  SUPER_ADMIN_ADDRESS,
-} from "../../../constants";
+import { CUNIVERSE_HUB_ADDRESS, NETWORK_SEPOLIA } from "../../../constants";
 import useAccountQuery from "@/queries/useAccountQuery";
 import {
   fetchGetContractSpecificMetadata,
@@ -292,7 +283,7 @@ function ModalSaleNFT(props: ModalSaleNFTProps) {
       <div className="modal-sale-nft-contents">
         <div className="nft-intro">
           <div>
-            <ImageCuniverse src={image} alt={name} fill={true} />
+            <ImageCuniverse src={image} alt={name} width={80} height={80} />
           </div>
           <div>
             <h3>{NFT.name}</h3>
