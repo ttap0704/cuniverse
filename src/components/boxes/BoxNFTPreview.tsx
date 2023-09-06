@@ -39,7 +39,12 @@ function BoxNFTPreview(props: BoxNFTPreviewProps) {
         <div className="preview-image-wrapper">
           {/* NFT Raw Metadata 여부에 따른 UI 분리 */}
           {nft && nft.image ? (
-            <ImageCuniverse src={nft.image} alt={nft.name ?? ""} fill={true} />
+            <ImageCuniverse
+              src={nft.image}
+              alt={nft.name ?? ""}
+              width={350}
+              height={350}
+            />
           ) : (
             <div></div>
           )}

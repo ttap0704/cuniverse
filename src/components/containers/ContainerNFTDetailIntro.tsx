@@ -39,7 +39,7 @@ function ContainerNFTDetailIntro(props: ContainerNFTDetailIntroProps) {
   return (
     <div className="container-nft-detail-intro">
       <div className="nft-detail-image-wrapper">
-        <ImageCuniverse src={image} alt={name} fill={true} />
+        <ImageCuniverse src={image} alt={name} width={600} height={600} />
       </div>
       <BoxWhite>
         <h2>

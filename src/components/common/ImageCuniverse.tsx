@@ -4,8 +4,12 @@ import * as ImageCompoennt from "next/image";
 import NoPickture from "@/images/no-picture.png";
 import { useEffect, useState } from "react";
 
-function ImageCuniverse(props: ImageCompoennt.ImageProps) {
-  const { src } = props;
+interface ImageCuniverseProps extends ImageCompoennt.ImageProps {
+  fixed?: boolean;
+}
+
+function ImageCuniverse(props: ImageCuniverseProps) {
+  const { src, fixed, width, height } = props;
   const [imageSrc, setImageSrc] = useState(
     typeof src == "string" && !src.includes("/") ? `/${src}` : src
   );
@@ -19,7 +23,11 @@ function ImageCuniverse(props: ImageCompoennt.ImageProps) {
       {...props}
       src={imageSrc}
       onError={(err) => setImageSrc(NoPickture)}
-      style={{ objectFit: props.width && props.height ? "unset" : "cover" }}
+      style={
+        fixed
+          ? { width, height }
+          : { objectFit: "cover", width: "100%", height: "100%" }
+      }
     />
   );
 }

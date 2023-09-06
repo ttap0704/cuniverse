@@ -21,7 +21,8 @@ function BoxNFTCollection(props: BoxNFTCollectionProps) {
           <ImageCuniverse
             src={`${S3_IMAGES_URL}/images/${banner}`}
             alt={`${name}-banner`}
-            fill={true}
+            width={576}
+            height={576 * 0.75}
           />
         ) : (
           <HiOutlinePhoto />
@@ -33,7 +34,8 @@ function BoxNFTCollection(props: BoxNFTCollectionProps) {
             <ImageCuniverse
               src={`${S3_IMAGES_URL}/images/${profile}`}
               alt={`${name}-profile`}
-              fill={true}
+              width={64}
+              height={64}
             />
           ) : (
             <HiOutlinePhoto />
