@@ -12,11 +12,6 @@ export async function POST(request: NextRequest) {
     try {
       const projectId = process.env.INFURA_IPFS_KEY;
       const projectSecret = process.env.INFURA_IPFS_KEY_SECRET;
-
-      console.log({
-        projectId,
-        projectSecret,
-      });
       const auth = `Basic ${Buffer.from(
         `${projectId}:${projectSecret}`
       ).toString("base64")}`;
@@ -34,7 +29,6 @@ export async function POST(request: NextRequest) {
       const requestURI = "https://ipfs.infura.io:5001/api/v0/add";
 
       const response = await fetch(requestURI, requestOptions);
-      console.log({ "mint response": response });
       const responseJson = await response.json();
 
       if (responseJson["Hash"] && responseJson["Hash"].length > 0) {
