@@ -1,6 +1,7 @@
 import { useState } from "react";
 import ModalConfirm from "./ModalConfirm";
 import ButtonRadioWithDescription from "../buttons/ButtonRadioWithDescription";
+import modalStyles from "@/css/components/modals.module.scss";
 
 interface ModalConfirmGenerateContractProps {
   open: boolean;
@@ -55,7 +56,7 @@ function ModalConfirmGenerateContract(
       buttonText="생성하기"
       onClose={onClose}
     >
-      <div className="modal-confrim-generate-contract-contents">
+      <div className={modalStyles["modal-confrim-generate-contract-contents"]}>
         {radioOptions.map((option, optionIdx) => {
           return (
             <ButtonRadioWithDescription

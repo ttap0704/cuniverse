@@ -1,4 +1,5 @@
 import { memo } from "react";
+import typographyStyles from "@/css/components/typography.module.scss";
 
 interface TypographyInputLabelProps {
   id: string;
@@ -10,7 +11,7 @@ function TypographyInputLabel(props: TypographyInputLabelProps) {
   const { id, labelText, required } = props;
 
   return (
-    <label htmlFor={id} className="typography-input-label">
+    <label htmlFor={id} className={typographyStyles["typography-input-label"]}>
       {labelText}
       {required ? <span>*</span> : null}
     </label>

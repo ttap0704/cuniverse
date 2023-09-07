@@ -4,6 +4,7 @@ import { PropsWithChildren, useEffect, useState } from "react";
 import Button from "../buttons/Button";
 import { IoClose } from "react-icons/io5";
 import LoadingWaterDrop from "../common/LoadingWaterDrop";
+import modalStyles from "@/css/components/modals.module.scss";
 
 interface ModalConfirmProps extends PropsWithChildren {
   open: boolean;
@@ -34,16 +35,21 @@ function ModalConfirm(props: ModalConfirmProps) {
   };
 
   return open || modalOpen ? (
-    <div className="modal-confirm-wrapper" style={{ opacity: opacity }}>
-      <div className="modal-confrim-contents-wrapper">
+    <div
+      className={modalStyles["modal-confirm-wrapper"]}
+      style={{ opacity: opacity }}
+    >
+      <div className={modalStyles["modal-confrim-contents-wrapper"]}>
         {loading ? <LoadingWaterDrop /> : null}
-        <div className="modal-confirm-contents">
-          <div className="modal-confrim-header">
+        <div className={modalStyles["modal-confirm-contents"]}>
+          <div className={modalStyles["modal-confrim-header"]}>
             <h2>{title}</h2>
             <IoClose onClick={onClose} />
           </div>
-          <div className="modal-confirm-contents">{children}</div>
-          <div className="modal-confirm-button">
+          <div className={modalStyles["modal-confirm-contents"]}>
+            {children}
+          </div>
+          <div className={modalStyles["modal-confirm-button"]}>
             <Button onClick={handleConfirm}>{buttonText}</Button>
           </div>
         </div>

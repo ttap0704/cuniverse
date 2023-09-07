@@ -13,8 +13,8 @@ import { useEffect, useState } from "react";
 import { PLATFORM_LINKS } from "../../../constants";
 import { FaGear } from "react-icons/fa6";
 import LoadingSpinner from "../common/LoadingSpinner";
-import useCollectorQuery from "@/queries/useCollectorQuery";
 import ImageCuniverse from "../common/ImageCuniverse";
+import containerStyles from "@/css/components/containers.module.scss";
 
 // Collectors(Accounts) 페이지에서 사용되는
 // 사용자 소개 Component
@@ -49,8 +49,8 @@ function ContainerContentIntro(props: ContainerContentIntroProps) {
   if (isLoading) return <LoadingSpinner />;
 
   return (
-    <div className="container-content-intro">
-      <div className="nickname-wrapper">
+    <div className={containerStyles["container-content-intro"]}>
+      <div className={containerStyles["nickname-wrapper"]}>
         <TypographyContentTitle
           title={account?.nickname ? account.nickname : "Unnamed"}
         />
@@ -64,7 +64,7 @@ function ContainerContentIntro(props: ContainerContentIntroProps) {
           />
         )}
       </div>
-      <div className="address-wrapper">
+      <div className={containerStyles["address-wrapper"]}>
         {/* Wallet Address */}
         <ImageCuniverse
           fixed={true}
@@ -76,11 +76,13 @@ function ContainerContentIntro(props: ContainerContentIntroProps) {
         <TypographyCopy
           text={account?.address ? getShortAddress(account.address) : ""}
           copyText={account?.address ?? ""}
-          className="intro-address"
+          className={containerStyles["intro-address"]}
         />
-        <span className="joined">Joined {account?.createdAt}</span>
+        <span className={containerStyles["joined"]}>
+          Joined {account?.createdAt}
+        </span>
       </div>
-      <div className="links-wrapper">
+      <div className={containerStyles["links-wrapper"]}>
         {/* Links */}
         {links.map((link, linkIdx) => {
           return (

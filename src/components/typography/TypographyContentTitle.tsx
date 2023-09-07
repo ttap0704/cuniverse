@@ -1,4 +1,5 @@
 import { memo } from "react";
+import typographyStyles from "@/css/components/typography.module.scss";
 
 interface TypographyContentTitleProps {
   title: string;
@@ -7,7 +8,9 @@ interface TypographyContentTitleProps {
 function TypographyContentTitle(props: TypographyContentTitleProps) {
   const title = props.title;
 
-  return <h1 className="typography-content-title">{title}</h1>;
+  return (
+    <h1 className={typographyStyles["typography-content-title"]}>{title}</h1>
+  );
 }
 
 export default memo(TypographyContentTitle, (prev, cur) => {

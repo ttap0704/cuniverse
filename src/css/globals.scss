@@ -1,15 +1,6 @@
 @import "./variables";
 @import "./mixins";
 @import "./breakpoints.scss";
-@import "./components/common.scss";
-@import "./components/buttons.scss";
-@import "./components/dropdowns.scss";
-@import "./components/inputs.scss";
-@import "./components/containers.scss";
-@import "./components/boxes.scss";
-@import "./components/typography.scss";
-@import "./components/modals.scss";
-@import "./components/table.scss";
 
 * {
   padding: 0;
@@ -74,16 +65,6 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
-#layout-background {
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
-  z-index: -1;
-  background: $pink;
-  background: -webkit-linear-gradient(to bottom, $pink, $deep-purple, $deep-blue);
-  background: linear-gradient(to bottom, $pink, $deep-purple, $deep-blue);
-}
-
 #main-contents-container {
   padding: 5rem 2rem;
   display: flex;
@@ -111,13 +92,4 @@ button {
     color: $black-30 !important;
     cursor: inherit;
   }
-}
-
-.triangle-bottom-small {
-  width: 0px;
-  height: 0px;
-  border-top: 7.5px solid $white-100;
-  border-left: 7.5px solid transparent;
-  border-right: 7.5px solid transparent;
-  margin: 0 auto;
 }

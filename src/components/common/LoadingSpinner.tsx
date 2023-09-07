@@ -1,3 +1,5 @@
+import commonStyles from "@/css/components/common.module.scss";
+
 interface LoadingSpinnerProps {
   color?: "black" | "white";
 }
@@ -6,7 +8,7 @@ function LoadingSpinner(props: LoadingSpinnerProps) {
   const color = props.color;
   const strokeColor = color === "black" ? "#666" : "#fff";
   return (
-    <div className="loading-spinner">
+    <div className={commonStyles["loading-spinner"]}>
       <svg
         viewBox="0 0 38 38"
         width="75"

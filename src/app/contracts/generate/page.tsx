@@ -6,11 +6,7 @@ import ContainerForm from "@/components/containers/ContainerForm";
 import InputWithLabel from "@/components/inputs/InputWithLabel";
 import useAccountQuery from "@/queries/useAccountQuery";
 import { setModalAlertAtom } from "@/store/modalAlert";
-import {
-  fetchCheckOwnContract,
-  fetchCreateConllection,
-  fetchUploadIPFS,
-} from "@/utils/api";
+import { fetchCheckOwnContract, fetchCreateConllection } from "@/utils/api";
 import { base64ToFile, uploadImageToS3 } from "@/utils/tools";
 import validations from "@/utils/validations";
 import { useSetAtom } from "jotai";
@@ -22,6 +18,7 @@ import LoadingWaterDrop from "@/components/common/LoadingWaterDrop";
 import { useRouter, useSearchParams } from "next/navigation";
 import WrongApproach from "@/components/common/WrongApproach";
 import TypographyFormTitle from "@/components/typography/TypographyFormTitle";
+import buttonStyles from "@/css/components/buttons.module.scss";
 
 const generateKeys: UpdateContractKeys[] = [
   "banner",
@@ -136,7 +133,6 @@ function AccountSettings() {
       let value = "";
       if (key == "name" && name) value = name;
       else if (key == "symbol" && symbol) value = symbol;
-      else if (key == "royalty") value = "0";
 
       tmpForm.push({
         id: `collection-generate-${key}`,
@@ -325,7 +321,7 @@ function AccountSettings() {
               validation={validations["contractAddress"]}
               required={true}
             />
-            <Button onClick={checkOwnContract} className="fill">
+            <Button onClick={checkOwnContract} className={buttonStyles["fill"]}>
               불러오기
             </Button>
           </ContainerForm>

@@ -1,4 +1,5 @@
 import React from "react";
+import buttonStyles from "@/css/components/buttons.module.scss";
 
 interface DropdownMenuItemProps {
   item: DropdownMenuItem;
@@ -17,7 +18,7 @@ function ButtonDropdownMenuItem(props: DropdownMenuItemProps) {
 
   return (
     <button
-      className="button-dropdown-menu"
+      className={buttonStyles["button-dropdown-menu"]}
       onClick={handleDropdownItemClick}
       data-testid={`button-dropdown-menu-${item.id}`}
     >

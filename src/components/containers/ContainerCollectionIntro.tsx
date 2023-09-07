@@ -4,8 +4,8 @@ import ContainerSeeMore from "./ContainerSeeMore";
 import TypographyCopy from "../typography/TypographyCopy";
 import { getShortAddress } from "@/utils/tools";
 import etherSvg from "@/images/ethereum-eth-logo.svg";
-import Image from "next/image";
 import ImageCuniverse from "../common/ImageCuniverse";
+import containerStyles from "@/css/components/containers.module.scss";
 
 interface ContainerCollectionIntroProps {
   name: string;
@@ -27,11 +27,11 @@ function ContainerCollectionIntro(props: ContainerCollectionIntroProps) {
   } = props;
 
   return (
-    <div className="container-content-intro">
-      <div className="nickname-wrapper">
+    <div className={containerStyles["container-content-intro"]}>
+      <div className={containerStyles["nickname-wrapper"]}>
         <TypographyContentTitle title={name} />
       </div>
-      <div className="count-wrapper">
+      <div className={containerStyles["count-wrapper"]}>
         <div>
           <span>NFT</span>
           <p>
@@ -39,14 +39,16 @@ function ContainerCollectionIntro(props: ContainerCollectionIntroProps) {
             <span>개</span>
           </p>
         </div>
-        <div className="count-divider" />
+        <div className={containerStyles["count-divider"]} />
         <div>
           <span>Symbol</span>
           <p>{symbol}</p>
         </div>
       </div>
-      <div className="address-container">
-        <div className="address-wrapper with-title">
+      <div className={containerStyles["address-container"]}>
+        <div
+          className={`${containerStyles["address-wrapper"]} ${containerStyles["with-title"]}`}
+        >
           <span>콘트랙트</span>
           <div>
             <ImageCuniverse
@@ -59,11 +61,11 @@ function ContainerCollectionIntro(props: ContainerCollectionIntroProps) {
             <TypographyCopy
               text={getShortAddress(contractAddress)}
               copyText={contractAddress}
-              className="intro-address"
+              className={containerStyles["intro-address"]}
             />
           </div>
         </div>
-        <div className="address-wrapper with-title">
+        <div className={containerStyles["address-wrapper with-title"]}>
           <span>창작자</span>
           <div>
             <ImageCuniverse
@@ -76,7 +78,7 @@ function ContainerCollectionIntro(props: ContainerCollectionIntroProps) {
             <TypographyCopy
               text={getShortAddress(deployerAddress)}
               copyText={deployerAddress}
-              className="intro-address"
+              className={containerStyles["intro-address"]}
             />
           </div>
         </div>

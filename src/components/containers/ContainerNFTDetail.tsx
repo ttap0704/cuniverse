@@ -5,6 +5,7 @@ import ContainerSeeMore from "./ContainerSeeMore";
 import BoxNFTPreview from "../boxes/BoxNFTPreview";
 import { getShortAddress } from "@/utils/tools";
 import Table from "../table/Table";
+import containerStyles from "@/css/components/containers.module.scss";
 
 // NFT Detail 정보 표기
 
@@ -38,7 +39,10 @@ function ContainerNFTDetail(props: NFTDetail) {
   });
 
   return (
-    <div id="container-nft-detail">
+    <div
+      id="container-nft-detail"
+      className={containerStyles["container-nft-detail"]}
+    >
       <ContainerNFTDetailIntro
         deployer={data.deployer}
         contract={{
@@ -61,15 +65,17 @@ function ContainerNFTDetail(props: NFTDetail) {
 
       {data.attributes !== undefined && data.attributes.length > 0 ? (
         <BoxWithTitle
-          className="nft-attributes"
+          className={containerStyles["nft-attributes"]}
           title="NFT 속성"
           style={{ marginBottom: "2rem" }}
         >
           <div>
             {data.attributes.map((attribute) => (
               <div key={`nft-attribute-${attribute.trait_type}`}>
-                <span className="trait">{attribute.trait_type}</span>
-                <span className="value">
+                <span className={containerStyles["trait"]}>
+                  {attribute.trait_type}
+                </span>
+                <span className={containerStyles["value"]}>
                   <span>{attribute.value}</span>
                   {/* <span>
                     {(Number(attribute.prevalence) * 100).toFixed(2)}%
@@ -84,7 +90,7 @@ function ContainerNFTDetail(props: NFTDetail) {
       <BoxWithTitle
         title="이벤트 로그"
         style={{ marginBottom: "2rem" }}
-        className="nft-logs"
+        className={containerStyles["nft-logs"]}
       >
         <Table
           keys={["name", "hash", "from", "to"]}
@@ -96,7 +102,7 @@ function ContainerNFTDetail(props: NFTDetail) {
 
       {data.moreNFTs.length > 0 ? (
         <BoxWithTitle title="MORE" style={{ marginBottom: "2rem" }}>
-          <div className="more-nfts">
+          <div className={containerStyles["more-nfts"]}>
             <div>
               {data.moreNFTs.map((item) => {
                 return (

@@ -7,6 +7,7 @@ import { HiOutlineWallet } from "react-icons/hi2";
 import { useEffect } from "react";
 import useAccountLogoutMutation from "@/queries/useAccountLogoutMutation";
 import ethersBrowserProvider from "@/utils/ethersBrowserProvider";
+import buttonStyles from "@/css/components/buttons.module.scss";
 
 function ButtonConnectWallet() {
   const { mutate: logout } = useAccountLogoutMutation();
@@ -40,7 +41,7 @@ function ButtonConnectWallet() {
   return (
     <ButtonHeader
       testid="header-connect-wallet"
-      className="info"
+      className={buttonStyles["info"]}
       onClick={handleConnetWallet}
     >
       <HiOutlineWallet />

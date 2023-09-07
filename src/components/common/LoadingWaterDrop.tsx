@@ -1,6 +1,8 @@
+import commonStyles from "@/css/components/common.module.scss";
+
 function LoadingWaterDrop() {
   return (
-    <div className="loading-water-drop">
+    <div className={commonStyles["loading-water-drop"]}>
       <svg viewBox="0 0 44 44" stroke="#fff" width="75" role="progressbar">
         <g fill="none" fillRule="evenodd" strokeWidth="2">
           <circle cx="22" cy="22" r="1">

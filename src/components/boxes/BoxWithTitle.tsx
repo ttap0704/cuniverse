@@ -1,4 +1,5 @@
 import { HTMLAttributes } from "react";
+import boxStyles from "@/css/components/boxes.module.scss";
 
 interface BoxWithTitleProps {
   children: React.ReactNode;
@@ -14,7 +15,10 @@ function BoxWithTitle(props: BoxWithTitleProps) {
   const className = props.className ?? "";
 
   return (
-    <div className={`box-with-title ${className}`} style={{ ...style }}>
+    <div
+      className={`${boxStyles["box-with-title"]} ${className}`}
+      style={{ ...style }}
+    >
       <h2>{title}</h2>
       {children}
     </div>

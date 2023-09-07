@@ -2,9 +2,10 @@ import ButtonImageUpload from "../buttons/ButtonImageUpload";
 import Input from "./Input";
 import InputImage from "./InputImage";
 import { HiOutlinePhoto } from "react-icons/hi2";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import TypographyInputLabel from "../typography/TypographyInputLabel";
 import ImageCuniverse from "../common/ImageCuniverse";
+import inputStyles from "@/css/components/inputs.module.scss";
 
 // 정보 수정 / 추가에 사용되는 Input Component
 
@@ -41,10 +42,14 @@ function InputWithLabel(props: InputWithLabelProps) {
   };
 
   return (
-    <div className="input-width-label">
+    <div className={inputStyles["input-width-label"]}>
       <TypographyInputLabel id={id} labelText={labelText} required={required} />
       {type == "file" ? (
-        <div className={`file-input-wrapper ${id}-wrapper`}>
+        <div
+          className={`${inputStyles["file-input-wrapper"]} ${
+            id ? inputStyles[`${id}-wrapper`] : ""
+          }`}
+        >
           <ButtonImageUpload targetId={id} />
           <InputImage id={id} onChange={handleFile} />
           {`${imagePath}`.length !== 0 ? (

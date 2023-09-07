@@ -1,4 +1,5 @@
 import { HTMLAttributes, PropsWithChildren } from "react";
+import tableStyles from "@/css/components/table.module.scss";
 
 interface TableRowProps extends PropsWithChildren {
   style?: HTMLAttributes<HTMLDivElement>["style"];
@@ -6,7 +7,7 @@ interface TableRowProps extends PropsWithChildren {
 
 function TableRow({ children, style }: TableRowProps) {
   return (
-    <div style={style} className="table-row">
+    <div style={style} className={tableStyles["table-row"]}>
       {children}
     </div>
   );

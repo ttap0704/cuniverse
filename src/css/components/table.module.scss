@@ -1,3 +1,7 @@
+@import "../variables.scss";
+@import "../mixins.scss";
+@import "../breakpoints.scss";
+
 .table {
   width: 100%;
   min-width: 500px;

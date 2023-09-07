@@ -13,6 +13,8 @@ import useAccountQuery from "@/queries/useAccountQuery";
 import ImageCuniverse from "./ImageCuniverse";
 import LogoLarge from "@/images/logo-large.png";
 import LogoSmall from "@/images/logo-small.png";
+import buttonStyles from "@/css/components/buttons.module.scss";
+import commonStyles from "@/css/components/common.module.scss";
 
 // 개인정보란 클릭 시, 생성되는 Dropdown Menu Items
 const headerDropdownMenu: DropdownMenuItem[] = [
@@ -47,31 +49,46 @@ function Header() {
 
   return (
     <>
-      <nav id="header" data-testid="header" className="contents-container">
+      <nav
+        id="header"
+        data-testid="header"
+        className={`${commonStyles["header"]} ${commonStyles["contents-container"]}`}
+      >
         <div>
-          <div id="header-logo">
-            <Link href="/" data-testid="header-anchor" className="large">
+          <div id="header-logo" className={commonStyles["header-logo"]}>
+            <Link
+              href="/"
+              data-testid="header-anchor"
+              className={commonStyles["large"]}
+            >
               <ImageCuniverse
                 src={LogoLarge}
                 alt="cuniverse-logo"
-                fill={true}
+                width={180}
+                height={45}
               />
             </Link>
-            <Link href="/" data-testid="header-anchor" className="small">
+            <Link
+              href="/"
+              data-testid="header-anchor"
+              className={commonStyles["small"]}
+            >
               <ImageCuniverse
                 src={LogoSmall}
                 alt="cuniverse-logo"
-                fill={true}
+                width={100}
+                height={39}
               />
             </Link>
           </div>
-          <div id="header-contents">
+          <div id="header-contents" className={commonStyles["header-contents"]}>
             <ButtonConnectWallet />
             {account ? (
               <ButtonHeader
                 onClick={() => setDropdown({ open: true, id: "header-menu" })}
                 testid="header-menu"
                 id="header-menu"
+                className={buttonStyles["header-menu"]}
               >
                 <FiSmile />
               </ButtonHeader>

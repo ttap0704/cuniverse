@@ -4,6 +4,7 @@ import { clearTooltipAtom, setTooltipAtom } from "@/store/tooltip";
 import { useSetAtom } from "jotai";
 import Link from "next/link";
 import { HTMLAttributes, useRef } from "react";
+import commonStyles from "@/css/components/common.module.scss";
 
 // Icon과 함께 사용되는 Link Component
 
@@ -33,7 +34,7 @@ function IconLink(props: IconLinkProps) {
       ref={iconRef}
       href={href}
       target={target ?? "_blank"}
-      className="icon-link"
+      className={commonStyles["icon-link"]}
       style={style}
       onMouseEnter={() =>
         setTooltip({
