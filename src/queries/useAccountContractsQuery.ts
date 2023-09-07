@@ -10,6 +10,8 @@ const useAccountContractsQuery = (accountId: number | undefined) => {
     staleTime: Infinity,
     cacheTime: 0,
     enabled: accountId !== undefined,
+    retry: 0,
+    refetchOnMount: false,
   });
 };
 

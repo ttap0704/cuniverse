@@ -454,7 +454,8 @@
     & > div {
       display: flex;
       gap: 1rem;
-      .box-nft-preview {
+
+      & > div {
         @include device2XS {
           width: 180px;
           min-width: 180px;
