@@ -61,6 +61,8 @@
   position: absolute;
   border: none;
   opacity: 0;
+  top: 0;
+  left: 0;
 
   @include transition-03;
   @include d-flex-center;
