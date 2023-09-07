@@ -49,6 +49,7 @@ function AssetsIndex({ searchParams }: AssetsPageProps) {
   // Query String으로 address, tokenId 필요
   const address = searchParams["contract"];
   const tokenId = searchParams["token-id"];
+  if (!address || !tokenId) return <WrongApproach />;
 
   const data = use(fetchGetNFTMetadata(address, tokenId));
 
@@ -57,7 +58,13 @@ function AssetsIndex({ searchParams }: AssetsPageProps) {
   if (!data) {
     return <WrongApproach />;
   } else {
-    return <ContainerNFTDetail {...data}></ContainerNFTDetail>;
+    return (
+      <ContainerNFTDetail
+        data={data}
+        address={address}
+        tokenId={tokenId}
+      ></ContainerNFTDetail>
+    );
   }
 }
 

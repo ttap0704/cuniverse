@@ -65,7 +65,9 @@ function ContainerCollectionIntro(props: ContainerCollectionIntroProps) {
             />
           </div>
         </div>
-        <div className={containerStyles["address-wrapper with-title"]}>
+        <div
+          className={`${containerStyles["address-wrapper"]} ${containerStyles["with-title"]}`}
+        >
           <span>창작자</span>
           <div>
             <ImageCuniverse

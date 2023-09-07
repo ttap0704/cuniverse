@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import db from "../db";
 import { Contract } from "ethers";
 import ethersServerProvider from "@/utils/ethersServerProvider";
-import { ZERO_ADDRESS } from "../../../../constants";
 import { ipfsToHttps } from "@/utils/tools";
 import NFTJson from "@/contracts/NFT.json";
 
@@ -71,74 +70,6 @@ export async function GET(request: NextRequest, response: NextResponse) {
     });
     const sale = saleResponse[0] ?? null;
 
-    // "Transfer" 사용자간 로그 가져오기
-    const logs: NFTTransferLog[] = [];
-    const transferFilter = contract.filters.Transfer(null, null, tokenId);
-    const transferEvents = await contract.queryFilter(transferFilter);
-    for (let i = transferEvents.length - 1; i >= 0; i--) {
-      const curLog = transferEvents[i];
-      const log = contract.interface.parseLog({
-        data: curLog.data,
-        topics: curLog.topics as string[],
-      });
-
-      if (!log) continue;
-      logs.push({
-        from: log.args[0],
-        to: log.args[1],
-        hash: curLog.transactionHash,
-        name: log.name,
-      });
-    }
-
-    // "Transfer" mint 이벤트 로그 가져오기
-    const mintFilter = contract.filters.Transfer(ZERO_ADDRESS, null, null);
-    const latestBlock = await ethersServerProvider.getBlock("latest");
-    const latestBlockNumber = Number(latestBlock?.number) - 1;
-    const mintEvents = await contract.queryFilter(
-      mintFilter,
-      Math.max(latestBlockNumber - 500000, 0),
-      latestBlockNumber
-    );
-    const more: NFTMetadata[] = [];
-
-    for (let i = mintEvents.length - 1; i >= 0; i--) {
-      // 추천 NFT는 10개 까지
-      if (more.length >= 10) break;
-
-      const curLog = mintEvents[i];
-      const log = contract.interface.parseLog({
-        data: curLog.data,
-        topics: curLog.topics as string[],
-      });
-
-      // from == '0x0000000000000000000000000000000000000000' 일 때가 Mint이기 때문에
-      // 해당 address만 필터링
-      if (!log) continue;
-
-      try {
-        const abortController = new AbortController();
-        const timeout = setTimeout(() => abortController.abort(), 1000);
-
-        let metadataUrl: string = ipfsToHttps(
-          await contract.getFunction("tokenURI").staticCall(log.args[2])
-        );
-
-        const metadataResponse = await fetch(`${metadataUrl}`, {
-          signal: abortController.signal,
-        });
-        clearTimeout(timeout);
-
-        const metadata: NFTMetadata = {
-          ...(await metadataResponse.json()),
-          tokenId: BigInt(log.args[2]).toString(),
-        };
-        more.push(metadata);
-      } catch (err) {
-        // console.log(err);
-      }
-    }
-
     // 창작자 로열티 할당하기
     try {
       const royaltyInfo = contract.getFunction("royaltyInfo");
@@ -167,10 +98,8 @@ export async function GET(request: NextRequest, response: NextResponse) {
         nickname: "알 수 없음",
         address: null,
       },
-      moreNFTs: more,
       sale,
       royalty,
-      logs,
     };
   }
 

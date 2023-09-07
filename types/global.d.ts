@@ -182,10 +182,8 @@ declare global {
     contract: { name: string; address: string };
     owners: { nickname: string; address: string };
     deployer: { nickname: string; address: string; contractId?: number };
-    moreNFTs: NFTMetadata[];
     sale: SalesDetail | null;
     royalty: number;
-    logs: NFTTransferLog[];
   }
 
   // Contract Detail

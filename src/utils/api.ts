@@ -233,6 +233,24 @@ export async function fetchGetNFTMetadata(address: string, tokenId: string) {
   return res;
 }
 
+// More NFT For Contract API
+export async function fetchGetNFTMore(address: string, tokenId: string) {
+  const res: NFTMetadata[] | null = await fetchGetApi(
+    `/utils/more-nft?address=${address}&token-id=${tokenId}`,
+    { cache: "no-store" }
+  );
+  return res;
+}
+
+// GET NFT Transfer Logs  API
+export async function fetchGetNFTLogs(address: string, tokenId: string) {
+  const res: NFTTransferLog[] | null = await fetchGetApi(
+    `/utils/nft-logs?address=${address}&token-id=${tokenId}`,
+    { cache: "no-store" }
+  );
+  return res;
+}
+
 // Collction Insert API
 export async function fetchCreateConllection(body: {
   data: CreateContractRequest;
