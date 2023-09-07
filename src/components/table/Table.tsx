@@ -1,12 +1,13 @@
 import TableBodyContents from "./TableBodyContents";
 import TableHeaderContents from "./TableHeaderContents";
 import TableRow from "./TableRow";
+import tableStyles from "@/css/components/table.module.scss";
 
 function Table(props: TableProps) {
   const { keys, width, titles, items } = props;
 
   return (
-    <div className="table">
+    <div className={tableStyles["table"]}>
       <TableRow>
         {keys.map((key) => {
           return (
@@ -18,7 +19,7 @@ function Table(props: TableProps) {
           );
         })}
       </TableRow>
-      <div className="table-body">
+      <div className={tableStyles["table-body"]}>
         {items.map((item, itemIdx) => {
           return (
             <TableRow key={`table-body-row-${itemIdx}`}>

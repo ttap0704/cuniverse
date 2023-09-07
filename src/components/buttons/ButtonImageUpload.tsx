@@ -1,5 +1,5 @@
 import { PiNotePencil } from "react-icons/pi";
-
+import buttonStyles from "@/css/components/buttons.module.scss";
 // File Upload를 위한 Button Component
 
 interface ButtonImageUploadProps {
@@ -17,7 +17,10 @@ function ButtonImageUpload(props: ButtonImageUploadProps) {
   };
 
   return (
-    <button className="button-image-upload" onClick={clickUploadInput}>
+    <button
+      className={buttonStyles["button-image-upload"]}
+      onClick={clickUploadInput}
+    >
       <PiNotePencil />
     </button>
   );

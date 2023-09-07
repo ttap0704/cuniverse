@@ -4,6 +4,7 @@ import { setDropdownAtom } from "@/store/dropdown";
 import { useSetAtom } from "jotai";
 import React, { memo, useEffect, useState } from "react";
 import DropdownMenu from "../dropdowns/DropdownMenu";
+import inputStyles from "@/css/components/inputs.module.scss";
 
 function Input(props: InputProps) {
   const id = props.id;
@@ -70,7 +71,7 @@ function Input(props: InputProps) {
   const errorElement =
     errorMessage.length == 0 ? null : (
       <span
-        className="input-error-message"
+        className={inputStyles["input-error-message"]}
         id={`input-error-message-${dataKey}`}
       >
         {errorMessage}
@@ -81,9 +82,9 @@ function Input(props: InputProps) {
     return (
       <>
         <textarea
-          className={`input-default textarea ${
-            errorMessage.length != 0 ? "error" : ""
-          }`}
+          className={`${inputStyles["input-default"]} ${
+            inputStyles["textarea"]
+          } ${errorMessage.length != 0 ? inputStyles["error"] : ""}`}
           id={id}
           value={value}
           onChange={handleInputValue}
@@ -100,9 +101,9 @@ function Input(props: InputProps) {
     return (
       <>
         <input
-          className={`input-default ${
-            errorMessage.length != 0 ? "error" : ""
-          } ${type == "dropdown" ? "dropdown" : ""}`}
+          className={`${inputStyles["input-default"]} ${
+            errorMessage.length != 0 ? inputStyles["error"] : ""
+          } ${type == "dropdown" ? inputStyles["dropdown"] : ""}`}
           id={id}
           value={value}
           onChange={handleInputValue}

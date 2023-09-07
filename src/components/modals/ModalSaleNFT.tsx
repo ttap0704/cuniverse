@@ -12,15 +12,13 @@ import Decimal from "decimal.js";
 import { useSetAtom } from "jotai";
 import { setModalAlertAtom } from "@/store/modalAlert";
 import ethersBrowserProvider from "@/utils/ethersBrowserProvider";
-import { Contract, hashMessage, solidityPackedKeccak256 } from "ethers";
+import { Contract } from "ethers";
 import NFTJson from "@/contracts/NFT.json";
 import { CUNIVERSE_HUB_ADDRESS, NETWORK_SEPOLIA } from "../../../constants";
 import useAccountQuery from "@/queries/useAccountQuery";
-import {
-  fetchGetContractSpecificMetadata,
-  fetchInsertSales,
-} from "@/utils/api";
+import { fetchGetContractSpecificMetadata } from "@/utils/api";
 import useAccountSalesCreateMutation from "@/queries/useAccountSalesCreateMutation";
+import modalStyles from "@/css/components/modals.module.scss";
 
 interface ModalSaleNFTProps {
   open: boolean;
@@ -280,8 +278,8 @@ function ModalSaleNFT(props: ModalSaleNFTProps) {
       onClose={onClose}
       useLoading={true}
     >
-      <div className="modal-sale-nft-contents">
-        <div className="nft-intro">
+      <div className={modalStyles["modal-sale-nft-contents"]}>
+        <div className={modalStyles["nft-intro"]}>
           <div>
             <ImageCuniverse src={image} alt={name} width={80} height={80} />
           </div>
@@ -298,7 +296,7 @@ function ModalSaleNFT(props: ModalSaleNFTProps) {
           </div>
         </div>
         <Divider />
-        <div className="nft-form">
+        <div className={modalStyles["nft-form"]}>
           <InputWithLabel
             labelText="가격 (ETH)"
             value={price.text}
@@ -324,7 +322,7 @@ function ModalSaleNFT(props: ModalSaleNFTProps) {
           />
         </div>
         <Divider />
-        <div className="nft-sale-info">
+        <div className={modalStyles["nft-sale-info"]}>
           <div>
             <span>판매 금액(ETH)</span>
             <span>{price.text} ETH</span>
@@ -339,7 +337,9 @@ function ModalSaleNFT(props: ModalSaleNFTProps) {
           </div>
           <div>
             <span>총 예상 수익(ETH)</span>
-            <span className="final-earning">{finalEarning.toString()} ETH</span>
+            <span className={modalStyles["final-earning"]}>
+              {finalEarning.toString()} ETH
+            </span>
           </div>
         </div>
       </div>

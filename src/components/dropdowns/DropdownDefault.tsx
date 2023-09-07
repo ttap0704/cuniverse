@@ -4,6 +4,7 @@ import { useAtomValue } from "jotai";
 import { dropdownAtom, setDropdownAtom } from "@/store/dropdown";
 import { useEffect, useState } from "react";
 import { useSetAtom } from "jotai";
+import dropdownStyles from "@/css/components/dropdowns.module.scss";
 
 // 모든 Dropdown에 사용되는 공통 Component
 
@@ -70,9 +71,9 @@ function DropdownDefault(props: DropdownDefaultProps) {
   };
 
   return dropdownOpen ? (
-    <div className="dropdown-wrapper">
+    <div className={dropdownStyles["dropdown-wrapper"]}>
       <div
-        className="dropdown-contents-wrapper"
+        className={dropdownStyles["dropdown-contents-wrapper"]}
         onMouseLeave={closeDropdown}
         style={{
           top: offset.top,
@@ -82,7 +83,7 @@ function DropdownDefault(props: DropdownDefaultProps) {
         }}
       >
         <div style={{ width: "100%", height: offset.padding }} />
-        <div className="dropdown-contents">{children}</div>
+        <div className={dropdownStyles["dropdown-contents"]}>{children}</div>
       </div>
     </div>
   ) : null;

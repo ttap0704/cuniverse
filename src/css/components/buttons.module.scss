@@ -1,5 +1,6 @@
-@import "../mixins.scss";
 @import "../variables.scss";
+@import "../mixins.scss";
+@import "../breakpoints.scss";
 
 // Header에서 사용되는 Button
 .header-buttons {
@@ -24,7 +25,7 @@
     gap: 0.5rem;
   }
 
-  &#header-menu {
+  &.header-menu {
     width: 3rem;
   }
 

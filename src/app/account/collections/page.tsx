@@ -14,6 +14,7 @@ import { setModalAlertAtom } from "@/store/modalAlert";
 import { ipfsToHttps } from "@/utils/tools";
 import { useSetAtom } from "jotai";
 import { useState } from "react";
+import modalStyles from "@/css/components/modals.module.scss";
 
 function AccountCollections() {
   const { data: account, isLoading: accountLoading } = useAccountQuery();
@@ -133,7 +134,7 @@ function AccountCollections() {
           open={cancelModalOpen}
           useLoading={true}
         >
-          <p className="confirm-text">
+          <p className={modalStyles["confirm-text"]}>
             NFT 판매를 취소하시겠습니까?
             <br />
             취소 후, 판매하기 버튼을 통해 재판매가 가능합니다.

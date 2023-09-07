@@ -6,6 +6,7 @@ import ButtonImageUpload from "../buttons/ButtonImageUpload";
 import LoadingWaterDrop from "../common/LoadingWaterDrop";
 import useAccountImageUploadMutation from "@/queries/useAccountImageUploadMutation";
 import ImageCuniverse from "../common/ImageCuniverse";
+import containerStyles from "@/css/components/containers.module.scss";
 
 // Collectors(Accounts)/Collections 페이지의 소개 배너 Component
 
@@ -27,7 +28,7 @@ function ContainerBanner(props: ContainerBannerProps) {
   };
 
   return (
-    <div className="container-banner">
+    <div className={containerStyles["container-banner"]}>
       <ImageCuniverse
         src={defaultUri}
         alt="test"

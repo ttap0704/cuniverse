@@ -4,18 +4,14 @@ import useAccountQuery from "@/queries/useAccountQuery";
 import Button from "./Button";
 import CuniverseHub from "@/contracts/CuniverseHub.json";
 import ethersBrowserProvider from "@/utils/ethersBrowserProvider";
-import {
-  Contract,
-  TransactionRequest,
-  encodeBytes32String,
-  ethers,
-} from "ethers";
+import { Contract, ethers } from "ethers";
 import { CUNIVERSE_HUB_ADDRESS } from "../../../constants";
 import { useState } from "react";
-import LoadingWaterDrop from "../common/LoadingWaterDrop";
 import { fetchUpdateAccountSales } from "@/utils/api";
 import { useSetAtom } from "jotai";
 import { setModalAlertAtom } from "@/store/modalAlert";
+import buttonStyles from "@/css/components/buttons.module.scss";
+import LoadingWaterDrop from "../common/LoadingWaterDrop";
 
 interface ButtonNFTBuyProps {
   disabled: boolean;
@@ -110,7 +106,7 @@ function ButtonNFTBuy(props: ButtonNFTBuyProps) {
   return (
     <Button
       onClick={buyNFT}
-      className="button-nft-buy"
+      className={buttonStyles["button-nft-buy"]}
       disabled={disabled || complete}
     >
       {isBuying ? <LoadingWaterDrop /> : null}

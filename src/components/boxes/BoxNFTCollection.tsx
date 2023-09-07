@@ -1,22 +1,24 @@
 import { HiOutlinePhoto } from "react-icons/hi2";
 import { S3_IMAGES_URL } from "../../../constants";
-import Image from "next/image";
 import Link from "next/link";
 import ImageCuniverse from "../common/ImageCuniverse";
+import boxStyles from "@/css/components/boxes.module.scss";
 
 interface BoxNFTCollectionProps extends ContractDetail {
   className?: string;
 }
 
 function BoxNFTCollection(props: BoxNFTCollectionProps) {
-  const { name, profile, banner, contractAddress, className } = props;
+  const { name, profile, banner, contractAddress } = props;
+
+  const className = props.className ?? "";
 
   return (
     <Link
-      className={`box-nft-collection ${className ?? ""}`}
+      className={`${boxStyles["box-nft-collection"]} ${className}`}
       href={`/collection?address=${contractAddress}`}
     >
-      <div className="collection-banner">
+      <div className={boxStyles["collection-banner"]}>
         {banner ? (
           <ImageCuniverse
             src={`${S3_IMAGES_URL}/images/${banner}`}
@@ -28,7 +30,7 @@ function BoxNFTCollection(props: BoxNFTCollectionProps) {
           <HiOutlinePhoto />
         )}
       </div>
-      <div className="collection-intro">
+      <div className={boxStyles["collection-intro"]}>
         <div>
           {profile ? (
             <ImageCuniverse

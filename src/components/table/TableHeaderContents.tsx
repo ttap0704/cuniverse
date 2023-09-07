@@ -1,3 +1,5 @@
+import tableStyles from "@/css/components/table.module.scss";
+
 function TableHeaderContents({
   title,
   width,
@@ -6,7 +8,7 @@ function TableHeaderContents({
   width: number;
 }) {
   return (
-    <div className="table-contents" style={{ flex: width }}>
+    <div className={tableStyles["table-contents"]} style={{ flex: width }}>
       {title}
     </div>
   );

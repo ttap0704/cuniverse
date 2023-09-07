@@ -10,6 +10,7 @@ import {
   fetchGetSalesList,
 } from "@/utils/api";
 import { use } from "react";
+import boxStyles from "@/css/components/boxes.module.scss";
 
 export const dynamic = "force-dynamic";
 
@@ -37,7 +38,7 @@ function Home() {
                 item={item}
                 contractAddress={item.contract ? item.contract.address : ""}
                 contractName={item.title ? item.title : ""}
-                className="list"
+                className={boxStyles["list"]}
               />
             );
           })
@@ -54,7 +55,7 @@ function Home() {
             <BoxNFTCollection
               key={`contract-${contract.id}`}
               {...contract}
-              className="list"
+              className={boxStyles["list"]}
             />
           );
         })}

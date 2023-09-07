@@ -1,8 +1,9 @@
-@import "../mixins.scss";
 @import "../variables.scss";
+@import "../mixins.scss";
+@import "../breakpoints.scss";
 
 // 헤더
-#header {
+.header {
   position: fixed;
   height: 4rem;
   width: 100vw;
@@ -29,7 +30,7 @@
       padding: 0 10px;
     }
 
-    #header-logo {
+    .header-logo {
       width: 12rem;
       height: 3rem;
 
@@ -72,7 +73,7 @@
       }
     }
 
-    #header-contents {
+    .header-contents {
       height: 3rem;
       gap: 0.5rem;
       @include d-flex-align-center;
@@ -130,6 +131,15 @@
       }
     }
   }
+}
+
+.triangle-bottom-small {
+  width: 0px;
+  height: 0px;
+  border-top: 7.5px solid $white-100;
+  border-left: 7.5px solid transparent;
+  border-right: 7.5px solid transparent;
+  margin: 0 auto;
 }
 
 // 아이콘 사용하는 링크
@@ -198,4 +208,14 @@
     text-decoration: underline;
   }
   @include d-flex-center;
+}
+
+.layout-background {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  background: $pink;
+  background: -webkit-linear-gradient(to bottom, $pink, $deep-purple, $deep-blue);
+  background: linear-gradient(to bottom, $pink, $deep-purple, $deep-blue);
 }

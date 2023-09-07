@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import TypographyInputLabel from "../typography/TypographyInputLabel";
+import inputStyles from "@/css/components/inputs.module.scss";
 
 // 정보 수정 / 추가에 사용되는 Input Component
 
@@ -28,10 +29,10 @@ function InputDateTimeWithLabel(props: InputDateTimeWithLabelProps) {
   };
 
   return (
-    <div className="input-width-label">
+    <div className={inputStyles["input-width-label"]}>
       <TypographyInputLabel id={id} labelText={labelText} required={true} />
       <input
-        className={`input-default`}
+        className={inputStyles["input-default"]}
         id={id}
         value={value}
         onChange={handleDate}

@@ -7,6 +7,7 @@ import {
 } from "@/store/tooltip";
 import { useSetAtom } from "jotai";
 import { useRef } from "react";
+import typographyStyles from "@/css/components/typography.module.scss";
 
 // Text Copy를 위해 사용되는 Component
 // Mouse Enter/Leave 시, Tooltip On/Off
@@ -20,7 +21,7 @@ interface TypographyCopyProps {
 function TypographyCopy(props: TypographyCopyProps) {
   const text = props.text;
   const copyText = props.copyText;
-  const className = props.className;
+  const className = props.className ?? "";
 
   const setTooltip = useSetAtom(setTooltipAtom);
   const setTooltipText = useSetAtom(setTooltipTextAtom);
@@ -63,7 +64,7 @@ function TypographyCopy(props: TypographyCopyProps) {
   return (
     <span
       ref={contentsRef}
-      className={`typography-copy ${className ?? ""}`}
+      className={`${typographyStyles["typography-copy"]} ${className}`}
       onClick={copyToClipboard}
       onMouseEnter={openTooltip}
       onMouseLeave={clearTooltip}

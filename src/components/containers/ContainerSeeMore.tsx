@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import ButtonSeeMore from "../buttons/ButtonSeeMore";
+import containerStyles from "@/css/components/containers.module.scss";
 
 interface ContainerSeeMoreProps {
   children: React.ReactNode;
@@ -54,7 +55,7 @@ function ContainerSeeMore(props: ContainerSeeMoreProps) {
   };
 
   return (
-    <div ref={containerRef} className="container-see-more">
+    <div ref={containerRef} className={containerStyles["container-see-more"]}>
       {children}
       {viewButton ? <ButtonSeeMore onClick={handleContents} /> : null}
     </div>

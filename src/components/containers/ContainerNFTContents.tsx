@@ -1,3 +1,5 @@
+import containerStyles from "@/css/components/containers.module.scss";
+
 interface ContainerNFTContentsProps {
   children: React.ReactNode;
 }
@@ -5,7 +7,9 @@ interface ContainerNFTContentsProps {
 function ContainerNFTContents(props: ContainerNFTContentsProps) {
   const children = props.children;
 
-  return <div className="container-nft-contents">{children}</div>;
+  return (
+    <div className={containerStyles["container-nft-contents"]}>{children}</div>
+  );
 }
 
 export default ContainerNFTContents;

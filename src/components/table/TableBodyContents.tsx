@@ -1,4 +1,5 @@
 import TypographyCopy from "../typography/TypographyCopy";
+import tableStyles from "@/css/components/table.module.scss";
 
 function TableBodyContents(props: {
   mode: TableItemMode;
@@ -16,7 +17,7 @@ function TableBodyContents(props: {
   else contents = value;
 
   return (
-    <div className="table-contents" style={{ flex: width }}>
+    <div className={tableStyles["table-contents"]} style={{ flex: width }}>
       {contents}
     </div>
   );

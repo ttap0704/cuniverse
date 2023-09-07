@@ -1,10 +1,10 @@
 import BoxWhite from "../boxes/BoxWhite";
 import Divider from "../common/Divider";
 import { getShortAddress } from "@/utils/tools";
-import Link from "next/link";
 import ImageCuniverse from "../common/ImageCuniverse";
 import ButtonNFTBuy from "../buttons/ButtonNFTBuy";
 import IconLink from "../common/IconLink";
+import containerStyles from "@/css/components/containers.module.scss";
 
 interface ContainerNFTDetailIntroProps {
   image: string;
@@ -37,8 +37,8 @@ function ContainerNFTDetailIntro(props: ContainerNFTDetailIntroProps) {
   }
 
   return (
-    <div className="container-nft-detail-intro">
-      <div className="nft-detail-image-wrapper">
+    <div className={containerStyles["container-nft-detail-intro"]}>
+      <div className={containerStyles["nft-detail-image-wrapper"]}>
         <ImageCuniverse src={image} alt={name} width={600} height={600} />
       </div>
       <BoxWhite>
@@ -56,7 +56,7 @@ function ContainerNFTDetailIntro(props: ContainerNFTDetailIntroProps) {
           />
         </h2>
         <h1>{name}</h1>
-        <div className="info-box">
+        <div className={containerStyles["info-box"]}>
           <div>
             <h4>창작자</h4>
             {deployer.address ? (
@@ -99,7 +99,7 @@ function ContainerNFTDetailIntro(props: ContainerNFTDetailIntroProps) {
           </div>
         </div>
         <Divider />
-        <div className="sale-box">
+        <div className={containerStyles["sale-box"]}>
           {time ? (
             <div>
               <span>{timeText}</span>

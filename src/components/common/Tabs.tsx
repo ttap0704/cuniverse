@@ -1,6 +1,7 @@
 "use client";
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import commonStyles from "@/css/components/common.module.scss";
 
 // 페이지에 사용되는 Tabs
 // Menu 클릭 시, 해당하는 페이지로 이동
@@ -15,7 +16,7 @@ function Tabs(props: TabsProps) {
   const items = props.items;
 
   return (
-    <ul className="tabs-wrapper">
+    <ul className={commonStyles["tabs-wrapper"]}>
       {items.map((item) => {
         return (
           <li key={`tabs-item-${item.id}`}>
@@ -23,7 +24,7 @@ function Tabs(props: TabsProps) {
               onClick={() => router.push(item.path)}
               className={
                 item.includePath?.includes(pathname) || item.path == pathname
-                  ? "selected"
+                  ? commonStyles["selected"]
                   : ""
               }
             >

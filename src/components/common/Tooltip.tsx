@@ -3,6 +3,7 @@
 import { useAtomValue } from "jotai";
 import { useEffect, useState } from "react";
 import { tooltipAtom } from "@/store/tooltip";
+import commonStyles from "@/css/components/common.module.scss";
 
 // 전역으로 사용되는 Tooltip Component
 
@@ -55,7 +56,7 @@ function Tooltip() {
 
   return tooltipOpen ? (
     <div
-      className="tooltip-wrapper"
+      className={commonStyles["tooltip-wrapper"]}
       onMouseLeave={closeTooltip}
       style={{
         top: offset.top,
@@ -63,8 +64,8 @@ function Tooltip() {
         opacity,
       }}
     >
-      <div className="tooltip-contents">{contents}</div>
-      <div className="triangle-bottom-small" />
+      <div className={commonStyles["tooltip-contents"]}>{contents}</div>
+      <div className={commonStyles["triangle-bottom-small"]} />
     </div>
   ) : null;
 }

@@ -4,13 +4,8 @@ import Link from "next/link";
 import ImageCuniverse from "../common/ImageCuniverse";
 import { S3_IMAGES_URL } from "../../../constants";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
-import {
-  DOMAttributes,
-  TouchEventHandler,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { useRef } from "react";
+import containerStyles from "@/css/components/containers.module.scss";
 
 interface ContainerHomeBannerProps {
   banners: Banner[];
@@ -81,7 +76,7 @@ function ContainerHomeBanner(props: ContainerHomeBannerProps) {
   };
 
   return (
-    <div className="container-home-banner">
+    <div className={containerStyles["container-home-banner"]}>
       <div
         ref={sliderEl}
         onTouchStart={handleTouchStart}
@@ -111,13 +106,13 @@ function ContainerHomeBanner(props: ContainerHomeBannerProps) {
       {banners.length > 1 ? (
         <>
           <button
-            className="slider-button left"
+            className={`${containerStyles["slider-button"]} ${containerStyles["left"]}`}
             onClick={() => handleBanner("left")}
           >
             <FiChevronLeft />
           </button>
           <button
-            className="slider-button right"
+            className={`${containerStyles["slider-button"]} ${containerStyles["right"]}`}
             onClick={() => handleBanner("right")}
           >
             <FiChevronRight />
