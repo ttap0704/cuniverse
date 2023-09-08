@@ -6,14 +6,18 @@ export async function GET(request: NextRequest) {
     message = "",
     data: Banner[] = [];
 
-  // 저장된 Collector(Account) 조회
-  const banners: Banner[] = await db.query({
-    sql: "SELECT * FROM banners ORDER BY createdAt DESC",
-    values: [],
-  });
+  try {
+    // 저장된 Collector(Account) 조회
+    const banners: Banner[] = await db.query({
+      sql: "SELECT * FROM banners ORDER BY createdAt DESC",
+      values: [],
+    });
 
-  pass = true;
-  data = banners;
+    pass = true;
+    data = banners;
+  } catch (err) {
+    console.log(err);
+  }
 
   const res: APIResponse = { pass, message, data };
 

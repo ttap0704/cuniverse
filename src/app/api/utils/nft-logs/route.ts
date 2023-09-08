@@ -18,34 +18,38 @@ export async function GET(request: NextRequest, response: NextResponse) {
 
   // Address와 Token Id 모두 있다면 로직 실행
   if (address && tokenId) {
-    tokenId = BigInt(tokenId);
+    try {
+      tokenId = BigInt(tokenId);
 
-    // Contract Intance 생성
-    const abi = NFTJson.abi;
-    const contract = new Contract(address, abi).connect(ethersServerProvider);
+      // Contract Intance 생성
+      const abi = NFTJson.abi;
+      const contract = new Contract(address, abi).connect(ethersServerProvider);
 
-    // "Transfer" 사용자간 로그 가져오기
-    const logs: NFTTransferLog[] = [];
-    const transferFilter = contract.filters.Transfer(null, null, tokenId);
-    const transferEvents = await contract.queryFilter(transferFilter);
-    for (let i = transferEvents.length - 1; i >= 0; i--) {
-      const curLog = transferEvents[i];
-      const log = contract.interface.parseLog({
-        data: curLog.data,
-        topics: curLog.topics as string[],
-      });
+      // "Transfer" 사용자간 로그 가져오기
+      const logs: NFTTransferLog[] = [];
+      const transferFilter = contract.filters.Transfer(null, null, tokenId);
+      const transferEvents = await contract.queryFilter(transferFilter);
+      for (let i = transferEvents.length - 1; i >= 0; i--) {
+        const curLog = transferEvents[i];
+        const log = contract.interface.parseLog({
+          data: curLog.data,
+          topics: curLog.topics as string[],
+        });
 
-      if (!log) continue;
-      logs.push({
-        from: log.args[0],
-        to: log.args[1],
-        hash: curLog.transactionHash,
-        name: log.name,
-      });
+        if (!log) continue;
+        logs.push({
+          from: log.args[0],
+          to: log.args[1],
+          hash: curLog.transactionHash,
+          name: log.name,
+        });
+      }
+
+      pass = true;
+      data = logs;
+    } catch (err) {
+      console.log(err);
     }
-
-    pass = true;
-    data = logs;
   }
 
   const res: APIResponse = { pass, message, data };

@@ -6,10 +6,15 @@ export async function GET(requst: NextRequest) {
     message = "",
     data: NFTMetadata[] | null = null;
 
-  data = await db.query({
-    sql: "SELECT * FROM contracts ORDER BY createdAt DESC LIMIT 5;",
-    values: [],
-  });
+  try {
+    data = await db.query({
+      sql: "SELECT * FROM contracts ORDER BY createdAt DESC LIMIT 5;",
+      values: [],
+    });
+  } catch (err) {
+    console.log(err);
+  }
+
   const res: APIResponse = { pass, message, data };
 
   return NextResponse.json(res);
