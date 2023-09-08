@@ -44,6 +44,7 @@ function IconLink(props: IconLinkProps) {
         })
       }
       onMouseLeave={clearTooltip}
+      onClick={clearTooltip}
     >
       {icon}
     </Link>

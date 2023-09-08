@@ -7,7 +7,6 @@ import containerStyles from "@/css/components/containers.module.scss";
 interface ContainerSeeMoreProps {
   children: React.ReactNode;
   defaultMaxHeight: number;
-  color?: "black" | "white";
 }
 
 function ContainerSeeMore(props: ContainerSeeMoreProps) {
