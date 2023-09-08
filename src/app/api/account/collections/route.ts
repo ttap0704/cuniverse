@@ -21,7 +21,7 @@ export async function GET() {
       FROM sales sa
       INNER JOIN accounts ac ON ac.id = sa.accountId
       WHERE ac.address = ? AND sa.canceledAt IS NULL AND sa.completedAt IS NULL
-      AND FROM_UNIXTIME(sa.startTime) <= NOW() AND FROM_UNIXTIME(sa.endTime) >= NOW();`,
+      AND sa.startTime <= UNIX_TIMESTAMP() AND sa.endTime >= UNIX_TIMESTAMP();`,
         values: [address],
       });
 

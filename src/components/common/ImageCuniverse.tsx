@@ -10,6 +10,9 @@ interface ImageCuniverseProps extends ImageCompoennt.ImageProps {
 
 function ImageCuniverse(props: ImageCuniverseProps) {
   const { src, fixed, width, height } = props;
+  const imageProps: ImageCuniverseProps = JSON.parse(JSON.stringify(props));
+  delete imageProps["fixed"];
+
   const [imageSrc, setImageSrc] = useState(
     typeof src == "string" && !src.includes("/") ? `/${src}` : src
   );
@@ -20,7 +23,7 @@ function ImageCuniverse(props: ImageCuniverseProps) {
 
   return (
     <ImageCompoennt.default
-      {...props}
+      {...imageProps}
       src={imageSrc}
       onError={(err) => setImageSrc(NoPickture)}
       style={

@@ -9,7 +9,7 @@ export async function GET(requst: NextRequest) {
   // 해당 Wallet Address가 갖고있는 Contracts 가져오기
   const salesList: SalesDetail[] = await db.query({
     sql: `SELECT id, title, name, image, price, contractAddress, tokenId 
-    FROM sales WHERE canceledAt IS NULL AND completedAt IS NULL AND FROM_UNIXTIME(endTime) >= NOW()
+    FROM sales WHERE canceledAt IS NULL AND completedAt IS NULL AND endTime >= UNIX_TIMESTAMP()
     ORDER BY createdAt DESC LIMIT 5;`,
     values: [],
   });
