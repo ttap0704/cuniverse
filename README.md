@@ -367,6 +367,102 @@ contract CuniverseHub is ICuniverseHub, Ownable {
 }
 
 ```
+
+### Github Actions와 AWS CodeDeploy를 통한 CI/CD
+```yml
+# Deploy.yml
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  S3_BUCKET_NAME: cuniverse-code
+  CODE_DEPLOY_APPLICATION_NAME: cuniverse
+  CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: cuniverse-deploy
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install latest Yarn
+        run: corepack prepare yarn@stable --activate
+
+      - name: Activate latest Yarn
+        run: yarn set version stable
+
+      - name: Generate Environment Variables File for Production
+        run: |
+          echo "DB_HOST=$DB_HOST" >> .env
+          echo "DB_NAME=$DB_NAME" >> .env
+          echo "DB_PASSWORD=$DB_PASSWORD" >> .env
+          echo "DB_PORT=$DB_PORT" >> .env
+          echo "DB_USER=$DB_USER" >> .env
+          echo "ETHERSCAN_API_KEY=$ETHERSCAN_API_KEY" >> .env
+          echo "GOERLI_ALCHEMY_API_KEY=$GOERLI_ALCHEMY_API_KEY" >> .env
+          echo "MAINNET_ALCHEMY_API_KEY=$MAINNET_ALCHEMY_API_KEY" >> .env
+          echo "SEPOLIA_ALCHEMY_API_KEY=$SEPOLIA_ALCHEMY_API_KEY" >> .env
+          echo "SEPOLIA_INFURA_API_KEY=$SEPOLIA_INFURA_API_KEY" >> .env
+          echo "S3_ACCESS_KEY_ID=$S3_ACCESS_KEY_ID" >> .env
+          echo "S3_BUCKET_NAME=$S3_BUCKET_NAME" >> .env
+          echo "S3_SECRET_ACCESS_KEY=$S3_SECRET_ACCESS_KEY" >> .env
+          echo "INFURA_IPFS_KEY=$INFURA_IPFS_KEY" >> .env
+          echo "INFURA_IPFS_KEY_SECRET=$INFURA_IPFS_KEY_SECRET" >> .env
+        env:
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_PORT: ${{ secrets.DB_PORT }}
+          DB_USER: ${{ secrets.DB_USER }}
+          ETHERSCAN_API_KEY: ${{ secrets.ETHERSCAN_API_KEY }}
+          GOERLI_ALCHEMY_API_KEY: ${{ secrets.GOERLI_ALCHEMY_API_KEY }}
+          MAINNET_ALCHEMY_API_KEY: ${{ secrets.MAINNET_ALCHEMY_API_KEY }}
+          SEPOLIA_ALCHEMY_API_KEY: ${{ secrets.SEPOLIA_ALCHEMY_API_KEY }}
+          SEPOLIA_INFURA_API_KEY: ${{ secrets.SEPOLIA_INFURA_API_KEY }}
+          S3_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY_ID }}
+          S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
+          S3_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_ACCESS_KEY }}
+          INFURA_IPFS_KEY: ${{ secrets.INFURA_IPFS_KEY }}
+          INFURA_IPFS_KEY_SECRET: ${{ secrets.INFURA_IPFS_KEY_SECRET }}
+
+      - name: Run Install
+        run: yarn install
+
+      - name: Run build
+        run: yarn run build
+
+      - name: Make zip file
+        run: zip -qq -r ./$GITHUB_SHA.zip . -x "node_modules/*"
+        shell: bash
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_PRIVATE_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: Upload to S3
+        run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://$S3_BUCKET_NAME/$GITHUB_SHA.zip
+
+      - name: Code Deploy
+        run: |
+          aws deploy create-deployment \
+          --deployment-config-name CodeDeployDefault.AllAtOnce \
+          --application-name ${{ env.CODE_DEPLOY_APPLICATION_NAME }} \
+          --deployment-group-name ${{ env.CODE_DEPLOY_DEPLOYMENT_GROUP_NAME }} \
+          --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=$GITHUB_SHA.zip
+
+```
     
 # Stacks
 
