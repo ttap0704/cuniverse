@@ -65,7 +65,7 @@ export async function GET(request: NextRequest, response: NextResponse) {
       sql: `SELECT * 
       FROM sales 
       WHERE contractAddress = ? AND tokenId = ? AND canceledAt IS NULL AND completedAt IS NULL 
-      AND FROM_UNIXTIME(startTime) <= NOW() AND FROM_UNIXTIME(endTime) >= NOW();`,
+      AND startTime <= UNIX_TIMESTAMP() AND endTime >= UNIX_TIMESTAMP();`,
       values: [address, tokenId],
     });
     const sale = saleResponse[0] ?? null;
