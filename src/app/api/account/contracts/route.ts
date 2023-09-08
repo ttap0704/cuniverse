@@ -10,19 +10,23 @@ export async function GET() {
     data: ContractDetail[] | null = null;
 
   if (address) {
-    // 해당 Wallet Address가 갖고있는 Contracts 가져오기
-    const accountResponse: { id: number }[] = await db.query({
-      sql: "SELECT id FROM accounts WHERE address = ?;",
-      values: [address],
-    });
-
-    if (accountResponse.length == 1) {
-      pass = true;
-
-      data = await db.query({
-        sql: "SELECT * FROM contracts WHERE accountId = ? ORDER BY createdAt DESC;",
-        values: [accountResponse[0].id],
+    try {
+      // 해당 Wallet Address가 갖고있는 Contracts 가져오기
+      const accountResponse: { id: number }[] = await db.query({
+        sql: "SELECT id FROM accounts WHERE address = ?;",
+        values: [address],
       });
+
+      if (accountResponse.length == 1) {
+        pass = true;
+
+        data = await db.query({
+          sql: "SELECT * FROM contracts WHERE accountId = ? ORDER BY createdAt DESC;",
+          values: [accountResponse[0].id],
+        });
+      }
+    } catch (err) {
+      console.log(err);
     }
   }
 

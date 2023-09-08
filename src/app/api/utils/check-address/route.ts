@@ -20,45 +20,50 @@ export async function GET(request: NextRequest, response: NextResponse) {
 
   // Address와 contractAddress 모두 있다면 로직 실행
   if (address && contractAddress) {
-    // 현재 NFT 소유자 점검
-    const check: { cnt: number }[] = await db.query({
-      sql: `
+    try {
+      // 현재 NFT 소유자 점검
+      const check: { cnt: number }[] = await db.query({
+        sql: `
         SELECT COUNT(*) AS cnt
         FROM accounts ac
         INNER JOIN contracts ct ON ac.id = ct.accountId
         WHERE ct.contractAddress =? AND ac.address = ?;
       `,
-      values: [contractAddress, address],
-    });
+        values: [contractAddress, address],
+      });
 
-    if (check[0].cnt == 0) {
-      // Etherscan API 통해
-      const getDeployer = await fetch(
-        `https://api-sepolia.etherscan.io/api?module=contract&action=getcontractcreation&contractaddresses=${contractAddress}&apikey=${process.env.ETHERSCAN_API_KEY}`
-      );
-      const deployerReponse = await getDeployer.json();
-      if (
-        deployerReponse["result"] &&
-        deployerReponse["result"][0]["contractCreator"] == address.toLowerCase()
-      ) {
-        const abi = NFTJson.abi;
-
-        // Contract Intance 생성
-        const contract = new Contract(contractAddress, abi).connect(
-          ethersServerProvider
+      if (check[0].cnt == 0) {
+        // Etherscan API 통해
+        const getDeployer = await fetch(
+          `https://api-sepolia.etherscan.io/api?module=contract&action=getcontractcreation&contractaddresses=${contractAddress}&apikey=${process.env.ETHERSCAN_API_KEY}`
         );
+        const deployerReponse = await getDeployer.json();
+        if (
+          deployerReponse["result"] &&
+          deployerReponse["result"][0]["contractCreator"] ==
+            address.toLowerCase()
+        ) {
+          const abi = NFTJson.abi;
 
-        // Contract Name과 Symbol 조회
-        const name: string = await contract.getFunction("name").staticCall();
-        const symbol: string = await contract
-          .getFunction("symbol")
-          .staticCall();
+          // Contract Intance 생성
+          const contract = new Contract(contractAddress, abi).connect(
+            ethersServerProvider
+          );
 
-        data = {
-          name,
-          symbol,
-        };
+          // Contract Name과 Symbol 조회
+          const name: string = await contract.getFunction("name").staticCall();
+          const symbol: string = await contract
+            .getFunction("symbol")
+            .staticCall();
+
+          data = {
+            name,
+            symbol,
+          };
+        }
       }
+    } catch (err) {
+      console.log(err);
     }
   }
 

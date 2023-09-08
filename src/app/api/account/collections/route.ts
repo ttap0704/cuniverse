@@ -14,45 +14,52 @@ export async function GET() {
   if (address) {
     pass = true;
 
-    // 판매중인 NFT 조회
-    const sales: { contractAddress: string; tokenId: number; price: number }[] =
-      await db.query({
+    try {
+      // 판매중인 NFT 조회
+      const sales: {
+        contractAddress: string;
+        tokenId: number;
+        price: number;
+      }[] = await db.query({
         sql: `SELECT contractAddress, tokenId, price
-      FROM sales sa
-      INNER JOIN accounts ac ON ac.id = sa.accountId
-      WHERE ac.address = ? AND sa.canceledAt IS NULL AND sa.completedAt IS NULL
-      AND sa.startTime <= UNIX_TIMESTAMP() AND sa.endTime >= UNIX_TIMESTAMP();`,
+    FROM sales sa
+    INNER JOIN accounts ac ON ac.id = sa.accountId
+    WHERE ac.address = ? AND sa.canceledAt IS NULL AND sa.completedAt IS NULL
+    AND sa.startTime <= UNIX_TIMESTAMP() AND sa.endTime >= UNIX_TIMESTAMP();`,
         values: [address],
       });
 
-    // 해당 Wallet Address가 갖고있는 NFT 가져오기
-    data = [];
-    const ownerNFTs = await alchemy.nft.getNftsForOwner(address);
-    for (let i = 0; i < ownerNFTs.ownedNfts.length; i++) {
-      const cur = ownerNFTs.ownedNfts[i];
-      const saleData = sales.find(
-        (item) =>
-          item.contractAddress == cur.contract.address &&
-          `${item.tokenId}` == cur.tokenId
-      );
+      // 해당 Wallet Address가 갖고있는 NFT 가져오기
+      data = [];
+      const ownerNFTs = await alchemy.nft.getNftsForOwner(address);
+      for (let i = 0; i < ownerNFTs.ownedNfts.length; i++) {
+        const cur = ownerNFTs.ownedNfts[i];
+        const saleData = sales.find(
+          (item) =>
+            item.contractAddress == cur.contract.address &&
+            `${item.tokenId}` == cur.tokenId
+        );
 
-      let image = "/";
-      if (cur.rawMetadata && cur.rawMetadata.image) {
-        image = ipfsToHttps(cur.rawMetadata.image);
+        let image = "/";
+        if (cur.rawMetadata && cur.rawMetadata.image) {
+          image = ipfsToHttps(cur.rawMetadata.image);
+        }
+
+        data.push({
+          tokenId: cur.tokenId,
+          title: cur.title,
+          description: cur.description,
+          name: cur.title,
+          contract: {
+            address: cur.contract.address,
+            name: cur.contract.name ?? "Untitled Collection",
+          },
+          image,
+          price: saleData ? saleData.price : undefined,
+        });
       }
-
-      data.push({
-        tokenId: cur.tokenId,
-        title: cur.title,
-        description: cur.description,
-        name: cur.title,
-        contract: {
-          address: cur.contract.address,
-          name: cur.contract.name ?? "Untitled Collection",
-        },
-        image,
-        price: saleData ? saleData.price : undefined,
-      });
+    } catch (err) {
+      console.log(err);
     }
   }
 
