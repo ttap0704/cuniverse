@@ -259,10 +259,6 @@
     }
   }
 
-  #button-see-more {
-    color: $black-80;
-  }
-
   @include deviceL {
     width: calc(100% - 370px - 30px);
   }
@@ -273,6 +269,9 @@
 
   .container-see-more {
     align-items: flex-start;
+    button {
+      color: $black-80;
+    }
   }
 
   .container-nft-detail-intro {
