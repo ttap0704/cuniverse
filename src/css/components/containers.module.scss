@@ -310,11 +310,15 @@
     & > .nft-detail-intro-wrapper {
       width: 420px;
       position: fixed;
-      right: 2rem;
+      right: 1rem;
       top: 5rem;
 
       @include deviceL {
         width: 370px;
+      }
+
+      @include device2XL {
+        right: calc((100vw - 1500px) / 2 + 1rem);
       }
 
       // 마지막 Divider 가시성 처리
