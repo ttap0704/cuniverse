@@ -58,7 +58,7 @@ const mintingKeysData: {
   };
 } = {
   image: {
-    KR: "NFT 자원 (이미지 또는 동영상)",
+    KR: "NFT 자원 (이미지)",
     type: "file",
     required: true,
   },
