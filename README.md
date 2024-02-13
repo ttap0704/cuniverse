@@ -1,3 +1,5 @@
+(현재는 종료된 프로젝트입니다)
+
 # 프로젝트명
 [Cuniverse](https://cu-niverse.com) (NFT Market Place)
 
